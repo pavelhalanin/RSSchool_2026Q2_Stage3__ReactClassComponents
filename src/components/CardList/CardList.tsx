@@ -19,7 +19,7 @@ const ITEMS_PER_PAGE = 200;
 
 class CardList extends Component<Record<string, never>, CardListState> {
   private observer: IntersectionObserver | null = null;
-  private loaderRef: React.RefObject<HTMLDivElement>;
+  private loaderRef: React.RefObject<HTMLDivElement | null>;
 
   constructor(props: Record<string, never>) {
     super(props);
@@ -30,7 +30,7 @@ class CardList extends Component<Record<string, never>, CardListState> {
       offset: 0,
       error: null,
     };
-    this.loaderRef = React.createRef<HTMLDivElement>();
+    this.loaderRef = React.createRef<HTMLDivElement | null>();
   }
 
   componentDidMount() {
