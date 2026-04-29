@@ -2,11 +2,24 @@
 
 ## React Class Components
 
-- [task](https://github.com/rolling-scopes-school/tasks/blob/master/react/modules/tasks/class-components.md)
+1. Task: https://github.com/rolling-scopes-school/tasks/blob/master/react/modules/tasks/class-components.md
+1. Deploy: https://pavelhalanin.github.io/RSSchool_2026Q2_Stage3__ReactClassComponents/
+1. Deadline 05.05.2026
 
-### Functional Requirements (max **100 points**)
+### Checklist
+
+Functional Requirements (max **100 points**)
+
+---
 
 - [ ] Feature 1: Application Layout Structure (**5 points**)
+
+  <details>
+    <summary>EN</summary>
+
+  ***
+
+  ### Feature 1: Application Layout Structure (**5 points**)
 
   **As a** user
   **I want** to see a clearly organized page layout
@@ -22,7 +35,45 @@
   - The page contains exactly two main sections: a search area and a results area.
   - Both sections are visually distinct and clearly separated by layout or styling (e.g., spacing, borders, or background).
 
+  ***
+
+  </details>
+
+  <details>
+    <summary>RU</summary>
+
+  ***
+
+  ### Функция 1: Структура макета приложения (5 баллов)
+
+  **Как** пользователь
+  **Я хочу** видеть четко организованный макет страницы
+  **Чтобы** легко взаимодействовать с поиском и просматривать результаты
+
+  **Сценарий**: Организация макета страницы
+  - **Допустим** я нахожусь на странице приложения
+  - **Тогда** я должен видеть две отдельные области:
+  - Меньшую область поиска вверху
+  - Бóльшую область результатов внизу
+
+  **Критерии приемки**:
+  - Страница содержит ровно две основные области: область поиска и область результатов.
+  - Обе области визуально различимы и четко разделены расположением или стилями (например, отступами, границами или цветом фона).
+
+  ***
+
+  </details>
+
+---
+
 - [ ] Feature 2: Search Functionality with Local Storage (**15 points**)
+
+  <details>
+    <summary>EN</summary>
+
+  ***
+
+  ### Feature 2: Search Functionality with Local Storage (**15 points**)
 
   **As a** user
   **I want** to have a search interface that remembers my last search
@@ -40,7 +91,47 @@
   - If a saved search term exists, it is automatically displayed in the search input field.
   - If no saved search term exists in local storage, the search input field remains empty.
 
+  ***
+
+  </details>
+
+  <details>
+    <summary>RU</summary>
+
+  ***
+
+  ### Функция 2: Поиск с использованием Local Storage (**15 баллов**)
+
+  **Как** пользователь
+  **Я хочу** иметь интерфейс поиска, который запоминает мой последний запрос
+  **Чтобы** я мог продолжить предыдущую сессию поиска
+
+  **Сценарий:** Начальная загрузка компонента поиска
+  - **Допустим** я открываю приложение
+  - **Когда** компонент поиска загружается
+  - **Тогда** он должен проверить в local storage наличие предыдущего поискового запроса
+  - **И** заполнить поле ввода, если запрос существует
+  - **Или** оставить его пустым, если предыдущий запрос не найден
+
+  **Критерии приемки:**
+  - При загрузке приложения компонент поиска проверяет в local storage наличие ранее сохраненного поискового запроса:
+  - Если сохраненный поисковый запрос существует, он автоматически отображается в поле ввода.
+  - Если в local storage нет сохраненного поискового запроса, поле ввода остается пустым.
+
+  ***
+
+  </details>
+
+---
+
 - [ ] Feature 3: Search Results Display (**10 points**)
+
+  <details>
+    <summary>EN</summary>
+
+  ***
+
+  ### Feature 3: Search Results Display (**10 points**)
 
   **As a** user
   **I want** to see search results clearly displayed
@@ -59,7 +150,48 @@
   - Description
   - Results are presented in a clear and readable format (consistent spacing, alignment, and typography).
 
+  ***
+
+  </details>
+
+  <details>
+    <summary>RU</summary>
+
+  ***
+
+  ### Feature 3: Отображение результатов поиска (**10 баллов**)
+
+  **В роли** пользователя
+  **Я хочу** видеть четкое отображение результатов поиска
+  **Чтобы** легко просматривать найденные элементы
+
+  **Сценарий:** Формат отображения результатов
+  - **Допустим** я нахожусь в секции результатов
+  - **Тогда** каждый результат должен отображать:
+  - Название элемента
+  - Описание элемента
+
+  **Критерии приемки:**
+  - Результаты поиска отображаются в секции результатов после выполнения поиска.
+  - Каждый элемент результата включает как минимум следующие поля:
+  - Название
+  - Описание
+  - Результаты представлены в понятном и читаемом формате (согласованные отступы, выравнивание и типографика).
+
+  ***
+
+  </details>
+
+---
+
 - [ ] Feature 4: Initial Data Load (**10 points**)
+
+  <details>
+    <summary>EN</summary>
+
+  ***
+
+  ### Feature 4: Initial Data Load (**10 points**)
 
   **As a** user
   **I want** to see relevant items when I first open the application
@@ -79,7 +211,49 @@
   - The items **returned by the request** are correctly **displayed** in the results section.
   - The displayed items **match the query** used in the request.
 
+  ***
+
+  </details>
+
+  <details>
+    <summary>RU</summary>
+
+  ***
+
+  ### Feature 4: Начальная загрузка данных (**10 баллов**)
+
+  **В роли** пользователя
+  **Я хочу** видеть релевантные элементы при первом открытии приложения
+  **Чтобы** сразу начать просмотр
+
+  **Сценарий:** Загрузка данных по умолчанию
+  - **Допустим** я открываю приложение
+  - **Когда** оно загружается
+  - **Тогда** оно должно получить первую страницу элементов на основе:
+  - Поискового запроса из поля ввода, если он существует
+  - Всех доступных элементов, если поисковый запрос отсутствует
+
+  **Критерии приемки:**
+  - При начальной загрузке приложение **отправляет запрос данных** в соответствии с заданной логикой:
+  - Если в поле ввода есть поисковый запрос, запрос включает этот термин.
+  - Если поисковый запрос отсутствует, запрос получает все доступные элементы.
+  - Элементы, **возвращенные запросом**, корректно **отображаются** в секции результатов.
+  - Отображаемые элементы **соответствуют запросу**, использованному в запросе.
+
+  ***
+
+  </details>
+
+---
+
 - [ ] Feature 5: Search Execution (**20 points**)
+
+  <details>
+    <summary>EN</summary>
+
+  ***
+
+  ### Feature 5: Search Execution (**20 points**)
 
   **As a** user
   **I want** to search for specific items
@@ -101,7 +275,51 @@
   - The **search term** is included in the request.
   - The **results area** shows the items from the server response.
 
+  ***
+
+  </details>
+
+  <details>
+    <summary>RU</summary>
+
+  ***
+
+  ### Функция 5: Выполнение поиска (**20 баллов**)
+
+  **Как** пользователь
+  **Я хочу** искать конкретные элементы
+  **Чтобы** находить релевантный контент
+
+  **Сценарий:** Выполнение поиска
+  - **Дано** я нахожусь на странице поиска
+  - **Когда** я ввожу поисковый запрос
+  - **И** нажимаю кнопку "Поиск"
+  - **Тогда** система должна:
+  - Удалить конечные пробелы из введённого текста
+  - Загрузить первую страницу соответствующих результатов
+  - Обновить отображение новыми результатами
+
+  **Критерии приемки:**
+  - При нажатии кнопки **Поиск**, если введённый текст не изменился, **новый запрос не выполняется**.
+  - **Лишние пробелы** в начале или конце поискового текста **удаляются**.
+  - Приложение отправляет **запрос только на первую страницу** результатов.
+  - **Поисковый запрос** включается в запрос.
+  - **Область результатов** показывает элементы из ответа сервера.
+
+  ***
+
+  </details>
+
+---
+
 - [ ] Feature 6: Search Term Persistence (**5 points**)
+
+  <details>
+    <summary>EN</summary>
+
+  ***
+
+  ### Feature 6: Search Term Persistence (**5 points**)
 
   **As a** user
   **I want** my search terms to be saved
@@ -117,7 +335,45 @@
   - If the search text **has not changed**, nothing happens.
   - If the text **has changed**, the **trimmed value** (without extra spaces) is **saved to local storage**, replacing the previous one.
 
+  ***
+
+  </details>
+
+  <details>
+    <summary>RU</summary>
+
+  ***
+
+  ### Функция 6: Сохранение поискового запроса (**5 баллов**)
+
+  **Как** пользователь
+  **Я хочу** чтобы мои поисковые запросы сохранялись
+  **Чтобы** я мог продолжить поиск позже
+
+  **Сценарий:** Сохранение поискового запроса
+  - **Дано** я выполняю поиск
+  - **Когда** я нажимаю кнопку "Поиск"
+  - **Тогда** поисковый запрос должен быть сохранён в локальное хранилище
+  - **И** перезаписывать любой существующий сохранённый запрос
+
+  **Критерии приемки:**
+  - Если поисковый текст **не изменился**, ничего не происходит.
+  - Если текст **изменился**, **очищенное значение** (без лишних пробелов) **сохраняется в локальное хранилище**, заменяя предыдущее.
+
+  ***
+
+  </details>
+
+---
+
 - [ ] Feature 7: Loading State Indication (**10 points**)
+
+  <details>
+    <summary>EN</summary>
+
+  ***
+
+  ### Feature 7: Loading State Indication (**10 points**)
 
   **As a** user
   **I want** to know when the application is loading data
@@ -133,7 +389,45 @@
   - The indicator **remains visible** until the data is fully received and displayed.
   - Once loading is complete, the **indicator is hidden**.
 
+  ***
+
+  </details>
+
+  <details>
+    <summary>RU</summary>
+
+  ***
+
+  ### Функция 7: Индикация состояния загрузки (**10 баллов**)
+
+  **Как** пользователь
+  **Я хочу** знать, когда приложение загружает данные
+  **Чтобы** понимать, когда нужно ждать результаты
+
+  **Сценарий:** Состояние загрузки API-запроса
+  - **Дано** я инициирую любой API-запрос
+  - **Тогда** я должен видеть индикатор загрузки (Спиннер/Скелетон/Полоса загрузки/Размытие)
+  - **И** индикатор должен оставаться, пока данные загружаются
+
+  **Критерии приемки:**
+  - **Индикатор загрузки** (например, спиннер, скелетон или полоса загрузки) появляется **пока данные загружаются**.
+  - Индикатор **остаётся видимым**, пока данные не будут полностью получены и отображены.
+  - После завершения загрузки **индикатор скрывается**.
+
+  ***
+
+  </details>
+
+---
+
 - [ ] Feature 8: Error Handling (**10 points**)
+
+  <details>
+    <summary>EN</summary>
+
+  ***
+
+  ### Feature 8: Error Handling (**10 points**)
 
   **As a** user
   **I want** to be informed when something goes wrong
@@ -148,7 +442,44 @@
   - A **clear, human-readable error message** is shown to the user when the server returns an error (4xx or 5xx).
   - The **console remains clean** — no uncaught errors or unnecessary error logs are displayed.
 
+  ***
+
+  </details>
+
+  <details>
+    <summary>RU</summary>
+
+  ***
+
+  ### Функция 8: Обработка ошибок (**10 баллов**)
+
+  **Как** пользователь
+  **Я хочу** получать уведомление, когда что-то идёт не так
+  **Чтобы** понимать, почему мой запрос не выполнился
+
+  **Сценарий:** Неудачный API-запрос
+  - **Дано** я выполняю поисковый запрос
+  - **Когда** сервер возвращает ошибку (4xx или 5xx)
+  - **Тогда** я должен видеть понятное сообщение об ошибке
+
+  **Критерии приемки:**
+  - **Понятное, человекочитаемое сообщение об ошибке** показывается пользователю, когда сервер возвращает ошибку (4xx или 5xx).
+  - **Консоль остаётся чистой** — не отображается необработанных ошибок или ненужных логов ошибок.
+
+  ***
+
+  </details>
+
+---
+
 - [ ] Feature 9: Application Error Boundary (**15 points**)
+
+  <details>
+    <summary>EN</summary>
+
+  ***
+
+  ### Feature 9: Application Error Boundary (**15 points**)
 
   **As a** user
   **I want** the application to handle errors gracefully
@@ -164,6 +495,38 @@
   - A **test button** is available to simulate an application error.
   - Clicking the test button **triggers an error** that is **logged in the console**.
   - A **fallback UI** is displayed when an error occurs.
+
+  ***
+
+  </details>
+
+  <details>
+    <summary>RU</summary>
+
+  ***
+
+  ### Функция 9: Граница ошибок приложения (**15 баллов**)
+
+  **Как** пользователь
+  **Я хочу** чтобы приложение корректно обрабатывало ошибки
+  **Чтобы** я мог продолжать пользоваться приложением, даже если отдельные его части не работают
+
+  **Сценарий:** Реализация границы ошибок
+  - **Дано** в приложении возникает ошибка
+  - **Тогда** ошибка должна быть залогирована в консоль
+  - **И** должен отображаться запасной интерфейс
+  - **И** должна быть тестовая кнопка для симуляции ошибок
+
+  **Критерии приемки:**
+  - Доступна **тестовая кнопка** для симуляции ошибки приложения.
+  - При нажатии на тестовую кнопку **возникает ошибка**, которая **логируется в консоль**.
+  - При возникновении ошибки отображается **запасной интерфейс (fallback UI)**.
+
+  ***
+
+  </details>
+
+---
 
 ## React + TypeScript + Vite
 
