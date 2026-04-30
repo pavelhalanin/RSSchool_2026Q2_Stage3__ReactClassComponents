@@ -1,0 +1,5 @@
+.falbackUI__wrapper {
+  width: calc(100% - 16px * 2);
+  height: calc(100% - 16px * 2);
+  padding: 16px;
+}
