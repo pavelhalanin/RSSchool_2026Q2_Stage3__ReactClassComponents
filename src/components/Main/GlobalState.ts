@@ -1,5 +1,6 @@
 export default interface GlobalState {
   errorBoundary: string | null;
+  search: string;
   cardList: {
     pokemons: {
       name: string;

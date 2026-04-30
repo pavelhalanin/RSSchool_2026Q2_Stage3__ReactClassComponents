@@ -8,6 +8,7 @@ class Main extends Component<Record<string, never>, GlobalState> {
     super(props);
     this.state = {
       errorBoundary: null,
+      search: '',
       cardList: {
         pokemons: [],
         isFetchNow: false,
@@ -30,6 +31,12 @@ class Main extends Component<Record<string, never>, GlobalState> {
         ...prevState.cardList,
         ...newCardList,
       },
+    }));
+  };
+
+  updateState_search = (search: Partial<GlobalState['search']>) => {
+    this.setState(() => ({
+      search: search,
     }));
   };
 
@@ -60,9 +67,10 @@ class Main extends Component<Record<string, never>, GlobalState> {
     return (
       <>
         <CardList
-          state_cardList={this.state.cardList}
+          state={this.state}
           updateState_errorBoundary={this.updateState_errorBoundary}
           updateState_cardList={this.updateState_cardList}
+          updateState_search={this.updateState_search}
         />
       </>
     );

@@ -1,11 +1,14 @@
 import { Component } from 'react';
 import styles from './CardList.module.css';
 import type GlobalState from '../Main/GlobalState';
+import Search from '../Search/Search';
+import sleep from '../../utils/sleep';
 
 interface CardListProps {
-  state_cardList: Partial<GlobalState['cardList']>;
+  state: GlobalState;
   updateState_errorBoundary: (exception: Error) => void;
   updateState_cardList: (CardList: Partial<GlobalState['cardList']>) => void;
+  updateState_search: (search: Partial<GlobalState['search']>) => void;
 }
 
 class CardList extends Component<CardListProps, GlobalState> {
@@ -35,7 +38,7 @@ class CardList extends Component<CardListProps, GlobalState> {
         errorFetch: null,
       });
 
-      await this.sleep(1000);
+      await sleep(1000);
 
       const URL_ = `https://pokeapi.co/api/v2/pokemon/?offset=0&limit=20000`;
       const RESPONSE = await fetch(URL_);
@@ -68,8 +71,6 @@ class CardList extends Component<CardListProps, GlobalState> {
     }
   };
 
-  sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
-
   emulateCustomError() {
     try {
       throw new Error('Custom Error Boundary generated for Fallback UI');
@@ -84,7 +85,7 @@ class CardList extends Component<CardListProps, GlobalState> {
 
   render() {
     try {
-      const { pokemons, isFetchNow, errorFetch } = this.props.state_cardList;
+      const { pokemons, isFetchNow, errorFetch } = this.props.state.cardList;
 
       if (isFetchNow) {
         return <div className={styles.spiner__wrapper}>Pokémon Collection</div>;
@@ -119,6 +120,12 @@ class CardList extends Component<CardListProps, GlobalState> {
               Generate fetch error
             </button>
           </div>
+          <Search
+            state={this.props.state}
+            updateState_errorBoundary={this.props.updateState_errorBoundary}
+            updateState_cardList={this.props.updateState_cardList}
+            updateState_search={this.props.updateState_search}
+          />
           <h1 className={styles.h1}>Pokémon Collection</h1>
           <ul className={styles.card_list}>
             {pokemons?.map((pokemon) => {
