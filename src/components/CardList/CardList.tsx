@@ -104,24 +104,6 @@ class CardList extends Component<CardListProps, GlobalState> {
         );
       }
 
-      if (errorFetch) {
-        return (
-          <div className="container">
-            <section className="section">
-              <div className="alert alert-danger">
-                <div>{errorFetch}</div>
-                <button
-                  className="btn btn-success"
-                  onClick={() => this.fetchPokemons()}
-                >
-                  Repeat load fetch
-                </button>
-              </div>
-            </section>
-          </div>
-        );
-      }
-
       return (
         <>
           <div className="container">
@@ -152,51 +134,64 @@ class CardList extends Component<CardListProps, GlobalState> {
           <div className="container">
             <section className="section">
               <h1 className={styles.h1}>Pokémon Collection</h1>
-
-              {pokemons.length != 0 ? (
-                ''
-              ) : (
-                <div className="container">
-                  <div className="alert alert-danger">
-                    No Pokémon found by search. Please enter a different search
-                    term and click the search button.
-                  </div>
+              {errorFetch ? (
+                <div className="alert alert-danger">
+                  <div>{errorFetch}</div>
+                  <button
+                    className="btn btn-success"
+                    onClick={() => this.fetchPokemons()}
+                  >
+                    Repeat load fetch
+                  </button>
                 </div>
+              ) : (
+                <>
+                  {pokemons.length != 0 ? (
+                    ''
+                  ) : (
+                    <div className="container">
+                      <div className="alert alert-danger">
+                        No Pokémon found by search. Please enter a different
+                        search term and click the search button.
+                      </div>
+                    </div>
+                  )}
+
+                  <ul className={styles.card_list}>
+                    {pokemons?.map((pokemon) => {
+                      const PARTS = `${pokemon.url}`.split('/');
+                      const POKEMON_ID = PARTS[PARTS.length - 2];
+
+                      const IMAGE_SRC = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${POKEMON_ID}.png`;
+
+                      return (
+                        <li key={POKEMON_ID} className="pokemon-card">
+                          <button
+                            onClick={() =>
+                              alert(`Nothing. Open modal by id ${POKEMON_ID}`)
+                            }
+                          >
+                            <div className={styles.card_list__image_block}>
+                              <img
+                                src={IMAGE_SRC}
+                                alt={pokemon.name}
+                                onError={(e) => {
+                                  (e.target as HTMLImageElement).title =
+                                    `Не удалось загрузить фото\n${IMAGE_SRC}`;
+                                }}
+                              />
+                            </div>
+                            <h2 className={styles.card_list__pokemon_id}>
+                              #{POKEMON_ID}
+                            </h2>
+                            <h3>{pokemon.name}</h3>
+                          </button>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </>
               )}
-
-              <ul className={styles.card_list}>
-                {pokemons?.map((pokemon) => {
-                  const PARTS = `${pokemon.url}`.split('/');
-                  const POKEMON_ID = PARTS[PARTS.length - 2];
-
-                  const IMAGE_SRC = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${POKEMON_ID}.png`;
-
-                  return (
-                    <li key={POKEMON_ID} className="pokemon-card">
-                      <button
-                        onClick={() =>
-                          alert(`Nothing. Open modal by id ${POKEMON_ID}`)
-                        }
-                      >
-                        <div className={styles.card_list__image_block}>
-                          <img
-                            src={IMAGE_SRC}
-                            alt={pokemon.name}
-                            onError={(e) => {
-                              (e.target as HTMLImageElement).title =
-                                `Не удалось загрузить фото\n${IMAGE_SRC}`;
-                            }}
-                          />
-                        </div>
-                        <h2 className={styles.card_list__pokemon_id}>
-                          #{POKEMON_ID}
-                        </h2>
-                        <h3>{pokemon.name}</h3>
-                      </button>
-                    </li>
-                  );
-                })}
-              </ul>
             </section>
           </div>
         </>
