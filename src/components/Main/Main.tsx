@@ -1,7 +1,6 @@
 import { Component } from 'react';
 import CardList from '../CardList/CardList';
 import type GlobalState from './GlobalState';
-import styles from './Main.module.css';
 
 class Main extends Component<Record<string, never>, GlobalState> {
   constructor(props: Record<string, never>) {
@@ -59,11 +58,13 @@ class Main extends Component<Record<string, never>, GlobalState> {
   render() {
     if (this.state.errorBoundary) {
       return (
-        <div className={styles.falbackUI__wrapper}>
-          <div className="alert alert-danger">
-            <h2>Fallback UI</h2>
-            {this.state.errorBoundary}
-          </div>
+        <div className="container">
+          <section className="section">
+            <div className="alert alert-danger">
+              <h2>Fallback UI</h2>
+              {this.state.errorBoundary}
+            </div>
+          </section>
         </div>
       );
     }

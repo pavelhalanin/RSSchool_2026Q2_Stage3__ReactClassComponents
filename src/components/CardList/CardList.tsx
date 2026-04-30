@@ -99,80 +99,107 @@ class CardList extends Component<CardListProps, GlobalState> {
       const { pokemons, isFetchNow, errorFetch } = this.props.state.cardList;
 
       if (isFetchNow) {
-        return <div className={styles.spiner__wrapper}>Pokémon Collection</div>;
+        return (
+          <div className={styles.spinner__wrapper}>Pokémon Collection</div>
+        );
       }
 
       if (errorFetch) {
         return (
-          <div className={styles.error_block}>
-            <div className="alert alert-danger">
-              <div>{errorFetch}</div>
-              <button className="btn btn-success" onClick={this.fetchPokemons}>
-                Repeat load fetch
-              </button>
-            </div>
+          <div className="container">
+            <section className="section">
+              <div className="alert alert-danger">
+                <div>{errorFetch}</div>
+                <button
+                  className="btn btn-success"
+                  onClick={() => this.fetchPokemons()}
+                >
+                  Repeat load fetch
+                </button>
+              </div>
+            </section>
           </div>
         );
       }
 
       return (
-        <div>
-          <div className={styles.error_buttons__wrapper}>
-            <button
-              className="btn btn-danger"
-              onClick={() => this.emulateCustomError()}
-            >
-              Generate error boundary
-            </button>
-            <button
-              className="btn btn-danger"
-              onClick={() => this.generateFetchError()}
-            >
-              Generate fetch error
-            </button>
+        <>
+          <div className="container">
+            <section className="section">
+              <Search
+                state={this.props.state}
+                fetchPokemons={this.fetchPokemons}
+                updateState_errorBoundary={this.props.updateState_errorBoundary}
+                updateState_cardList={this.props.updateState_cardList}
+                updateState_search={this.props.updateState_search}
+              />
+              <div className={styles.error_buttons__wrapper}>
+                <button
+                  className="btn btn-danger"
+                  onClick={() => this.emulateCustomError()}
+                >
+                  Generate error boundary
+                </button>
+                <button
+                  className="btn btn-danger"
+                  onClick={() => this.generateFetchError()}
+                >
+                  Generate fetch error
+                </button>
+              </div>
+            </section>
           </div>
-          <Search
-            state={this.props.state}
-            fetchPokemons={this.fetchPokemons}
-            updateState_errorBoundary={this.props.updateState_errorBoundary}
-            updateState_cardList={this.props.updateState_cardList}
-            updateState_search={this.props.updateState_search}
-          />
-          <h1 className={styles.h1}>Pokémon Collection</h1>
-          <ul className={styles.card_list}>
-            {pokemons?.map((pokemon) => {
-              const PARTS = `${pokemon.url}`.split('/');
-              const POKEMON_ID = PARTS[PARTS.length - 2];
+          <div className="container">
+            <section className="section">
+              <h1 className={styles.h1}>Pokémon Collection</h1>
 
-              const IMAGE_SRC = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${POKEMON_ID}.png`;
+              {pokemons.length != 0 ? (
+                ''
+              ) : (
+                <div className="container">
+                  <div className="alert alert-danger">
+                    No Pokémon found by search. Please enter a different search
+                    term and click the search button.
+                  </div>
+                </div>
+              )}
 
-              return (
-                <li key={POKEMON_ID} className="pokemon-card">
-                  <button
-                    onClick={() =>
-                      alert(`Nothing. Open modal by id ${POKEMON_ID}`)
-                    }
-                  >
-                    <div className={styles.card_list__image_block}>
-                      <img
-                        src={IMAGE_SRC}
-                        alt={pokemon.name}
-                        onError={(e) => {
-                          (e.target as HTMLImageElement).title =
-                            `Не удалось загрузить фото\n${IMAGE_SRC}`;
-                        }}
-                      />
-                    </div>
-                    <h2 className={styles.card_list__pokemon_id}>
-                      #{POKEMON_ID}
-                    </h2>
-                    <h3>{pokemon.name}</h3>
-                  </button>
-                </li>
-              );
-            })}
-          </ul>
-        </div>
+              <ul className={styles.card_list}>
+                {pokemons?.map((pokemon) => {
+                  const PARTS = `${pokemon.url}`.split('/');
+                  const POKEMON_ID = PARTS[PARTS.length - 2];
+
+                  const IMAGE_SRC = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${POKEMON_ID}.png`;
+
+                  return (
+                    <li key={POKEMON_ID} className="pokemon-card">
+                      <button
+                        onClick={() =>
+                          alert(`Nothing. Open modal by id ${POKEMON_ID}`)
+                        }
+                      >
+                        <div className={styles.card_list__image_block}>
+                          <img
+                            src={IMAGE_SRC}
+                            alt={pokemon.name}
+                            onError={(e) => {
+                              (e.target as HTMLImageElement).title =
+                                `Не удалось загрузить фото\n${IMAGE_SRC}`;
+                            }}
+                          />
+                        </div>
+                        <h2 className={styles.card_list__pokemon_id}>
+                          #{POKEMON_ID}
+                        </h2>
+                        <h3>{pokemon.name}</h3>
+                      </button>
+                    </li>
+                  );
+                })}
+              </ul>
+            </section>
+          </div>
+        </>
       );
     } catch (exception) {
       console.log(exception);
