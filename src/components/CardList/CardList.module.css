@@ -77,6 +77,13 @@
   height: 100%;
 }
 
+@media screen and (max-width: 768px) {
+  .spiner__wrapper {
+    flex-wrap: wrap;
+    text-align: center;
+  }
+}
+
 .spiner__wrapper::before {
   content: '';
   width: 3rem;
