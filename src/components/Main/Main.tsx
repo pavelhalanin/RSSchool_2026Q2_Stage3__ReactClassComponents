@@ -4,7 +4,7 @@ import type GlobalState from './GlobalState';
 import styles from './Main.module.css';
 
 class Main extends Component<Record<string, never>, GlobalState> {
-  constructor(props) {
+  constructor(props: Record<string, never>) {
     super(props);
     this.state = {
       errorBoundary: null,
@@ -16,7 +16,7 @@ class Main extends Component<Record<string, never>, GlobalState> {
     };
   }
 
-  updateState_errorBoundary = (exception) => {
+  updateState_errorBoundary = (exception: Error) => {
     console.log(exception);
 
     this.setState(() => ({
@@ -37,7 +37,11 @@ class Main extends Component<Record<string, never>, GlobalState> {
     try {
       throw new Error('Custom Error Boundary generated for Fallback UI');
     } catch (exception) {
-      this.updateState_errorBoundary(exception);
+      if (exception instanceof Error) {
+        this.updateState_errorBoundary(exception);
+      } else {
+        this.updateState_errorBoundary(new Error(String(exception)));
+      }
     }
   }
 

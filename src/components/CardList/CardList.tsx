@@ -4,7 +4,7 @@ import type GlobalState from '../Main/GlobalState';
 
 interface CardListProps {
   state_cardList: Partial<GlobalState['cardList']>;
-  updateState_errorBoundary: (exception) => void;
+  updateState_errorBoundary: (exception: Error) => void;
   updateState_cardList: (CardList: Partial<GlobalState['cardList']>) => void;
 }
 
@@ -60,7 +60,11 @@ class CardList extends Component<CardListProps, GlobalState> {
         errorFetch: null,
       });
     } catch (exception) {
-      this.props.updateState_errorBoundary(exception);
+      if (exception instanceof Error) {
+        this.props.updateState_errorBoundary(exception);
+      } else {
+        this.props.updateState_errorBoundary(new Error(String(exception)));
+      }
     }
   };
 
@@ -70,7 +74,11 @@ class CardList extends Component<CardListProps, GlobalState> {
     try {
       throw new Error('Custom Error Boundary generated for Fallback UI');
     } catch (exception) {
-      this.props.updateState_errorBoundary(exception);
+      if (exception instanceof Error) {
+        this.props.updateState_errorBoundary(exception);
+      } else {
+        this.props.updateState_errorBoundary(new Error(String(exception)));
+      }
     }
   }
 
@@ -113,7 +121,7 @@ class CardList extends Component<CardListProps, GlobalState> {
           </div>
           <h1 className={styles.h1}>Pokémon Collection</h1>
           <ul className={styles.card_list}>
-            {pokemons.map((pokemon) => {
+            {pokemons?.map((pokemon) => {
               const PARTS = `${pokemon.url}`.split('/');
               const POKEMON_ID = PARTS[PARTS.length - 2];
 
