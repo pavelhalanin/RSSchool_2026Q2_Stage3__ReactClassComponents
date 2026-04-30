@@ -6,9 +6,13 @@ import styles from './Main.module.css';
 class Main extends Component<Record<string, never>, GlobalState> {
   constructor(props: Record<string, never>) {
     super(props);
+
+    const SEARCH = localStorage.getItem('search') || '';
+    localStorage.setItem('search', SEARCH);
+
     this.state = {
       errorBoundary: null,
-      search: '',
+      search: SEARCH,
       cardList: {
         pokemons: [],
         isFetchNow: false,

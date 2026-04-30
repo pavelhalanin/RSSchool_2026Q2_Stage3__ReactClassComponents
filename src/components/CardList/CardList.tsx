@@ -57,8 +57,19 @@ class CardList extends Component<CardListProps, GlobalState> {
 
       const DATA = await RESPONSE.json();
 
+      const POKEMONS = (DATA.results || []).filter(Boolean);
+
+      const SEARCH = this.props.state.search.trim();
+      localStorage.setItem('search', SEARCH);
+
       this.props.updateState_cardList({
-        pokemons: DATA.results,
+        pokemons: POKEMONS.filter(
+          (e: Partial<GlobalState['cardList']['pokemons'][number]>) => {
+            return `${e.name}`
+              .toLowerCase()
+              .includes(`${SEARCH}`.toLowerCase());
+          }
+        ),
         isFetchNow: false,
         errorFetch: null,
       });
@@ -122,6 +133,7 @@ class CardList extends Component<CardListProps, GlobalState> {
           </div>
           <Search
             state={this.props.state}
+            fetchPokemons={this.fetchPokemons}
             updateState_errorBoundary={this.props.updateState_errorBoundary}
             updateState_cardList={this.props.updateState_cardList}
             updateState_search={this.props.updateState_search}
