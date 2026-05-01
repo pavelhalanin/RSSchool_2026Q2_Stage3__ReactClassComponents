@@ -9,10 +9,7 @@ interface CardListProps {
   updateState_errorBoundary: (exception: Error) => void;
   updateState_cardList: (CardList: Partial<GlobalState['cardList']>) => void;
   updateState_search: (search: Partial<GlobalState['search']>) => void;
-  updateState_card_dialogIsOpen: (
-    dialogIsOpen: Partial<GlobalState['card']['dialogIsOpen']>,
-    pokemonId: Partial<GlobalState['card']['pokemonId']>
-  ) => void;
+  updateState_card: (card: Partial<GlobalState['card']>) => void;
 }
 
 class CardList extends Component<CardListProps, GlobalState> {
@@ -150,9 +147,7 @@ class CardList extends Component<CardListProps, GlobalState> {
           <Card
             state={this.props.state}
             updateState_errorBoundary={this.props.updateState_errorBoundary}
-            updateState_card_dialogIsOpen={
-              this.props.updateState_card_dialogIsOpen
-            }
+            updateState_card={this.props.updateState_card}
           />
           <div className="container">
             <section className="section">
@@ -210,12 +205,14 @@ class CardList extends Component<CardListProps, GlobalState> {
                       return (
                         <li key={pokemon.id} className="pokemon-card">
                           <button
-                            onClick={() =>
-                              this.props.updateState_card_dialogIsOpen(
-                                true,
-                                pokemon.id
-                              )
-                            }
+                            onClick={() => {
+                              this.props.updateState_card({
+                                dialogIsOpen: true,
+                                pokemonId: pokemon.id,
+                                isFetchNow: false,
+                                pokemon: null,
+                              });
+                            }}
                           >
                             <div className={styles.card_list__image_block}>
                               <img

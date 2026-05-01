@@ -20,6 +20,8 @@ class Main extends Component<Record<string, never>, GlobalState> {
       card: {
         dialogIsOpen: false,
         pokemonId: 0,
+        isFetchNow: false,
+        pokemon: null,
       },
     };
   }
@@ -51,10 +53,29 @@ class Main extends Component<Record<string, never>, GlobalState> {
     dialogIsOpen: Partial<GlobalState['card']['dialogIsOpen']>,
     pokemonId: Partial<GlobalState['card']['pokemonId']>
   ) => {
-    this.setState(() => ({
+    this.setState((prev) => ({
       card: {
+        ...prev.card,
         dialogIsOpen,
         pokemonId,
+      },
+    }));
+  };
+
+  updateState_card_pokemon = (pokemon: GlobalState['card']['pokemon']) => {
+    this.setState((prev) => ({
+      card: {
+        ...prev.card,
+        pokemon: pokemon,
+      },
+    }));
+  };
+
+  updateState_card = (card: Partial<GlobalState['card']>) => {
+    this.setState((prev) => ({
+      card: {
+        ...prev.card,
+        ...card,
       },
     }));
   };
@@ -92,7 +113,7 @@ class Main extends Component<Record<string, never>, GlobalState> {
           updateState_errorBoundary={this.updateState_errorBoundary}
           updateState_cardList={this.updateState_cardList}
           updateState_search={this.updateState_search}
-          updateState_card_dialogIsOpen={this.updateState_card_dialogIsOpen}
+          updateState_card={this.updateState_card}
         />
       </>
     );

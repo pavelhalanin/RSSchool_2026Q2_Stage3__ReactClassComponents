@@ -1,10 +1,33 @@
 .modal__wrapper {
-  width: 300px;
+  width: 1024px;
+  border: none;
+  border-radius: 8px;
+  background-color: var(--color-light);
+  padding: 0;
+
+  overflow-y: hidden;
 }
 
 .modal__wrapper > header {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  padding-bottom: 8px;
+
+  background-color: var(--color-dark);
+  color: var(--color-light);
+  padding: 8px;
+}
+
+.modal__wrapper > div {
+  padding: 8px;
+
+  overflow-y: scroll;
+  height: calc(100vh - 200px);
+}
+
+.modal__wrapper > footer {
+  padding: 8px;
 }
 
 .modal__wrapper > header > h2 {
@@ -12,9 +35,51 @@
 }
 
 .modal__wrapper::backdrop {
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: rgba(0, 0, 0, 0.8);
 }
 
 body:has(dialog[open]) {
   overflow: hidden;
+}
+
+.card__name {
+  color: #06c;
+  text-align: center;
+  padding-bottom: 8px;
+}
+
+.card__audio {
+  margin: 0;
+  padding: 0;
+
+  text-align: center;
+  padding-bottom: 8px;
+}
+
+.card__audio > li {
+  list-style-type: none;
+}
+
+.card__galery {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+
+  margin: 0;
+  padding: 0;
+  border-radius: 8px;
+}
+
+.card__galery > li {
+  list-style: none;
+  width: 64px;
+  height: 64px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  border: 1px solid gray;
+  border-radius: 8px;
 }
