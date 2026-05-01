@@ -162,7 +162,7 @@ class CardList extends Component<CardListProps, GlobalState> {
                       const PARTS = `${pokemon.url}`.split('/');
                       const POKEMON_ID = PARTS[PARTS.length - 2];
 
-                      const IMAGE_SRC = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${POKEMON_ID}.png`;
+                      const IMAGE_SRC = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${POKEMON_ID}.png`;
 
                       return (
                         <li key={POKEMON_ID} className="pokemon-card">
