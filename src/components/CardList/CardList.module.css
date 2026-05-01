@@ -57,6 +57,23 @@
   max-width: 200px;
 }
 
+.pokemon__types {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  padding: 8px 0;
+}
+
+.pokemon__types > li {
+  list-style-type: none;
+  padding: 4px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
 /* spinner */
 
 .spinner__wrapper {

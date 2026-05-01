@@ -2,7 +2,6 @@ import { Component } from 'react';
 import styles from './CardList.module.css';
 import type GlobalState from '../Main/GlobalState';
 import Search from '../Search/Search';
-import sleep from '../../utils/sleep';
 
 interface CardListProps {
   state: GlobalState;
@@ -38,10 +37,47 @@ class CardList extends Component<CardListProps, GlobalState> {
         errorFetch: null,
       });
 
-      await sleep(1000);
+      const SEARCH = this.props.state.search.trim();
+      localStorage.setItem('search', SEARCH);
 
-      const URL_ = `https://pokeapi.co/api/v2/pokemon/?offset=0&limit=20000`;
-      const RESPONSE = await fetch(URL_);
+      const GRAPHQL = `
+        query MyQuery {
+          pokemon(where: {name: {_like: "%${SEARCH}%"}}) {
+            # base_experience
+            height
+            id
+            # is_default
+            name
+            # pokemon_species_id
+            weight
+            # pokemonabilities {
+            #   ability {
+            #     abilitynames(where: {language: {id: {_eq: 9}}}) {
+            #       id
+            #       name
+            #     }
+            #   }
+            # }
+            pokemontypes {
+              slot
+              type {
+                name
+              }
+            }
+          }
+        }
+      `;
+
+      const URL_ = `https://graphql.pokeapi.co/v1beta2`;
+      const RESPONSE = await fetch(URL_, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          query: GRAPHQL,
+        }),
+      });
 
       const HTTP_STATUS = RESPONSE.status;
 
@@ -57,19 +93,19 @@ class CardList extends Component<CardListProps, GlobalState> {
 
       const DATA = await RESPONSE.json();
 
-      const POKEMONS = (DATA.results || []).filter(Boolean);
-
-      const SEARCH = this.props.state.search.trim();
-      localStorage.setItem('search', SEARCH);
+      const POKEMONS: GlobalState['cardList']['pokemons'] = (
+        DATA.data.pokemon || []
+      )
+        .filter(Boolean)
+        .map((e: GlobalState['cardList']['pokemons'][number]) => {
+          return {
+            ...e,
+            image_src: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${e.id}.png`,
+          };
+        });
 
       this.props.updateState_cardList({
-        pokemons: POKEMONS.filter(
-          (e: Partial<GlobalState['cardList']['pokemons'][number]>) => {
-            return `${e.name}`
-              .toLowerCase()
-              .includes(`${SEARCH}`.toLowerCase());
-          }
-        ),
+        pokemons: POKEMONS,
         isFetchNow: false,
         errorFetch: null,
       });
@@ -159,32 +195,35 @@ class CardList extends Component<CardListProps, GlobalState> {
 
                   <ul className={styles.card_list}>
                     {pokemons?.map((pokemon) => {
-                      const PARTS = `${pokemon.url}`.split('/');
-                      const POKEMON_ID = PARTS[PARTS.length - 2];
-
-                      const IMAGE_SRC = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${POKEMON_ID}.png`;
-
                       return (
-                        <li key={POKEMON_ID} className="pokemon-card">
+                        <li key={pokemon.id} className="pokemon-card">
                           <button
                             onClick={() =>
-                              alert(`Nothing. Open modal by id ${POKEMON_ID}`)
+                              alert(`Nothing. Open modal by id ${pokemon.id}`)
                             }
                           >
                             <div className={styles.card_list__image_block}>
                               <img
-                                src={IMAGE_SRC}
+                                src={pokemon.image_src}
                                 alt={pokemon.name}
                                 onError={(e) => {
                                   (e.target as HTMLImageElement).title =
-                                    `Не удалось загрузить фото\n${IMAGE_SRC}`;
+                                    `Не удалось загрузить фото\n${pokemon.image_src}`;
                                 }}
                               />
                             </div>
                             <h2 className={styles.card_list__pokemon_id}>
-                              #{POKEMON_ID}
+                              #{pokemon.id}
                             </h2>
                             <h3>{pokemon.name}</h3>
+                            <div>
+                              {pokemon.weight} x {pokemon.height}
+                            </div>
+                            <ul className={styles.pokemon__types}>
+                              {pokemon.pokemontypes.map((e) => {
+                                return <li key={e.type.name}>{e.type.name}</li>;
+                              })}
+                            </ul>
                           </button>
                         </li>
                       );
