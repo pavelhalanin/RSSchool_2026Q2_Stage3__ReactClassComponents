@@ -17,6 +17,10 @@ class Main extends Component<Record<string, never>, GlobalState> {
         isFetchNow: false,
         errorFetch: null,
       },
+      card: {
+        dialogIsOpen: false,
+        pokemonId: 0,
+      },
     };
   }
 
@@ -39,7 +43,19 @@ class Main extends Component<Record<string, never>, GlobalState> {
 
   updateState_search = (search: Partial<GlobalState['search']>) => {
     this.setState(() => ({
-      search: search,
+      search,
+    }));
+  };
+
+  updateState_card_dialogIsOpen = (
+    dialogIsOpen: Partial<GlobalState['card']['dialogIsOpen']>,
+    pokemonId: Partial<GlobalState['card']['pokemonId']>
+  ) => {
+    this.setState(() => ({
+      card: {
+        dialogIsOpen,
+        pokemonId,
+      },
     }));
   };
 
@@ -76,6 +92,7 @@ class Main extends Component<Record<string, never>, GlobalState> {
           updateState_errorBoundary={this.updateState_errorBoundary}
           updateState_cardList={this.updateState_cardList}
           updateState_search={this.updateState_search}
+          updateState_card_dialogIsOpen={this.updateState_card_dialogIsOpen}
         />
       </>
     );

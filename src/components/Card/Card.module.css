@@ -1,0 +1,20 @@
+.modal__wrapper {
+  width: 300px;
+}
+
+.modal__wrapper > header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.modal__wrapper > header > h2 {
+  margin: 0;
+}
+
+.modal__wrapper::backdrop {
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+body:has(dialog[open]) {
+  overflow: hidden;
+}

@@ -2,12 +2,17 @@ import { Component } from 'react';
 import styles from './CardList.module.css';
 import type GlobalState from '../Main/GlobalState';
 import Search from '../Search/Search';
+import Card from '../Card/Card';
 
 interface CardListProps {
   state: GlobalState;
   updateState_errorBoundary: (exception: Error) => void;
   updateState_cardList: (CardList: Partial<GlobalState['cardList']>) => void;
   updateState_search: (search: Partial<GlobalState['search']>) => void;
+  updateState_card_dialogIsOpen: (
+    dialogIsOpen: Partial<GlobalState['card']['dialogIsOpen']>,
+    pokemonId: Partial<GlobalState['card']['pokemonId']>
+  ) => void;
 }
 
 class CardList extends Component<CardListProps, GlobalState> {
@@ -142,6 +147,13 @@ class CardList extends Component<CardListProps, GlobalState> {
 
       return (
         <>
+          <Card
+            state={this.props.state}
+            updateState_errorBoundary={this.props.updateState_errorBoundary}
+            updateState_card_dialogIsOpen={
+              this.props.updateState_card_dialogIsOpen
+            }
+          />
           <div className="container">
             <section className="section">
               <Search
@@ -199,7 +211,10 @@ class CardList extends Component<CardListProps, GlobalState> {
                         <li key={pokemon.id} className="pokemon-card">
                           <button
                             onClick={() =>
-                              alert(`Nothing. Open modal by id ${pokemon.id}`)
+                              this.props.updateState_card_dialogIsOpen(
+                                true,
+                                pokemon.id
+                              )
                             }
                           >
                             <div className={styles.card_list__image_block}>

@@ -3,7 +3,7 @@ export default interface GlobalState {
   search: string;
   cardList: {
     pokemons: Array<{
-      id: string;
+      id: number;
       name: string;
       weight: number;
       height: number;
@@ -17,5 +17,9 @@ export default interface GlobalState {
     }>;
     isFetchNow: boolean;
     errorFetch: string | null;
+  };
+  card: {
+    dialogIsOpen: boolean;
+    pokemonId: number;
   };
 }
