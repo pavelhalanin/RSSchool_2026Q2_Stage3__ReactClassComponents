@@ -1,6 +1,7 @@
 export default interface GlobalState {
   errorBoundary: string | null;
   search: string;
+  searchPrev: string | null;
   cardList: {
     pokemons: Array<{
       id: number;

@@ -12,6 +12,7 @@ class Main extends Component<Record<string, never>, GlobalState> {
     this.state = {
       errorBoundary: null,
       search: SEARCH,
+      searchPrev: null,
       cardList: {
         pokemons: [],
         isFetchNow: false,
@@ -26,7 +27,7 @@ class Main extends Component<Record<string, never>, GlobalState> {
     };
   }
 
-  updateState_errorBoundary = (exception: Error) => {
+  updateState_errorBoundary = (exception: string) => {
     console.log(exception);
 
     this.setState(() => ({
@@ -46,6 +47,12 @@ class Main extends Component<Record<string, never>, GlobalState> {
   updateState_search = (search: Partial<GlobalState['search']>) => {
     this.setState(() => ({
       search,
+    }));
+  };
+
+  updateState_searchPrev = (searchPrev: Partial<GlobalState['searchPrev']>) => {
+    this.setState(() => ({
+      searchPrev,
     }));
   };
 
@@ -84,11 +91,7 @@ class Main extends Component<Record<string, never>, GlobalState> {
     try {
       throw new Error('Custom Error Boundary generated for Fallback UI');
     } catch (exception) {
-      if (exception instanceof Error) {
-        this.updateState_errorBoundary(exception);
-      } else {
-        this.updateState_errorBoundary(new Error(String(exception)));
-      }
+      this.updateState_errorBoundary(String(exception));
     }
   }
 
@@ -114,6 +117,7 @@ class Main extends Component<Record<string, never>, GlobalState> {
           updateState_cardList={this.updateState_cardList}
           updateState_search={this.updateState_search}
           updateState_card={this.updateState_card}
+          updateState_searchPrev={this.updateState_searchPrev}
         />
       </>
     );
