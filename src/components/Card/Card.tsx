@@ -5,8 +5,9 @@ import sleep from '../../utils/sleep';
 
 interface CardProps {
   state: GlobalState;
-  updateState_errorBoundary: (exception: Error) => void;
+  updateState_errorBoundary: (exception: string) => void;
   updateState_card: (card: Partial<GlobalState['card']>) => void;
+  updateState_cardList: (CardList: Partial<GlobalState['cardList']>) => void;
 }
 
 class Card extends Component<CardProps, GlobalState> {
@@ -88,12 +89,28 @@ class Card extends Component<CardProps, GlobalState> {
 
       if (HTTP_STATUS >= 400 && HTTP_STATUS <= 599) {
         const TEXT = await RESPONSE.text();
-        throw new Error(`HTTP ${HTTP_STATUS}\n${TEXT}`);
+        const MESSAGE = `HTTP ${HTTP_STATUS}\n${TEXT}`;
+
+        this.props.updateState_cardList({
+          pokemons: [],
+          isFetchNow: false,
+          errorFetch: MESSAGE,
+        });
+
+        return;
       }
 
       if (HTTP_STATUS !== 200) {
         const TEXT = await RESPONSE.text();
-        throw new Error(`HTTP ${HTTP_STATUS}\n${TEXT}`);
+        const MESSAGE = `HTTP ${HTTP_STATUS}\n${TEXT}`;
+
+        this.props.updateState_cardList({
+          pokemons: [],
+          isFetchNow: false,
+          errorFetch: MESSAGE,
+        });
+
+        return;
       }
 
       const DATA = await RESPONSE.json();
@@ -104,20 +121,13 @@ class Card extends Component<CardProps, GlobalState> {
         isFetchNow: false,
         pokemon: POKEMON,
       });
-
-      console.log(DATA);
     } catch (exception) {
-      if (exception instanceof Error) {
-        this.props.updateState_errorBoundary(exception);
-      } else {
-        this.props.updateState_errorBoundary(new Error(String(exception)));
-      }
+      this.props.updateState_errorBoundary(String(exception));
     }
   };
 
   render() {
     const POKEMON = this.props.state.card.pokemon;
-    console.log('qqqq', POKEMON, this.props.state.card.dialogIsOpen);
     return (
       <dialog ref={this.dialogRef} className={styles.modal__wrapper}>
         <header>
@@ -160,7 +170,6 @@ class Card extends Component<CardProps, GlobalState> {
             </ul>
             <ul className={styles.card__galery}>
               {POKEMON.pokemonsprites.map((e) => {
-                console.log(e.sprites.other.home);
                 const ARR = [
                   e.sprites.other.home.front_default,
                   e.sprites.other.home.front_female,
