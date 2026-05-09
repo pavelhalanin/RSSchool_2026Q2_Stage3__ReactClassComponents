@@ -20,3 +20,5 @@ npx prettier --check .
 npx prettier --write .
 
 npm install --save-dev husky
+
+npm install -D @vitest/coverage-v8
