@@ -29,3 +29,4 @@ npm run test:ui
 
 npm install -D @testing-library/react
 npm install -D jsdom
+npm install -D @testing-library/jest-dom
