@@ -28,3 +28,4 @@ npm install -D @vitest/ui
 npm run test:ui
 
 npm install -D @testing-library/react
+npm install -D jsdom
