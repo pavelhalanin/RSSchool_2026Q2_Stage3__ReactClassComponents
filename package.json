@@ -9,6 +9,7 @@
     "deploy": "npx gh-pages -d dist -b gh-pages",
     "lint": "eslint .",
     "preview": "vite preview",
+    "test:coverage": "vitest run --coverage",
     "format:fix": "prettier --write .",
     "prepare": "husky"
   },
