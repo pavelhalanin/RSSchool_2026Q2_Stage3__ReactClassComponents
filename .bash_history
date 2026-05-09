@@ -23,3 +23,5 @@ npm install --save-dev husky
 
 npm install -D @vitest/coverage-v8
 npm run test:coverage
+
+npm install -D @vitest/ui
