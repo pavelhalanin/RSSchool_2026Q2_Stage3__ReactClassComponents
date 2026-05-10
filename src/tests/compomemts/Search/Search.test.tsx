@@ -3,7 +3,7 @@ import { describe, it, expect, vi, afterEach } from 'vitest';
 import Search from '../../../components/Search/Search';
 import '@testing-library/jest-dom/vitest';
 
-describe('Search', () => {
+describe('Search Component Tests', () => {
   const DEFAULT_STATE = {
     errorBoundary: null,
     search: '',
@@ -21,24 +21,34 @@ describe('Search', () => {
     },
   };
 
+  const localStorageMock = (() => {
+    const STORE: Record<string, string> = {};
+    return {
+      getItem: vi.fn((key: string) => STORE[key] || null),
+      setItem: vi.fn((key: string, value: string) => {
+        STORE[key] = value;
+      }),
+    };
+  })();
+
   afterEach(() => {
     cleanup(); // Очищает DOM
     vi.clearAllMocks(); // Очищает моки
   });
 
-  it('Main.updateState_search and render Search input', () => {
-    const handle_fetchPokemons = vi.fn();
-    const handle_updateState_cardList = vi.fn();
-    const handle_updateState_errorBoundary = vi.fn();
-    const handle_updateState_search = vi.fn();
+  it('Search Component Tests. Rendering Tests. Renders search input', () => {
+    const mock_fetchPokemons = vi.fn();
+    const mock_updateState_cardList = vi.fn();
+    const mock_updateState_errorBoundary = vi.fn();
+    const mock_updateState_search = vi.fn();
 
     render(
       <Search
         state={DEFAULT_STATE}
-        fetchPokemons={handle_fetchPokemons}
-        updateState_cardList={handle_updateState_cardList}
-        updateState_errorBoundary={handle_updateState_errorBoundary}
-        updateState_search={handle_updateState_search}
+        fetchPokemons={mock_fetchPokemons}
+        updateState_cardList={mock_updateState_cardList}
+        updateState_errorBoundary={mock_updateState_errorBoundary}
+        updateState_search={mock_updateState_search}
       />
     );
 
@@ -47,23 +57,23 @@ describe('Search', () => {
 
     fireEvent.change(INPUT, { target: { value: 'pikachu' } }); // Симуляция ввода текста
 
-    expect(handle_updateState_search).toHaveBeenCalledTimes(1); // Функция вызвана один раз?
-    expect(handle_updateState_search).toHaveBeenCalledWith('pikachu'); // Проверка, что при вызове передали 'pikachu'
+    expect(mock_updateState_search).toHaveBeenCalledTimes(1); // Функция вызвана один раз?
+    expect(mock_updateState_search).toHaveBeenCalledWith('pikachu'); // Проверка, что при вызове передали 'pikachu'
   });
 
-  it('CardList.fetchPokemons and render Search button', () => {
-    const handle_fetchPokemons = vi.fn();
-    const handle_updateState_cardList = vi.fn();
-    const handle_updateState_errorBoundary = vi.fn();
-    const handle_updateState_search = vi.fn();
+  it('Search Component Tests. Rendering Tests. Renders search button', () => {
+    const mock_fetchPokemons = vi.fn();
+    const mock_updateState_cardList = vi.fn();
+    const mock_updateState_errorBoundary = vi.fn();
+    const mock_updateState_search = vi.fn();
 
     render(
       <Search
         state={DEFAULT_STATE}
-        fetchPokemons={handle_fetchPokemons}
-        updateState_cardList={handle_updateState_cardList}
-        updateState_errorBoundary={handle_updateState_errorBoundary}
-        updateState_search={handle_updateState_search}
+        fetchPokemons={mock_fetchPokemons}
+        updateState_cardList={mock_updateState_cardList}
+        updateState_errorBoundary={mock_updateState_errorBoundary}
+        updateState_search={mock_updateState_search}
       />
     );
 
@@ -71,6 +81,28 @@ describe('Search', () => {
     expect(BUTTON).toBeInTheDocument(); // Существует элемент?
     fireEvent.click(BUTTON); // Симуляция клика пользователя
 
-    expect(handle_fetchPokemons).toHaveBeenCalledTimes(1); // Функция вызвана один раз?
+    expect(mock_fetchPokemons).toHaveBeenCalledTimes(1); // Функция вызвана один раз?
+  });
+
+  it('Search Component Tests. Rendering Tests. Shows empty input when no saved term exists', () => {
+    localStorageMock.getItem.mockReturnValueOnce(null);
+
+    const mock_fetchPokemons = vi.fn();
+    const mock_updateState_cardList = vi.fn();
+    const mock_updateState_errorBoundary = vi.fn();
+    const mock_updateState_search = vi.fn();
+
+    render(
+      <Search
+        state={DEFAULT_STATE}
+        fetchPokemons={mock_fetchPokemons}
+        updateState_cardList={mock_updateState_cardList}
+        updateState_errorBoundary={mock_updateState_errorBoundary}
+        updateState_search={mock_updateState_search}
+      />
+    );
+
+    const INPUT = screen.getByRole('searchbox') as HTMLInputElement;
+    expect(INPUT.value).toBe('');
   });
 });
