@@ -2,6 +2,7 @@ import { render, screen, fireEvent, cleanup } from '@testing-library/react';
 import { describe, it, expect, vi, afterEach, beforeEach } from 'vitest';
 import CardList from '../../../components/CardList/CardList';
 import '@testing-library/jest-dom/vitest';
+import CARD_LIST_PROPS_MOCK from '../../../test-utils/mock/CARD_LIST_PROPS_MOCK.mock';
 
 const mock_localStorage = (() => {
   const STORE: Record<string, string> = {};
@@ -24,7 +25,7 @@ vi.mock('../../../components/Card/Card', () => ({
 }));
 
 describe('CardList', () => {
-  const DEFAULT_STATE = {
+  const DEFAULT_STATE_MOCK = {
     errorBoundary: null,
     search: '',
     searchPrev: '',
@@ -41,15 +42,6 @@ describe('CardList', () => {
     },
   };
 
-  const mock_props = {
-    state: DEFAULT_STATE,
-    updateState_errorBoundary: vi.fn(),
-    updateState_cardList: vi.fn(),
-    updateState_search: vi.fn(),
-    updateState_card: vi.fn(),
-    updateState_searchPrev: vi.fn(),
-  };
-
   beforeEach(() => {
     vi.clearAllMocks();
   });
@@ -62,39 +54,39 @@ describe('CardList', () => {
   describe('CardList render', () => {
     it('CardList', () => {
       const loadingState = {
-        ...DEFAULT_STATE,
+        ...DEFAULT_STATE_MOCK,
         cardList: {
-          ...DEFAULT_STATE.cardList,
+          ...DEFAULT_STATE_MOCK.cardList,
           isFetchNow: true,
         },
       };
 
-      render(<CardList {...mock_props} state={loadingState} />);
+      render(<CardList {...CARD_LIST_PROPS_MOCK} state={loadingState} />);
 
       expect(screen.getByText('Pokémon Collection')).toBeInTheDocument();
     });
 
     it('CardList render Search component', () => {
-      render(<CardList {...mock_props} />);
+      render(<CardList {...CARD_LIST_PROPS_MOCK} />);
 
       expect(screen.getByTestId('mock-search')).toBeInTheDocument();
     });
 
     it('CardList render Card component', () => {
-      render(<CardList {...mock_props} />);
+      render(<CardList {...CARD_LIST_PROPS_MOCK} />);
 
       expect(screen.getByTestId('mock-card')).toBeInTheDocument();
     });
 
     it('CardList render error buttons', () => {
-      render(<CardList {...mock_props} />);
+      render(<CardList {...CARD_LIST_PROPS_MOCK} />);
 
       expect(screen.getByText('Generate error boundary')).toBeInTheDocument();
       expect(screen.getByText('Generate fetch error')).toBeInTheDocument();
     });
 
     it('CardList render title "Pokémon Collection"', () => {
-      render(<CardList {...mock_props} />);
+      render(<CardList {...CARD_LIST_PROPS_MOCK} />);
 
       expect(screen.getByText('Pokémon Collection')).toBeInTheDocument();
     });
@@ -103,14 +95,14 @@ describe('CardList', () => {
   describe('Errors', () => {
     it('CardList render fecth error', () => {
       const ERROR_STATE = {
-        ...DEFAULT_STATE,
+        ...DEFAULT_STATE_MOCK,
         cardList: {
-          ...DEFAULT_STATE.cardList,
+          ...DEFAULT_STATE_MOCK.cardList,
           errorFetch: 'HTTP 404',
         },
       };
 
-      render(<CardList {...mock_props} state={ERROR_STATE} />);
+      render(<CardList {...CARD_LIST_PROPS_MOCK} state={ERROR_STATE} />);
 
       expect(screen.getByText('HTTP 404')).toBeInTheDocument();
       expect(screen.getByText('Repeat load fetch')).toBeInTheDocument();
@@ -118,15 +110,17 @@ describe('CardList', () => {
 
     it('CardList render "No Pokémon found"', () => {
       const EMPTY_POKEMON_ARRAY_STATE = {
-        ...DEFAULT_STATE,
+        ...DEFAULT_STATE_MOCK,
         cardList: {
-          ...DEFAULT_STATE.cardList,
+          ...DEFAULT_STATE_MOCK.cardList,
           pokemons: [],
           errorFetch: null,
         },
       };
 
-      render(<CardList {...mock_props} state={EMPTY_POKEMON_ARRAY_STATE} />);
+      render(
+        <CardList {...CARD_LIST_PROPS_MOCK} state={EMPTY_POKEMON_ARRAY_STATE} />
+      );
 
       expect(
         screen.getByText(/No Pokémon found by search/i)
@@ -136,12 +130,12 @@ describe('CardList', () => {
 
   describe('CardList error buttons', () => {
     it('CardList clicked on "Generate fetch error" button', () => {
-      render(<CardList {...mock_props} />);
+      render(<CardList {...CARD_LIST_PROPS_MOCK} />);
 
       const generateErrorButton = screen.getByText('Generate fetch error');
       fireEvent.click(generateErrorButton);
 
-      expect(mock_props.updateState_cardList).toHaveBeenCalledWith({
+      expect(CARD_LIST_PROPS_MOCK.updateState_cardList).toHaveBeenCalledWith({
         pokemons: [],
         isFetchNow: false,
         errorFetch: 'Custom test error HTTP 400-500',
@@ -149,12 +143,14 @@ describe('CardList', () => {
     });
 
     it('CardList clicked on "Generate error boundary" button', () => {
-      render(<CardList {...mock_props} />);
+      render(<CardList {...CARD_LIST_PROPS_MOCK} />);
 
       const boundaryButton = screen.getByText('Generate error boundary');
       fireEvent.click(boundaryButton);
 
-      expect(mock_props.updateState_errorBoundary).toHaveBeenCalledWith(
+      expect(
+        CARD_LIST_PROPS_MOCK.updateState_errorBoundary
+      ).toHaveBeenCalledWith(
         'Error: Custom Error Boundary generated for Fallback UI'
       );
     });
@@ -163,9 +159,9 @@ describe('CardList', () => {
   describe('CardList render Pokemon list', () => {
     it('CardList render Pokemon list', () => {
       const pokemonsState = {
-        ...DEFAULT_STATE,
+        ...DEFAULT_STATE_MOCK,
         cardList: {
-          ...DEFAULT_STATE.cardList,
+          ...DEFAULT_STATE_MOCK.cardList,
           pokemons: [
             {
               id: 1,
@@ -188,7 +184,7 @@ describe('CardList', () => {
         },
       };
 
-      render(<CardList {...mock_props} state={pokemonsState} />);
+      render(<CardList {...CARD_LIST_PROPS_MOCK} state={pokemonsState} />);
 
       expect(screen.getByText('Bulbasaur')).toBeInTheDocument();
       expect(screen.getByText('Ivysaur')).toBeInTheDocument();
