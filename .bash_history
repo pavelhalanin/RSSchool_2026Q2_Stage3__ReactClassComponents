@@ -20,3 +20,15 @@ npx prettier --check .
 npx prettier --write .
 
 npm install --save-dev husky
+
+npm install -D @vitest/coverage-v8
+npm run test:coverage
+
+npm install -D @vitest/ui
+npm run test:ui
+
+npm install -D @testing-library/react
+npm install -D jsdom
+npm install -D @testing-library/jest-dom
+npm install -D msw
+npm install -D @testing-library/user-event
