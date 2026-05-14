@@ -4,7 +4,7 @@ import Card from '../../../components/Card/Card';
 import DEFAULT_STATE_MOCK from '../../../test-utils/mock/DEFAULT_STATE_MOCK.mock';
 
 describe('Card fetchPokemons', () => {
-  let wrapper;
+  let wrapper: Card;
 
   beforeEach(() => {
     wrapper = new Card({

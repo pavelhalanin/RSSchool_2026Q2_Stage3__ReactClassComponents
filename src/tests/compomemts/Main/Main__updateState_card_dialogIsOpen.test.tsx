@@ -22,7 +22,7 @@ describe('Main updateState_card_dialogIsOpen', () => {
     const prevState = {
       card: {
         dialogIsOpen: false,
-        pokemonId: null,
+        pokemonId: undefined,
       },
     };
 

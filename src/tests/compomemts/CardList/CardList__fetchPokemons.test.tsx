@@ -1,16 +1,22 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import type { MockInstance } from 'vitest';
 import FETCH_MOCK from '../../../test-utils/mock/FETCH_MOCK.mock';
 import LOCAL_STORAGE_MOCK from '../../../test-utils/mock/LOCAL_STORAGE_MOCK.mock';
 import DEFAULT_STATE_MOCK from '../../../test-utils/mock/DEFAULT_STATE_MOCK.mock';
 import CardList from '../../../components/CardList/CardList';
+import type GlobalState from '../../../components/Main/GlobalState';
 
 describe('Main fetchPokemons', () => {
-  let wrapper;
-  let mockUpdateState_cardList;
-  let mockUpdateState_search;
-  let mockUpdateState_searchPrev;
-  let mockUpdateState_card;
-  let consoleLogSpy;
+  let wrapper: CardList;
+  let mockUpdateState_cardList: (
+    CardList: Partial<GlobalState['cardList']>
+  ) => void;
+  let mockUpdateState_search: (search: Partial<GlobalState['search']>) => void;
+  let mockUpdateState_searchPrev: (
+    search: Partial<GlobalState['searchPrev']>
+  ) => void;
+  let mockUpdateState_card: (card: Partial<GlobalState['card']>) => void;
+  let consoleLogSpy: MockInstance;
 
   beforeEach(() => {
     mockUpdateState_cardList = vi.fn();
