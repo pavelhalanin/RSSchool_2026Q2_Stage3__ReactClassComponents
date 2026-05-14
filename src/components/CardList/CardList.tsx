@@ -3,10 +3,10 @@ import styles from './CardList.module.css';
 import type GlobalState from '../Main/GlobalState';
 import Search from '../Search/Search';
 import Card from '../Card/Card';
+import ErrorButton from '../ErrorButton/ErrorButton';
 
 interface CardListProps {
   state: GlobalState;
-  updateState_errorBoundary: (exception: string) => void;
   updateState_cardList: (CardList: Partial<GlobalState['cardList']>) => void;
   updateState_search: (search: Partial<GlobalState['search']>) => void;
   updateState_card: (card: Partial<GlobalState['card']>) => void;
@@ -33,33 +33,32 @@ class CardList extends Component<CardListProps, GlobalState> {
   }
 
   fetchPokemons = async () => {
-    try {
-      const SEARCH = this.props.state.search.trim();
-      localStorage.setItem('search', SEARCH);
+    const SEARCH = this.props.state.search.trim();
+    localStorage.setItem('search', SEARCH);
 
-      if (
-        SEARCH === this.props.state.searchPrev &&
-        this.props.state.cardList.errorFetch === null &&
-        SEARCH !== null
-      ) {
-        console.log(
-          [
-            `No load Pokemon card list because:`,
-            `- SEARCH "${SEARCH}" === searchPrev "${this.props.state.searchPrev}"`,
-            `- and errorFetch === null`,
-            `- and SEARCH !== null`,
-          ].join('\n')
-        );
-        return;
-      }
+    if (
+      SEARCH === this.props.state.searchPrev &&
+      this.props.state.cardList.errorFetch === null &&
+      SEARCH !== null
+    ) {
+      console.log(
+        [
+          `No load Pokemon card list because:`,
+          `- SEARCH "${SEARCH}" === searchPrev "${this.props.state.searchPrev}"`,
+          `- and errorFetch === null`,
+          `- and SEARCH !== null`,
+        ].join('\n')
+      );
+      return;
+    }
 
-      this.props.updateState_cardList({
-        pokemons: [],
-        isFetchNow: true,
-        errorFetch: null,
-      });
+    this.props.updateState_cardList({
+      pokemons: [],
+      isFetchNow: true,
+      errorFetch: null,
+    });
 
-      const GRAPHQL = `
+    const GRAPHQL = `
         query MyQuery {
           pokemon(where: {name: {_like: "%${SEARCH}%"}}) {
             # base_experience
@@ -87,77 +86,66 @@ class CardList extends Component<CardListProps, GlobalState> {
         }
       `;
 
-      const URL_ = `https://graphql.pokeapi.co/v1beta2`;
-      const RESPONSE = await fetch(URL_, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          query: GRAPHQL,
-        }),
-      });
+    const URL_ = `https://graphql.pokeapi.co/v1beta2`;
+    const RESPONSE = await fetch(URL_, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        query: GRAPHQL,
+      }),
+    });
 
-      const HTTP_STATUS = RESPONSE.status;
+    const HTTP_STATUS = RESPONSE.status;
 
-      if (HTTP_STATUS >= 400 && HTTP_STATUS <= 599) {
-        const TEXT = await RESPONSE.text();
-        const MESSAGE = `HTTP ${HTTP_STATUS}\n${TEXT}`;
-
-        this.props.updateState_cardList({
-          pokemons: [],
-          isFetchNow: false,
-          errorFetch: MESSAGE,
-        });
-
-        return;
-      }
-
-      if (HTTP_STATUS !== 200) {
-        const TEXT = await RESPONSE.text();
-        const MESSAGE = `HTTP ${HTTP_STATUS}\n${TEXT}`;
-
-        this.props.updateState_cardList({
-          pokemons: [],
-          isFetchNow: false,
-          errorFetch: MESSAGE,
-        });
-
-        return;
-      }
-
-      const DATA = await RESPONSE.json();
-
-      const POKEMONS: GlobalState['cardList']['pokemons'] = (
-        DATA.data.pokemon || []
-      )
-        .filter(Boolean)
-        .map((e: GlobalState['cardList']['pokemons'][number]) => {
-          return {
-            ...e,
-            image_src: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${e.id}.png`,
-          };
-        });
+    if (HTTP_STATUS >= 400 && HTTP_STATUS <= 599) {
+      const TEXT = await RESPONSE.text();
+      const MESSAGE = `HTTP ${HTTP_STATUS}\n${TEXT}`;
 
       this.props.updateState_cardList({
-        pokemons: POKEMONS,
+        pokemons: [],
         isFetchNow: false,
-        errorFetch: null,
+        errorFetch: MESSAGE,
       });
-      this.props.updateState_search(SEARCH);
-      this.props.updateState_searchPrev(SEARCH);
-    } catch (exception) {
-      this.props.updateState_errorBoundary(String(exception));
-    }
-  };
 
-  emulateCustomError() {
-    try {
-      throw new Error('Custom Error Boundary generated for Fallback UI');
-    } catch (exception) {
-      this.props.updateState_errorBoundary(String(exception));
+      return;
     }
-  }
+
+    if (HTTP_STATUS !== 200) {
+      const TEXT = await RESPONSE.text();
+      const MESSAGE = `HTTP ${HTTP_STATUS}\n${TEXT}`;
+
+      this.props.updateState_cardList({
+        pokemons: [],
+        isFetchNow: false,
+        errorFetch: MESSAGE,
+      });
+
+      return;
+    }
+
+    const DATA = await RESPONSE.json();
+
+    const POKEMONS: GlobalState['cardList']['pokemons'] = (
+      DATA.data.pokemon || []
+    )
+      .filter(Boolean)
+      .map((e: GlobalState['cardList']['pokemons'][number]) => {
+        return {
+          ...e,
+          image_src: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${e.id}.png`,
+        };
+      });
+
+    this.props.updateState_cardList({
+      pokemons: POKEMONS,
+      isFetchNow: false,
+      errorFetch: null,
+    });
+    this.props.updateState_search(SEARCH);
+    this.props.updateState_searchPrev(SEARCH);
+  };
 
   render() {
     const { pokemons, isFetchNow, errorFetch } = this.props.state.cardList;
@@ -170,7 +158,6 @@ class CardList extends Component<CardListProps, GlobalState> {
       <>
         <Card
           state={this.props.state}
-          updateState_errorBoundary={this.props.updateState_errorBoundary}
           updateState_card={this.props.updateState_card}
           updateState_cardList={this.props.updateState_cardList}
         />
@@ -179,17 +166,11 @@ class CardList extends Component<CardListProps, GlobalState> {
             <Search
               state={this.props.state}
               fetchPokemons={this.fetchPokemons}
-              updateState_errorBoundary={this.props.updateState_errorBoundary}
               updateState_cardList={this.props.updateState_cardList}
               updateState_search={this.props.updateState_search}
             />
             <div className={styles.error_buttons__wrapper}>
-              <button
-                className="btn btn-danger"
-                onClick={() => this.emulateCustomError()}
-              >
-                Generate error boundary
-              </button>
+              <ErrorButton />
               <button
                 className="btn btn-danger"
                 onClick={() => this.generateFetchError()}

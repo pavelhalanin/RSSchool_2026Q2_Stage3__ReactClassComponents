@@ -19,7 +19,6 @@ describe('CardList button "Repeat load fetch"', () => {
         }}
         updateState_card={vi.fn()}
         updateState_cardList={vi.fn()}
-        updateState_errorBoundary={vi.fn()}
         updateState_search={vi.fn()}
         updateState_searchPrev={vi.fn()}
       />

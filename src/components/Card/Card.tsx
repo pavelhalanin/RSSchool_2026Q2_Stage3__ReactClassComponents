@@ -5,7 +5,6 @@ import sleep from '../../utils/sleep';
 
 interface CardProps {
   state: GlobalState;
-  updateState_errorBoundary: (exception: string) => void;
   updateState_card: (card: Partial<GlobalState['card']>) => void;
   updateState_cardList: (CardList: Partial<GlobalState['cardList']>) => void;
 }
@@ -32,15 +31,14 @@ class Card extends Component<CardProps, GlobalState> {
   }
 
   fetchPokemons = async () => {
-    try {
-      this.props.updateState_card({
-        isFetchNow: true,
-        pokemon: null,
-      });
+    this.props.updateState_card({
+      isFetchNow: true,
+      pokemon: null,
+    });
 
-      await sleep(300);
+    await sleep(300);
 
-      const GRAPHQL = `
+    const GRAPHQL = `
           query MyQuery {
             pokemon(where: {name: {}, id: {_eq: ${this.props.state.card.pokemonId}}}) {
               base_experience
@@ -74,56 +72,53 @@ class Card extends Component<CardProps, GlobalState> {
           }
         `;
 
-      const URL_ = `https://graphql.pokeapi.co/v1beta2`;
-      const RESPONSE = await fetch(URL_, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          query: GRAPHQL,
-        }),
-      });
+    const URL_ = `https://graphql.pokeapi.co/v1beta2`;
+    const RESPONSE = await fetch(URL_, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        query: GRAPHQL,
+      }),
+    });
 
-      const HTTP_STATUS = RESPONSE.status;
+    const HTTP_STATUS = RESPONSE.status;
 
-      if (HTTP_STATUS >= 400 && HTTP_STATUS <= 599) {
-        const TEXT = await RESPONSE.text();
-        const MESSAGE = `HTTP ${HTTP_STATUS}\n${TEXT}`;
+    if (HTTP_STATUS >= 400 && HTTP_STATUS <= 599) {
+      const TEXT = await RESPONSE.text();
+      const MESSAGE = `HTTP ${HTTP_STATUS}\n${TEXT}`;
 
-        this.props.updateState_cardList({
-          pokemons: [],
-          isFetchNow: false,
-          errorFetch: MESSAGE,
-        });
-
-        return;
-      }
-
-      if (HTTP_STATUS !== 200) {
-        const TEXT = await RESPONSE.text();
-        const MESSAGE = `HTTP ${HTTP_STATUS}\n${TEXT}`;
-
-        this.props.updateState_cardList({
-          pokemons: [],
-          isFetchNow: false,
-          errorFetch: MESSAGE,
-        });
-
-        return;
-      }
-
-      const DATA = await RESPONSE.json();
-
-      const POKEMON: GlobalState['card']['pokemon'] = DATA.data.pokemon[0];
-
-      this.props.updateState_card({
+      this.props.updateState_cardList({
+        pokemons: [],
         isFetchNow: false,
-        pokemon: POKEMON,
+        errorFetch: MESSAGE,
       });
-    } catch (exception) {
-      this.props.updateState_errorBoundary(String(exception));
+
+      return;
     }
+
+    if (HTTP_STATUS !== 200) {
+      const TEXT = await RESPONSE.text();
+      const MESSAGE = `HTTP ${HTTP_STATUS}\n${TEXT}`;
+
+      this.props.updateState_cardList({
+        pokemons: [],
+        isFetchNow: false,
+        errorFetch: MESSAGE,
+      });
+
+      return;
+    }
+
+    const DATA = await RESPONSE.json();
+
+    const POKEMON: GlobalState['card']['pokemon'] = DATA.data.pokemon[0];
+
+    this.props.updateState_card({
+      isFetchNow: false,
+      pokemon: POKEMON,
+    });
   };
 
   render() {

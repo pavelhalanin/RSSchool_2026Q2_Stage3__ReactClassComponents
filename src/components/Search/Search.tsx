@@ -5,7 +5,6 @@ import type GlobalState from '../Main/GlobalState';
 interface SearchProps {
   state: GlobalState;
   fetchPokemons: () => void;
-  updateState_errorBoundary: (exception: string) => void;
   updateState_cardList: (CardList: Partial<GlobalState['cardList']>) => void;
   updateState_search: (search: Partial<GlobalState['search']>) => void;
 }

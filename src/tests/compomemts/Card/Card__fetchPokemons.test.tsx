@@ -11,7 +11,6 @@ describe('Card fetchPokemons', () => {
       state: DEFAULT_STATE_MOCK,
       updateState_card: vi.fn(),
       updateState_cardList: vi.fn(),
-      updateState_errorBoundary: vi.fn(),
     });
 
     FETCH_MOCK.mockClear();
@@ -75,27 +74,5 @@ describe('Card fetchPokemons', () => {
 
     await wrapper.fetchPokemons();
     expect(FETCH_MOCK).toHaveBeenCalledTimes(1);
-  });
-
-  it('Card fetchPokemons catch', async () => {
-    const mockUpdateState_errorBoundary = vi.fn();
-
-    const CARD = new Card({
-      state: DEFAULT_STATE_MOCK,
-      updateState_card: vi.fn(),
-      updateState_cardList: vi.fn(),
-      updateState_errorBoundary: mockUpdateState_errorBoundary,
-    });
-
-    FETCH_MOCK.mockResolvedValue({
-      status: 200,
-      json: async () => {
-        throw new Error('Invalid JSON');
-      },
-    });
-
-    await CARD.fetchPokemons();
-
-    expect(mockUpdateState_errorBoundary).toHaveBeenCalledTimes(1);
   });
 });

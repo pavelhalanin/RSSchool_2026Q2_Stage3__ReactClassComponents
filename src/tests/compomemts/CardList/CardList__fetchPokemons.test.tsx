@@ -9,7 +9,6 @@ describe('Main fetchPokemons', () => {
   let mockUpdateState_cardList;
   let mockUpdateState_search;
   let mockUpdateState_searchPrev;
-  let mockUpdateState_errorBoundary;
   let mockUpdateState_card;
   let consoleLogSpy;
 
@@ -17,7 +16,6 @@ describe('Main fetchPokemons', () => {
     mockUpdateState_cardList = vi.fn();
     mockUpdateState_search = vi.fn();
     mockUpdateState_searchPrev = vi.fn();
-    mockUpdateState_errorBoundary = vi.fn();
     mockUpdateState_card = vi.fn();
 
     wrapper = new CardList({
@@ -25,7 +23,6 @@ describe('Main fetchPokemons', () => {
       updateState_cardList: mockUpdateState_cardList,
       updateState_search: mockUpdateState_search,
       updateState_searchPrev: mockUpdateState_searchPrev,
-      updateState_errorBoundary: mockUpdateState_errorBoundary,
       updateState_card: mockUpdateState_card,
     });
 
@@ -50,7 +47,6 @@ describe('Main fetchPokemons', () => {
       updateState_cardList: mockUpdateState_cardList,
       updateState_search: mockUpdateState_search,
       updateState_searchPrev: mockUpdateState_searchPrev,
-      updateState_errorBoundary: mockUpdateState_errorBoundary,
       updateState_card: mockUpdateState_card,
     });
 
@@ -86,7 +82,6 @@ describe('Main fetchPokemons', () => {
       updateState_cardList: mockUpdateState_cardList,
       updateState_search: mockUpdateState_search,
       updateState_searchPrev: mockUpdateState_searchPrev,
-      updateState_errorBoundary: mockUpdateState_errorBoundary,
       updateState_card: mockUpdateState_card,
     });
 
@@ -120,7 +115,6 @@ describe('Main fetchPokemons', () => {
       updateState_cardList: mockUpdateState_cardList,
       updateState_search: mockUpdateState_search,
       updateState_searchPrev: mockUpdateState_searchPrev,
-      updateState_errorBoundary: mockUpdateState_errorBoundary,
       updateState_card: mockUpdateState_card,
     });
 
@@ -137,33 +131,5 @@ describe('Main fetchPokemons', () => {
       isFetchNow: false,
       errorFetch: 'HTTP 300\nerr',
     });
-  });
-
-  it('CardList fetchPokemons catch', async () => {
-    const stateWithSearch = {
-      ...DEFAULT_STATE_MOCK,
-      search: 'pikachu',
-      cardList: {
-        ...DEFAULT_STATE_MOCK.cardList,
-        errorFetch: null,
-      },
-    };
-
-    wrapper = new CardList({
-      state: stateWithSearch,
-      updateState_cardList: mockUpdateState_cardList,
-      updateState_search: mockUpdateState_search,
-      updateState_searchPrev: mockUpdateState_searchPrev,
-      updateState_errorBoundary: mockUpdateState_errorBoundary,
-      updateState_card: mockUpdateState_card,
-    });
-
-    FETCH_MOCK.mockRejectedValue(new Error('Network failure'));
-
-    await wrapper.fetchPokemons();
-
-    expect(mockUpdateState_errorBoundary).toHaveBeenCalledWith(
-      'Error: Network failure'
-    );
   });
 });

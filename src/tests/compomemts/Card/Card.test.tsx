@@ -21,7 +21,6 @@ describe('Card', () => {
     },
   };
 
-  const mock_updateState_errorBoundary = vi.fn();
   const mock_updateState_card = vi.fn();
   const mock_updateState_cardList = vi.fn();
 
@@ -38,7 +37,6 @@ describe('Card', () => {
       render(
         <Card
           state={DEFAULT_STATE}
-          updateState_errorBoundary={mock_updateState_errorBoundary}
           updateState_card={mock_updateState_card}
           updateState_cardList={mock_updateState_cardList}
         />
@@ -61,7 +59,6 @@ describe('Card', () => {
       render(
         <Card
           state={loadingState}
-          updateState_errorBoundary={mock_updateState_errorBoundary}
           updateState_card={mock_updateState_card}
           updateState_cardList={mock_updateState_cardList}
         />
@@ -96,7 +93,6 @@ describe('Card', () => {
       render(
         <Card
           state={pokemonData}
-          updateState_errorBoundary={mock_updateState_errorBoundary}
           updateState_card={mock_updateState_card}
           updateState_cardList={mock_updateState_cardList}
         />
@@ -111,7 +107,6 @@ describe('Card', () => {
       const { rerender } = render(
         <Card
           state={DEFAULT_STATE}
-          updateState_errorBoundary={mock_updateState_errorBoundary}
           updateState_card={mock_updateState_card}
           updateState_cardList={mock_updateState_cardList}
         />
@@ -131,7 +126,6 @@ describe('Card', () => {
       rerender(
         <Card
           state={NEW_STATE}
-          updateState_errorBoundary={mock_updateState_errorBoundary}
           updateState_card={mock_updateState_card}
           updateState_cardList={mock_updateState_cardList}
         />
@@ -152,7 +146,6 @@ describe('Card', () => {
       const { rerender } = render(
         <Card
           state={OPEN_STATE}
-          updateState_errorBoundary={mock_updateState_errorBoundary}
           updateState_card={mock_updateState_card}
           updateState_cardList={mock_updateState_cardList}
         />
@@ -164,7 +157,6 @@ describe('Card', () => {
       rerender(
         <Card
           state={DEFAULT_STATE}
-          updateState_errorBoundary={mock_updateState_errorBoundary}
           updateState_card={mock_updateState_card}
           updateState_cardList={mock_updateState_cardList}
         />
@@ -188,7 +180,6 @@ describe('Card', () => {
       render(
         <Card
           state={openState}
-          updateState_errorBoundary={mock_updateState_errorBoundary}
           updateState_card={mock_updateState_card}
           updateState_cardList={mock_updateState_cardList}
         />
@@ -218,7 +209,6 @@ describe('Card', () => {
       render(
         <Card
           state={openState}
-          updateState_errorBoundary={mock_updateState_errorBoundary}
           updateState_card={mock_updateState_card}
           updateState_cardList={mock_updateState_cardList}
         />

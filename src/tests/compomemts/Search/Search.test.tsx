@@ -39,7 +39,6 @@ describe('Search Component Tests', () => {
   it('Search Component Tests. Rendering Tests. Renders search input', () => {
     const mock_fetchPokemons = vi.fn();
     const mock_updateState_cardList = vi.fn();
-    const mock_updateState_errorBoundary = vi.fn();
     const mock_updateState_search = vi.fn();
 
     render(
@@ -47,7 +46,6 @@ describe('Search Component Tests', () => {
         state={DEFAULT_STATE}
         fetchPokemons={mock_fetchPokemons}
         updateState_cardList={mock_updateState_cardList}
-        updateState_errorBoundary={mock_updateState_errorBoundary}
         updateState_search={mock_updateState_search}
       />
     );
@@ -64,7 +62,6 @@ describe('Search Component Tests', () => {
   it('Search Component Tests. Rendering Tests. Renders search button', () => {
     const mock_fetchPokemons = vi.fn();
     const mock_updateState_cardList = vi.fn();
-    const mock_updateState_errorBoundary = vi.fn();
     const mock_updateState_search = vi.fn();
 
     render(
@@ -72,7 +69,6 @@ describe('Search Component Tests', () => {
         state={DEFAULT_STATE}
         fetchPokemons={mock_fetchPokemons}
         updateState_cardList={mock_updateState_cardList}
-        updateState_errorBoundary={mock_updateState_errorBoundary}
         updateState_search={mock_updateState_search}
       />
     );
@@ -89,7 +85,6 @@ describe('Search Component Tests', () => {
 
     const mock_fetchPokemons = vi.fn();
     const mock_updateState_cardList = vi.fn();
-    const mock_updateState_errorBoundary = vi.fn();
     const mock_updateState_search = vi.fn();
 
     render(
@@ -97,7 +92,6 @@ describe('Search Component Tests', () => {
         state={DEFAULT_STATE}
         fetchPokemons={mock_fetchPokemons}
         updateState_cardList={mock_updateState_cardList}
-        updateState_errorBoundary={mock_updateState_errorBoundary}
         updateState_search={mock_updateState_search}
       />
     );

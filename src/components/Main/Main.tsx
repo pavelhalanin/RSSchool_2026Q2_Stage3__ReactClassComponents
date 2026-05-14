@@ -10,7 +10,6 @@ class Main extends Component<Record<string, never>, GlobalState> {
     localStorage.setItem('search', SEARCH);
 
     this.state = {
-      errorBoundary: null,
       search: SEARCH,
       searchPrev: null,
       cardList: {
@@ -26,14 +25,6 @@ class Main extends Component<Record<string, never>, GlobalState> {
       },
     };
   }
-
-  updateState_errorBoundary = (exception: string) => {
-    console.log(exception);
-
-    this.setState(() => ({
-      errorBoundary: `${exception}`,
-    }));
-  };
 
   updateState_cardList = (newCardList: Partial<GlobalState['cardList']>) => {
     this.setState((prevState) => ({
@@ -87,39 +78,15 @@ class Main extends Component<Record<string, never>, GlobalState> {
     }));
   };
 
-  emulateCustomError() {
-    try {
-      throw new Error('Custom Error Boundary generated for Fallback UI');
-    } catch (exception) {
-      this.updateState_errorBoundary(String(exception));
-    }
-  }
-
   render() {
-    if (this.state.errorBoundary) {
-      return (
-        <div className="container">
-          <section className="section">
-            <div className="alert alert-danger">
-              <h2>Fallback UI</h2>
-              {this.state.errorBoundary}
-            </div>
-          </section>
-        </div>
-      );
-    }
-
     return (
-      <>
-        <CardList
-          state={this.state}
-          updateState_errorBoundary={this.updateState_errorBoundary}
-          updateState_cardList={this.updateState_cardList}
-          updateState_search={this.updateState_search}
-          updateState_card={this.updateState_card}
-          updateState_searchPrev={this.updateState_searchPrev}
-        />
-      </>
+      <CardList
+        state={this.state}
+        updateState_cardList={this.updateState_cardList}
+        updateState_search={this.updateState_search}
+        updateState_card={this.updateState_card}
+        updateState_searchPrev={this.updateState_searchPrev}
+      />
     );
   }
 }

@@ -141,19 +141,6 @@ describe('CardList', () => {
         errorFetch: 'Custom test error HTTP 400-500',
       });
     });
-
-    it('CardList clicked on "Generate error boundary" button', () => {
-      render(<CardList {...CARD_LIST_PROPS_MOCK} />);
-
-      const boundaryButton = screen.getByText('Generate error boundary');
-      fireEvent.click(boundaryButton);
-
-      expect(
-        CARD_LIST_PROPS_MOCK.updateState_errorBoundary
-      ).toHaveBeenCalledWith(
-        'Error: Custom Error Boundary generated for Fallback UI'
-      );
-    });
   });
 
   describe('CardList render Pokemon list', () => {
