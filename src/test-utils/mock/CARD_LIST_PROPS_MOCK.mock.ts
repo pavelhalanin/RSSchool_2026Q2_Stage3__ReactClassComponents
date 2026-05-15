@@ -7,6 +7,7 @@ const CARD_LIST_PROPS_MOCK = {
   updateState_search: vi.fn(),
   updateState_card: vi.fn(),
   updateState_searchPrev: vi.fn(),
+  updateState_card_isDialogOpen: vi.fn(),
 };
 
 export default CARD_LIST_PROPS_MOCK;

@@ -78,6 +78,17 @@ class Main extends Component<Record<string, never>, GlobalState> {
     }));
   };
 
+  updateState_card_isDialogOpen = (
+    flag: Partial<GlobalState['card']['dialogIsOpen']>
+  ) => {
+    this.setState((prev) => ({
+      card: {
+        ...prev.card,
+        dialogIsOpen: flag,
+      },
+    }));
+  };
+
   render() {
     return (
       <CardList
@@ -86,6 +97,7 @@ class Main extends Component<Record<string, never>, GlobalState> {
         updateState_search={this.updateState_search}
         updateState_card={this.updateState_card}
         updateState_searchPrev={this.updateState_searchPrev}
+        updateState_card_isDialogOpen={this.updateState_card_isDialogOpen}
       />
     );
   }

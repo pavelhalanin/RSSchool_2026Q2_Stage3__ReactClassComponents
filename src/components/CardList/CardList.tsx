@@ -11,6 +11,9 @@ interface CardListProps {
   updateState_search: (search: Partial<GlobalState['search']>) => void;
   updateState_card: (card: Partial<GlobalState['card']>) => void;
   updateState_searchPrev: (search: Partial<GlobalState['searchPrev']>) => void;
+  updateState_card_isDialogOpen: (
+    flag: Partial<GlobalState['card']['dialogIsOpen']>
+  ) => void;
 }
 
 class CardList extends Component<CardListProps, GlobalState> {
@@ -157,9 +160,11 @@ class CardList extends Component<CardListProps, GlobalState> {
     return (
       <>
         <Card
-          state={this.props.state}
-          updateState_card={this.props.updateState_card}
-          updateState_cardList={this.props.updateState_cardList}
+          pokemonId={this.props.state.card.pokemonId}
+          isDialogOpen={this.props.state.card.dialogIsOpen}
+          updateState_card_isDialogOpen={
+            this.props.updateState_card_isDialogOpen
+          }
         />
         <div className="container">
           <section className="section">

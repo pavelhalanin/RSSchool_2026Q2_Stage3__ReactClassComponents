@@ -21,6 +21,7 @@ describe('CardList button "Repeat load fetch"', () => {
         updateState_cardList={vi.fn()}
         updateState_search={vi.fn()}
         updateState_searchPrev={vi.fn()}
+        updateState_card_isDialogOpen={vi.fn()}
       />
     );
 

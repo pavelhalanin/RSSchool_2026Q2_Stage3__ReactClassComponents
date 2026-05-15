@@ -16,6 +16,9 @@ describe('Main fetchPokemons', () => {
     search: Partial<GlobalState['searchPrev']>
   ) => void;
   let mockUpdateState_card: (card: Partial<GlobalState['card']>) => void;
+  let mockUpdateState_card_isDialogOpen: (
+    card: Partial<GlobalState['card']['dialogIsOpen']>
+  ) => void;
   let consoleLogSpy: MockInstance;
 
   beforeEach(() => {
@@ -23,6 +26,7 @@ describe('Main fetchPokemons', () => {
     mockUpdateState_search = vi.fn();
     mockUpdateState_searchPrev = vi.fn();
     mockUpdateState_card = vi.fn();
+    mockUpdateState_card_isDialogOpen = vi.fn();
 
     wrapper = new CardList({
       state: DEFAULT_STATE_MOCK,
@@ -30,6 +34,7 @@ describe('Main fetchPokemons', () => {
       updateState_search: mockUpdateState_search,
       updateState_searchPrev: mockUpdateState_searchPrev,
       updateState_card: mockUpdateState_card,
+      updateState_card_isDialogOpen: mockUpdateState_card_isDialogOpen,
     });
 
     FETCH_MOCK.mockClear();
@@ -54,6 +59,7 @@ describe('Main fetchPokemons', () => {
       updateState_search: mockUpdateState_search,
       updateState_searchPrev: mockUpdateState_searchPrev,
       updateState_card: mockUpdateState_card,
+      updateState_card_isDialogOpen: mockUpdateState_card_isDialogOpen,
     });
 
     FETCH_MOCK.mockResolvedValue({
@@ -89,6 +95,7 @@ describe('Main fetchPokemons', () => {
       updateState_search: mockUpdateState_search,
       updateState_searchPrev: mockUpdateState_searchPrev,
       updateState_card: mockUpdateState_card,
+      updateState_card_isDialogOpen: mockUpdateState_card_isDialogOpen,
     });
 
     FETCH_MOCK.mockResolvedValue({
@@ -122,6 +129,7 @@ describe('Main fetchPokemons', () => {
       updateState_search: mockUpdateState_search,
       updateState_searchPrev: mockUpdateState_searchPrev,
       updateState_card: mockUpdateState_card,
+      updateState_card_isDialogOpen: mockUpdateState_card_isDialogOpen,
     });
 
     FETCH_MOCK.mockResolvedValue({
