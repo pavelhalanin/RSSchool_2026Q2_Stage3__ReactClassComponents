@@ -1,14 +1,9 @@
 .image {
   border-radius: 8px;
   max-width: 100%;
-  max-height: calc(100vh - 250px);
+  max-height: max(200px, calc(100vh - 250px));
 }
 
 .image_block {
   text-align: center;
-}
-
-.image_block h1 {
-  margin: 0;
-  padding-bottom: 8px;
 }
