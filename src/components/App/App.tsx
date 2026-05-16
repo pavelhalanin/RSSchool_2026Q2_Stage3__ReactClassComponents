@@ -4,7 +4,6 @@ import {
   Route,
   RouterProvider,
 } from 'react-router-dom';
-import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import Main from '../Main/Main';
 import About from '../About/About';
 import Error404 from '../Error404/Error404';
@@ -22,9 +21,5 @@ const router = createBrowserRouter(
 );
 
 export default function App(): JSX.Element {
-  return (
-    <ErrorBoundary>
-      <RouterProvider router={router} />;
-    </ErrorBoundary>
-  );
+  return <RouterProvider router={router} />;
 }
