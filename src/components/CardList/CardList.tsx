@@ -1,93 +1,73 @@
-import { Component } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import styles from './CardList.module.css';
 import type GlobalState from '../Main/GlobalState';
 import Search from '../Search/Search';
 import Card from '../Card/Card';
 import ErrorButton from '../ErrorButton/ErrorButton';
 
-interface CardListProps {
-  state: GlobalState;
-  updateState_cardList: (CardList: Partial<GlobalState['cardList']>) => void;
-  updateState_search: (search: Partial<GlobalState['search']>) => void;
-  updateState_card: (card: Partial<GlobalState['card']>) => void;
-  updateState_searchPrev: (search: Partial<GlobalState['searchPrev']>) => void;
-  updateState_card_isDialogOpen: (
-    flag: Partial<GlobalState['card']['dialogIsOpen']>
-  ) => void;
-}
+export default function CardList() {
+  const [search, setSearch] = useState<string>(
+    localStorage.getItem('search') || ''
+  );
+  const [searchPrev, setSearchPrev] = useState<string | null>(null);
 
-class CardList extends Component<CardListProps, GlobalState> {
-  constructor(props: CardListProps) {
-    super(props);
-  }
+  const [pokemons, setPokomons] = useState([]);
+  const [isFetch, setIsFetch] = useState<boolean>(false);
+  const [errorFetch, setErrorFetch] = useState<string | null>(null);
 
-  componentDidMount() {
-    this.fetchPokemons();
-  }
+  const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
+  const [dialogPokemonId, setDialogPokemonId] = useState<number>(0);
 
-  componentWillUnmount() {}
+  const searchRef = useRef(search);
+  const searchPrevRef = useRef(searchPrev);
+  const errorFetchRef = useRef(errorFetch);
 
-  generateFetchError() {
-    this.props.updateState_cardList({
-      pokemons: [],
-      isFetchNow: false,
-      errorFetch: 'Custom test error HTTP 400-500',
-    });
-  }
+  useEffect(() => {
+    searchRef.current = search;
+    searchPrevRef.current = searchPrev;
+    errorFetchRef.current = errorFetch;
+  });
 
-  fetchPokemons = async () => {
-    const SEARCH = this.props.state.search.trim();
+  const fetchPokemons = useCallback(async () => {
+    const SEARCH = searchRef.current.trim();
     localStorage.setItem('search', SEARCH);
 
     if (
-      SEARCH === this.props.state.searchPrev &&
-      this.props.state.cardList.errorFetch === null &&
-      SEARCH !== null
+      SEARCH === searchPrevRef.current &&
+      errorFetchRef.current === null &&
+      searchPrevRef.current !== null
     ) {
       console.log(
         [
           `No load Pokemon card list because:`,
-          `- SEARCH "${SEARCH}" === searchPrev "${this.props.state.searchPrev}"`,
+          `- SEARCH "${SEARCH}" === searchPrev "${searchPrevRef.current}"`,
           `- and errorFetch === null`,
-          `- and SEARCH !== null`,
+          `- and searchPrev !== null`,
         ].join('\n')
       );
       return;
     }
 
-    this.props.updateState_cardList({
-      pokemons: [],
-      isFetchNow: true,
-      errorFetch: null,
-    });
+    setPokomons([]);
+    setIsFetch(true);
+    setErrorFetch(null);
 
     const GRAPHQL = `
-        query MyQuery {
-          pokemon(where: {name: {_like: "%${SEARCH}%"}}) {
-            # base_experience
-            height
-            id
-            # is_default
+    query MyQuery {
+      pokemon(where: {name: {_like: "%${SEARCH}%"}}) {
+        height
+        id
+        name
+        weight
+        pokemontypes {
+          slot
+          type {
             name
-            # pokemon_species_id
-            weight
-            # pokemonabilities {
-            #   ability {
-            #     abilitynames(where: {language: {id: {_eq: 9}}}) {
-            #       id
-            #       name
-            #     }
-            #   }
-            # }
-            pokemontypes {
-              slot
-              type {
-                name
-              }
-            }
           }
         }
-      `;
+      }
+    }
+  `;
 
     const URL_ = `https://graphql.pokeapi.co/v1beta2`;
     const RESPONSE = await fetch(URL_, {
@@ -106,12 +86,9 @@ class CardList extends Component<CardListProps, GlobalState> {
       const TEXT = await RESPONSE.text();
       const MESSAGE = `HTTP ${HTTP_STATUS}\n${TEXT}`;
 
-      this.props.updateState_cardList({
-        pokemons: [],
-        isFetchNow: false,
-        errorFetch: MESSAGE,
-      });
-
+      setPokomons([]);
+      setIsFetch(false);
+      setErrorFetch(MESSAGE);
       return;
     }
 
@@ -119,12 +96,9 @@ class CardList extends Component<CardListProps, GlobalState> {
       const TEXT = await RESPONSE.text();
       const MESSAGE = `HTTP ${HTTP_STATUS}\n${TEXT}`;
 
-      this.props.updateState_cardList({
-        pokemons: [],
-        isFetchNow: false,
-        errorFetch: MESSAGE,
-      });
-
+      setPokomons([]);
+      setIsFetch(false);
+      setErrorFetch(MESSAGE);
       return;
     }
 
@@ -141,124 +115,119 @@ class CardList extends Component<CardListProps, GlobalState> {
         };
       });
 
-    this.props.updateState_cardList({
-      pokemons: POKEMONS,
-      isFetchNow: false,
-      errorFetch: null,
-    });
-    this.props.updateState_search(SEARCH);
-    this.props.updateState_searchPrev(SEARCH);
+    setPokomons(POKEMONS);
+    setIsFetch(false);
+    setErrorFetch(null);
+    setSearch(SEARCH);
+    setSearchPrev(SEARCH);
+  }, []);
+
+  useEffect(() => {
+    fetchPokemons();
+  }, [fetchPokemons]);
+
+  const generateFetchError = () => {
+    setPokomons([]);
+    setIsFetch(false);
+    setErrorFetch('Custom test error HTTP 400-500');
   };
 
-  render() {
-    const { pokemons, isFetchNow, errorFetch } = this.props.state.cardList;
+  if (isFetch) {
+    return <div className={styles.spinner__wrapper}>Pokémon Collection</div>;
+  }
 
-    if (isFetchNow) {
-      return <div className={styles.spinner__wrapper}>Pokémon Collection</div>;
-    }
-
-    return (
-      <>
-        <Card
-          pokemonId={this.props.state.card.pokemonId}
-          isDialogOpen={this.props.state.card.dialogIsOpen}
-          updateState_card_isDialogOpen={
-            this.props.updateState_card_isDialogOpen
-          }
-        />
-        <div className="container">
-          <section className="section">
-            <Search
-              state={this.props.state}
-              fetchPokemons={this.fetchPokemons}
-              updateState_cardList={this.props.updateState_cardList}
-              updateState_search={this.props.updateState_search}
-            />
-            <div className={styles.error_buttons__wrapper}>
-              <ErrorButton />
+  return (
+    <>
+      <Card
+        pokemonId={dialogPokemonId}
+        isDialogOpen={isDialogOpen}
+        updateState_card_isDialogOpen={setIsDialogOpen}
+      />
+      <div className="container">
+        <section className="section">
+          <Search
+            search={search}
+            fetchPokemons={fetchPokemons}
+            updateState_search={setSearch}
+          />
+          <div className={styles.error_buttons__wrapper}>
+            <ErrorButton />
+            <button
+              className="btn btn-danger"
+              onClick={() => generateFetchError()}
+            >
+              Generate fetch error
+            </button>
+          </div>
+        </section>
+      </div>
+      <div className="container">
+        <section className="section">
+          <h1 className={styles.h1}>Pokémon Collection</h1>
+          {errorFetch ? (
+            <div className="alert alert-danger">
+              <div>{errorFetch}</div>
               <button
-                className="btn btn-danger"
-                onClick={() => this.generateFetchError()}
+                className="btn btn-success"
+                onClick={() => fetchPokemons()}
               >
-                Generate fetch error
+                Repeat load fetch
               </button>
             </div>
-          </section>
-        </div>
-        <div className="container">
-          <section className="section">
-            <h1 className={styles.h1}>Pokémon Collection</h1>
-            {errorFetch ? (
-              <div className="alert alert-danger">
-                <div>{errorFetch}</div>
-                <button
-                  className="btn btn-success"
-                  onClick={() => this.fetchPokemons()}
-                >
-                  Repeat load fetch
-                </button>
-              </div>
-            ) : (
-              <>
-                {pokemons.length != 0 ? (
-                  ''
-                ) : (
-                  <div className="container">
-                    <div className="alert alert-danger">
-                      No Pokémon found by search. Please enter a different
-                      search term and click the search button.
-                    </div>
+          ) : (
+            <>
+              {pokemons.length != 0 ? (
+                ''
+              ) : (
+                <div className="container">
+                  <div className="alert alert-danger">
+                    No Pokémon found by search. Please enter a different search
+                    term and click the search button.
                   </div>
-                )}
+                </div>
+              )}
 
-                <ul className={styles.card_list}>
-                  {pokemons?.map((pokemon) => {
-                    return (
-                      <li key={pokemon.id} className="pokemon-card">
-                        <button
-                          onClick={() => {
-                            this.props.updateState_card({
-                              dialogIsOpen: true,
-                              pokemonId: pokemon.id,
-                              isFetchNow: false,
-                              pokemon: null,
-                            });
-                          }}
-                        >
-                          <div className={styles.card_list__image_block}>
-                            <img
-                              src={pokemon.image_src}
-                              alt={pokemon.name}
-                              onError={(e) => {
-                                (e.target as HTMLImageElement).title =
-                                  `Не удалось загрузить фото\n${pokemon.image_src}`;
-                              }}
-                            />
-                          </div>
-                          <h2 className={styles.card_list__pokemon_id}>
-                            #{pokemon.id}
-                          </h2>
-                          <h3>{pokemon.name}</h3>
-                          <div>
-                            {pokemon.weight} x {pokemon.height}
-                          </div>
-                          <ul className={styles.pokemon__types}>
-                            {pokemon.pokemontypes.map((e) => {
-                              return <li key={e.type.name}>{e.type.name}</li>;
-                            })}
-                          </ul>
-                        </button>
-                      </li>
-                    );
-                  })}
-                </ul>
-              </>
-            )}
-          </section>
-        </div>
-      </>
-    );
-  }
+              <ul className={styles.card_list}>
+                {pokemons?.map((pokemon) => {
+                  return (
+                    <li key={pokemon.id} className="pokemon-card">
+                      <button
+                        onClick={() => {
+                          setIsDialogOpen(true);
+                          setDialogPokemonId(pokemon.id);
+                        }}
+                      >
+                        <div className={styles.card_list__image_block}>
+                          <img
+                            src={pokemon.image_src}
+                            alt={pokemon.name}
+                            onError={(e) => {
+                              (e.target as HTMLImageElement).title =
+                                `Не удалось загрузить фото\n${pokemon.image_src}`;
+                            }}
+                          />
+                        </div>
+                        <h2 className={styles.card_list__pokemon_id}>
+                          #{pokemon.id}
+                        </h2>
+                        <h3>{pokemon.name}</h3>
+                        <div>
+                          {pokemon.weight} x {pokemon.height}
+                        </div>
+                        <ul className={styles.pokemon__types}>
+                          {pokemon.pokemontypes.map((e) => {
+                            return <li key={e.type.name}>{e.type.name}</li>;
+                          })}
+                        </ul>
+                      </button>
+                    </li>
+                  );
+                })}
+              </ul>
+            </>
+          )}
+        </section>
+      </div>
+    </>
+  );
 }
-
-export default CardList;

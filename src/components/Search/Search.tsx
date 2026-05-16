@@ -3,9 +3,8 @@ import styles from './Search.module.css';
 import type GlobalState from '../Main/GlobalState';
 
 interface SearchProps {
-  state: GlobalState;
+  search: string;
   fetchPokemons: () => void;
-  updateState_cardList: (CardList: Partial<GlobalState['cardList']>) => void;
   updateState_search: (search: Partial<GlobalState['search']>) => void;
 }
 
@@ -15,7 +14,7 @@ class Search extends Component<SearchProps, GlobalState> {
       <div className={styles.search__wrapper}>
         <input
           type="search"
-          value={this.props.state.search}
+          value={this.props.search}
           onChange={(e) => {
             this.props.updateState_search(e.target.value);
           }}

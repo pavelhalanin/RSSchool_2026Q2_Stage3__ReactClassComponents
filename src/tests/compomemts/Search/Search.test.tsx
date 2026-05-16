@@ -4,23 +4,6 @@ import Search from '../../../components/Search/Search';
 import '@testing-library/jest-dom/vitest';
 
 describe('Search Component Tests', () => {
-  const DEFAULT_STATE = {
-    errorBoundary: null,
-    search: '',
-    searchPrev: null,
-    cardList: {
-      pokemons: [],
-      isFetchNow: false,
-      errorFetch: null,
-    },
-    card: {
-      dialogIsOpen: false,
-      pokemonId: 0,
-      isFetchNow: false,
-      pokemon: null,
-    },
-  };
-
   const localStorageMock = (() => {
     const STORE: Record<string, string> = {};
     return {
@@ -31,21 +14,19 @@ describe('Search Component Tests', () => {
     };
   })();
 
+  const mock_fetchPokemons = vi.fn();
+  const mock_updateState_search = vi.fn();
+
   afterEach(() => {
     cleanup(); // Очищает DOM
     vi.clearAllMocks(); // Очищает моки
   });
 
   it('Search Component Tests. Rendering Tests. Renders search input', () => {
-    const mock_fetchPokemons = vi.fn();
-    const mock_updateState_cardList = vi.fn();
-    const mock_updateState_search = vi.fn();
-
     render(
       <Search
-        state={DEFAULT_STATE}
+        search=""
         fetchPokemons={mock_fetchPokemons}
-        updateState_cardList={mock_updateState_cardList}
         updateState_search={mock_updateState_search}
       />
     );
@@ -60,15 +41,10 @@ describe('Search Component Tests', () => {
   });
 
   it('Search Component Tests. Rendering Tests. Renders search button', () => {
-    const mock_fetchPokemons = vi.fn();
-    const mock_updateState_cardList = vi.fn();
-    const mock_updateState_search = vi.fn();
-
     render(
       <Search
-        state={DEFAULT_STATE}
+        search=""
         fetchPokemons={mock_fetchPokemons}
-        updateState_cardList={mock_updateState_cardList}
         updateState_search={mock_updateState_search}
       />
     );
@@ -83,15 +59,10 @@ describe('Search Component Tests', () => {
   it('Search Component Tests. Rendering Tests. Shows empty input when no saved term exists', () => {
     localStorageMock.getItem.mockReturnValueOnce(null);
 
-    const mock_fetchPokemons = vi.fn();
-    const mock_updateState_cardList = vi.fn();
-    const mock_updateState_search = vi.fn();
-
     render(
       <Search
-        state={DEFAULT_STATE}
+        search=""
         fetchPokemons={mock_fetchPokemons}
-        updateState_cardList={mock_updateState_cardList}
         updateState_search={mock_updateState_search}
       />
     );
