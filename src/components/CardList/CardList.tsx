@@ -4,6 +4,7 @@ import type GlobalState from '../Main/GlobalState';
 import Search from '../Search/Search';
 import Card from '../Card/Card';
 import ErrorButton from '../ErrorButton/ErrorButton';
+import type { ICardListPokemon } from './ICardListPokemon';
 
 export default function CardList() {
   const [search, setSearch] = useState<string>(
@@ -11,7 +12,7 @@ export default function CardList() {
   );
   const [searchPrev, setSearchPrev] = useState<string | null>(null);
 
-  const [pokemons, setPokomons] = useState([]);
+  const [pokemons, setPokomons] = useState<Array<ICardListPokemon>>([]);
   const [isFetch, setIsFetch] = useState<boolean>(false);
   const [errorFetch, setErrorFetch] = useState<string | null>(null);
 
