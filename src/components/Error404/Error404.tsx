@@ -1,11 +1,13 @@
+import image404 from './404.jpg';
+import styles from './Error404.module.css';
+
 export default function Error404() {
   return (
-    <>
-      <div className="container">
-        <section className="section">
-          <h1 className="h1">Error 404</h1>
-        </section>
-      </div>
-    </>
+    <div className="container">
+      <section className="section">
+        <h1 className="h1">Error 404</h1>
+        <img className={styles.image} src={image404} alt="" />
+      </section>
+    </div>
   );
 }

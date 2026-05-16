@@ -1,0 +1,5 @@
+.image {
+  border-radius: 8px;
+  max-width: 100%;
+  max-height: calc(100vh - 250px);
+}
