@@ -1,7 +1,8 @@
 import { Link } from 'react-router-dom';
 import styles from './Header.module.css';
+import type { JSX } from 'react';
 
-export default function Header() {
+export default function Header(): JSX.Element {
   return (
     <div className="container">
       <section className="section">

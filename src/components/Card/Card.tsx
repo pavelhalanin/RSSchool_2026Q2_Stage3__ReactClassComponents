@@ -1,10 +1,10 @@
-import { useEffect, useRef, useState, useCallback } from 'react';
+import { useEffect, useRef, useState, useCallback, type JSX } from 'react';
 import styles from './Card.module.css';
 import sleep from '../../utils/sleep';
 import type { ICardProps } from './ICardProps';
 import type { IPokemon } from './IPokemon';
 
-export function Card(props: ICardProps) {
+export function Card(props: ICardProps): JSX.Element {
   const dialogRef = useRef<HTMLDialogElement>(null);
 
   const [isFetch, setIsFetch] = useState<boolean>(false);

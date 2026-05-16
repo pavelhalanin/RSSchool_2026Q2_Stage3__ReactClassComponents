@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState, type JSX } from 'react';
 import styles from './CardList.module.css';
 import Search from '../Search/Search';
 import Card from '../Card/Card';
@@ -6,7 +6,7 @@ import ErrorButton from '../ErrorButton/ErrorButton';
 import type { ICardListPokemon } from './ICardListPokemon';
 import { useSearchParams } from 'react-router-dom';
 
-export default function CardList() {
+export default function CardList(): JSX.Element {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const page = searchParams.get('page') || '1';

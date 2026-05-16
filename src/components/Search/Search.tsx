@@ -1,7 +1,8 @@
+import type { JSX } from 'react';
 import type { ISearchProps } from './ISearchProps';
 import styles from './Search.module.css';
 
-export default function Search(props: ISearchProps) {
+export default function Search(props: ISearchProps): JSX.Element {
   return (
     <div className={styles.search__wrapper}>
       <input

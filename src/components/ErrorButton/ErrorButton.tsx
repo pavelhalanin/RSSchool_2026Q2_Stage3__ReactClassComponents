@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useState, type JSX } from 'react';
 
-export default function ErrorButton() {
+export default function ErrorButton(): JSX.Element {
   const [isThrow, setIsThrow] = useState<boolean>(false);
 
   const generateErrorBoundary = () => {

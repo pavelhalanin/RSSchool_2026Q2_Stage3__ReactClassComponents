@@ -9,6 +9,7 @@ import Main from '../Main/Main';
 import About from '../About/About';
 import Error404 from '../Error404/Error404';
 import RootLayout from '../../layouts/RootLayout';
+import type { JSX } from 'react';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -20,7 +21,7 @@ const router = createBrowserRouter(
   )
 );
 
-export default function App() {
+export default function App(): JSX.Element {
   return (
     <ErrorBoundary>
       <RouterProvider router={router} />;
