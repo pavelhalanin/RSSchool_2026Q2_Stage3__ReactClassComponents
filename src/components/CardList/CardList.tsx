@@ -4,6 +4,7 @@ import Search from '../Search/Search';
 import Card from '../Card/Card';
 import ErrorButton from '../ErrorButton/ErrorButton';
 import type { ICardListPokemon } from './ICardListPokemon';
+import Header from '../Header/Header';
 
 export default function CardList() {
   const [search, setSearch] = useState<string>(
@@ -136,6 +137,7 @@ export default function CardList() {
 
   return (
     <>
+      <Header />
       <Card
         pokemonId={dialogPokemonId}
         isDialogOpen={isDialogOpen}
