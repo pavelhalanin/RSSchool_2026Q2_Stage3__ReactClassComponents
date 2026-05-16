@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import styles from './CardList.module.css';
-import type GlobalState from '../Main/GlobalState';
 import Search from '../Search/Search';
 import Card from '../Card/Card';
 import ErrorButton from '../ErrorButton/ErrorButton';
@@ -105,11 +104,9 @@ export default function CardList() {
 
     const DATA = await RESPONSE.json();
 
-    const POKEMONS: GlobalState['cardList']['pokemons'] = (
-      DATA.data.pokemon || []
-    )
+    const POKEMONS: Array<ICardListPokemon> = (DATA.data.pokemon || [])
       .filter(Boolean)
-      .map((e: GlobalState['cardList']['pokemons'][number]) => {
+      .map((e: ICardListPokemon) => {
         return {
           ...e,
           image_src: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${e.id}.png`,
