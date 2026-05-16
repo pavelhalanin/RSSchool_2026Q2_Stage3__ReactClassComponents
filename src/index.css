@@ -4,6 +4,10 @@
 
   --color-light: #f8f9fa;
   --color-dark: #212529;
+
+  --scrollbarBgColor: rgba(0, 102, 204, 0.4);
+  --scrollbarThumbColor: rgba(0, 102, 204, 1);
+  --scrollbarWidth: 1em;
 }
 
 html {
@@ -16,6 +20,12 @@ body {
   height: 100%;
   margin: 0;
   font-family: var(--text);
+}
+
+.scroll {
+  scrollbar-width: var(--scrollbarWidth);
+  scrollbar-color: var(--scrollbarThumbColor) var(--scrollbarBgColor);
+  overflow-y: scroll;
 }
 
 #root {
