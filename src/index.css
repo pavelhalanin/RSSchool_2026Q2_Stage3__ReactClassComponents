@@ -115,4 +115,7 @@ body {
 .h1 {
   text-align: center;
   color: #0d6efd;
+
+  margin: 0;
+  padding-bottom: 8px;
 }
