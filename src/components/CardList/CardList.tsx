@@ -4,7 +4,6 @@ import Search from '../Search/Search';
 import Card from '../Card/Card';
 import ErrorButton from '../ErrorButton/ErrorButton';
 import type { ICardListPokemon } from './ICardListPokemon';
-import Header from '../Header/Header';
 
 export default function CardList() {
   const [search, setSearch] = useState<string>(
@@ -137,7 +136,6 @@ export default function CardList() {
 
   return (
     <>
-      <Header />
       <Card
         pokemonId={dialogPokemonId}
         isDialogOpen={isDialogOpen}
@@ -163,7 +161,7 @@ export default function CardList() {
       </div>
       <div className="container">
         <section className="section">
-          <h1 className={styles.h1}>Pokémon Collection</h1>
+          <h1 className="h1">Pokémon Collection</h1>
           {errorFetch ? (
             <div className="alert alert-danger">
               <div>{errorFetch}</div>
