@@ -4,8 +4,13 @@ import Search from '../Search/Search';
 import Card from '../Card/Card';
 import ErrorButton from '../ErrorButton/ErrorButton';
 import type { ICardListPokemon } from './ICardListPokemon';
+import { useSearchParams } from 'react-router-dom';
 
 export default function CardList() {
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const page = searchParams.get('page') || '1';
+
   const [search, setSearch] = useState<string>(
     localStorage.getItem('search') || ''
   );
@@ -21,6 +26,13 @@ export default function CardList() {
   const searchRef = useRef(search);
   const searchPrevRef = useRef(searchPrev);
   const errorFetchRef = useRef(errorFetch);
+
+  const setParams = (page: string, details: string) => {
+    setSearchParams({
+      page,
+      ...(details && { details }),
+    });
+  };
 
   useEffect(() => {
     searchRef.current = search;
@@ -187,12 +199,14 @@ export default function CardList() {
 
               <ul className={styles.card_list}>
                 {pokemons?.map((pokemon) => {
+                  const POKEMON_ID: number = Number(pokemon.id);
                   return (
-                    <li key={pokemon.id} className="pokemon-card">
+                    <li key={POKEMON_ID} className="pokemon-card">
                       <button
                         onClick={() => {
                           setIsDialogOpen(true);
-                          setDialogPokemonId(pokemon.id);
+                          setDialogPokemonId(POKEMON_ID);
+                          setParams(page, `${POKEMON_ID}`);
                         }}
                       >
                         <div className={styles.card_list__image_block}>
