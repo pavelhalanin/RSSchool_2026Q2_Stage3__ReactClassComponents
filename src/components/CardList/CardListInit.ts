@@ -1,4 +1,4 @@
-import type { IPaginationData } from './IPaginationData';
+import type { IPaginationData } from './Left/Pagination/IPaginationData';
 
 export default class CardListInit {
   static getLimit() {

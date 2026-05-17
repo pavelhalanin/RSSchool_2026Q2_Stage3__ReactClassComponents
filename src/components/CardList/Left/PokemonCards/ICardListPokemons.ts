@@ -1,4 +1,4 @@
-import type { IPaginationData } from './IPaginationData';
+import type { IPaginationData } from '../Pagination/IPaginationData';
 
 export interface ICardListPokemons {
   page: string;

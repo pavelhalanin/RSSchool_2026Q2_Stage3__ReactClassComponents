@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import type { IPokemon } from '../../Card/IPokemon';
-import styles from './../CardList.module.css';
+import type { IPokemon } from './IPokemon';
+import styles from '../CardList.module.css';
 import sleep from '../../../utils/sleep';
-import PokemonHelper from '../PokemonHelper';
+import PokemonHelper from '../Left/PokemonHelper';
 
 interface ICardListRight {
   page: string;

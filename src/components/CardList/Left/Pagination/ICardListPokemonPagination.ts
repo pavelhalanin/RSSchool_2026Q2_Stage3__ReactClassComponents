@@ -1,4 +1,4 @@
-import type { ICardListPokemon } from './ICardListPokemon';
+import type { ICardListPokemon } from '../PokemonCards/ICardListPokemon';
 
 export interface ICardListPokemonWithPadination {
   data: {

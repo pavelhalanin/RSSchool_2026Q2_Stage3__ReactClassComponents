@@ -1,12 +1,12 @@
 import { useCallback, useEffect, useRef, useState, type JSX } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import type { ICardListPokemonWithPadination } from './ICardListPokemonPagination';
-import CardListSearch from './CardListSearch';
-import CardListPokemons from './CardListPokemons';
+import type { ICardListPokemonWithPadination } from './Left/Pagination/ICardListPokemonPagination';
+import CardListSearch from './Search/CardListSearch';
+import CardListPokemons from './Left/PokemonCards/CardListPokemons';
 import CardListInit from './CardListInit';
-import type { IPaginationData } from './IPaginationData';
+import type { IPaginationData } from './Left/Pagination/IPaginationData';
 import styles from './CardList.module.css';
-import { CardListRight } from './CardListRight/CardListRight';
+import { CardListRight } from './Right/CardListRight';
 
 export default function CardList(): JSX.Element {
   const LIMIT = CardListInit.getLimit();

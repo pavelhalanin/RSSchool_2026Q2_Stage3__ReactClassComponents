@@ -1,4 +1,4 @@
-import styles from './CardList.module.css';
+import styles from './../../CardList.module.css';
 import type { ICardListPagination } from './ICardListPagination';
 
 export default function CardListPagination(props: ICardListPagination) {
