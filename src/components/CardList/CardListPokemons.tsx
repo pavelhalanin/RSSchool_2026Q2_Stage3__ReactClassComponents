@@ -2,6 +2,7 @@ import type { JSX } from 'react';
 import styles from './CardList.module.css';
 import CardListPagination from './CardListPagination';
 import type { ICardListPokemons } from './ICardListPokemons';
+import PokemonHelper from './PokemonHelper';
 
 export default function CardListPokemons(
   props: ICardListPokemons
@@ -57,6 +58,8 @@ export default function CardListPokemons(
         <ul className={styles.card_list}>
           {props.pagination.items.map((pokemon) => {
             const POKEMON_ID: number = Number(pokemon.id);
+            const POKEMON_IMAGE: string =
+              PokemonHelper.getMainImage_byPokemonId(POKEMON_ID);
             return (
               <li key={POKEMON_ID} className="pokemon-card">
                 <button
@@ -68,11 +71,11 @@ export default function CardListPokemons(
                 >
                   <div className={styles.card_list__image_block}>
                     <img
-                      src={pokemon.image_src}
+                      src={POKEMON_IMAGE}
                       alt={pokemon.name}
                       onError={(e) => {
                         (e.target as HTMLImageElement).title =
-                          `Не удалось загрузить фото\n${pokemon.image_src}`;
+                          `Не удалось загрузить фото\n${POKEMON_IMAGE}`;
                       }}
                     />
                   </div>

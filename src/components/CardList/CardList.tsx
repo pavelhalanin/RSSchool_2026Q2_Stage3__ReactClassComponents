@@ -180,14 +180,6 @@ export default function CardList(): JSX.Element {
 
       const DATA: ICardListPokemonWithPadination = await RESPONSE.json();
 
-      const POKEMONS = (DATA.data.pokemon || []).filter(Boolean).map((e) => {
-        return {
-          ...e,
-          // image_src: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${e.id}.png`, // Заглушка, пока еду в поезде
-          image_src: '',
-        };
-      });
-
       const TOTAL_ITEMS = DATA.data.pokemon_aggregate.aggregate.count;
       setPagination(() => {
         return {
@@ -198,7 +190,7 @@ export default function CardList(): JSX.Element {
             SKIP_ITEMS: LIMIT * Number(page),
             LAST_PAGE: Math.ceil(TOTAL_ITEMS / LIMIT),
           },
-          items: POKEMONS,
+          items: DATA.data.pokemon,
           isFetch: false,
           fetchError: null,
         };
