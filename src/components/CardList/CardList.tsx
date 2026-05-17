@@ -1,16 +1,18 @@
 import { useCallback, useEffect, useRef, useState, type JSX } from 'react';
-import Card from '../Card/Card';
 import { useSearchParams } from 'react-router-dom';
 import type { ICardListPokemonWithPadination } from './ICardListPokemonPagination';
 import CardListSearch from './CardListSearch';
 import CardListPokemons from './CardListPokemons';
 import CardListInit from './CardListInit';
 import type { IPaginationData } from './IPaginationData';
+import styles from './CardList.module.css';
+import { CardListRight } from './CardListRight/CardListRight';
 
 export default function CardList(): JSX.Element {
   const LIMIT = CardListInit.getLimit();
   const [searchParams, setSearchParams] = useSearchParams();
   const page = searchParams.get('page') || '1';
+  const details = searchParams.get('details');
 
   const [pagination, setPagination] = useState<IPaginationData>({
     pagination: {
@@ -29,9 +31,6 @@ export default function CardList(): JSX.Element {
     localStorage.getItem('search') || ''
   );
   const [searchPrev, setSearchPrev] = useState<string | null>(null);
-
-  const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
-  const [dialogPokemonId, setDialogPokemonId] = useState<number>(0);
 
   const searchRef = useRef(search);
   const searchPrevRef = useRef(searchPrev);
@@ -229,11 +228,6 @@ export default function CardList(): JSX.Element {
 
   return (
     <>
-      <Card
-        pokemonId={dialogPokemonId}
-        isDialogOpen={isDialogOpen}
-        updateState_card_isDialogOpen={setIsDialogOpen}
-      />
       <CardListSearch
         fetchPokemons={fetchPokemons}
         page={page}
@@ -244,15 +238,30 @@ export default function CardList(): JSX.Element {
         setParams={setParams}
         setSearch={setSearch}
       />
-      <CardListPokemons
-        fetchPokemons={fetchPokemons}
-        page={page}
-        pagination={pagination}
-        searchPrev={searchPrev}
-        setDialogPokemonId={setDialogPokemonId}
-        setIsDialogOpen={setIsDialogOpen}
-        setParams={setParams}
-      />
+      <div className="container">
+        <section className="section">
+          <div className={styles.card_list__blocks}>
+            <div className={styles.card_list__left_block}>
+              <CardListPokemons
+                fetchPokemons={fetchPokemons}
+                page={page}
+                pagination={pagination}
+                searchPrev={searchPrev}
+                setParams={setParams}
+              />
+            </div>
+            <div
+              className={`${styles.card_list__right_block} ${details !== null ? styles['card_list__right_block--open'] : ''}`}
+            >
+              <CardListRight
+                page={page}
+                details={details}
+                setParams={setParams}
+              />
+            </div>
+          </div>
+        </section>
+      </div>
     </>
   );
 }
