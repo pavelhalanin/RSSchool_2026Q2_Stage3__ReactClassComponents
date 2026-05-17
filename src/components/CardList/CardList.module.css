@@ -114,3 +114,39 @@
   gap: 8px;
   justify-content: center;
 }
+
+/* pagination */
+
+.pagination {
+  margin: 0;
+  padding: 0;
+
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.pagination > li {
+  list-style-type: none;
+}
+
+.pagination > li > button {
+  width: 32px;
+  height: 32px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+
+  border: 1px solid #06c;
+  color: #06c;
+  background-color: transparent;
+}
+
+.pagination > li > button:hover,
+.pagination > li > button.pagination__active {
+  background-color: #06c;
+  color: white;
+}

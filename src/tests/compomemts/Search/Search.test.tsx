@@ -16,6 +16,7 @@ describe('Search Component Tests', () => {
 
   const mock_fetchPokemons = vi.fn();
   const mock_updateState_search = vi.fn();
+  const setParams = vi.fn();
 
   afterEach(() => {
     cleanup(); // Очищает DOM
@@ -28,6 +29,7 @@ describe('Search Component Tests', () => {
         search=""
         fetchPokemons={mock_fetchPokemons}
         updateState_search={mock_updateState_search}
+        setParams={setParams}
       />
     );
 
@@ -46,6 +48,7 @@ describe('Search Component Tests', () => {
         search=""
         fetchPokemons={mock_fetchPokemons}
         updateState_search={mock_updateState_search}
+        setParams={setParams}
       />
     );
 
@@ -64,6 +67,7 @@ describe('Search Component Tests', () => {
         search=""
         fetchPokemons={mock_fetchPokemons}
         updateState_search={mock_updateState_search}
+        setParams={setParams}
       />
     );
 

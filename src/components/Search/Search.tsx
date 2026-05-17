@@ -12,7 +12,13 @@ export default function Search(props: ISearchProps): JSX.Element {
           props.updateState_search(e.target.value);
         }}
       />
-      <button className="btn btn-success" onClick={() => props.fetchPokemons()}>
+      <button
+        className="btn btn-success"
+        onClick={() => {
+          props.setParams('1', '');
+          props.fetchPokemons();
+        }}
+      >
         Search
       </button>
     </div>
