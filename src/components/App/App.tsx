@@ -1,6 +1,7 @@
 import {
   createBrowserRouter,
   createRoutesFromElements,
+  Navigate,
   Route,
   RouterProvider,
 } from 'react-router-dom';
@@ -13,7 +14,8 @@ import type { JSX } from 'react';
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<RootLayout />}>
-      <Route index element={<Main />} />
+      <Route path="/" element={<Navigate to={'/pokemon/?page=1'} replace />} />
+      <Route path="pokemon" element={<Main />} />
       <Route path="about" element={<About />} />
       <Route path="*" element={<Error404 />} />
     </Route>
