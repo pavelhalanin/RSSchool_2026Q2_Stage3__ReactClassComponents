@@ -2,7 +2,7 @@ import type { JSX } from 'react';
 import styles from '../../CardList.module.css';
 import CardListPagination from './../Pagination/CardListPagination';
 import type { ICardListPokemons } from './ICardListPokemons';
-import PokemonHelper from '../PokemonHelper';
+import PokemonHelper from '../../../../utils/PokemonHelper';
 
 export default function CardListPokemons(
   props: ICardListPokemons
