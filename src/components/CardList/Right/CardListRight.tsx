@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { IPokemon } from './IPokemon';
 import styles from '../CardList.module.css';
 import sleep from '../../../utils/sleep';
@@ -17,6 +17,22 @@ interface ICardData {
 }
 
 export function CardListRight(props: ICardListRight) {
+  const divRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (divRef.current && !divRef.current.contains(event.target as Node)) {
+        props.setParams(props.page, '');
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
   const [cardData, setCardData] = useState<ICardData>({
     item: null,
     isFetch: false,
@@ -143,7 +159,7 @@ export function CardListRight(props: ICardListRight) {
   }, [props.details]);
 
   return (
-    <>
+    <div ref={divRef}>
       <div className={styles.card_list__right_block_buttons}>
         <button className="btn btn-danger" onClick={() => closeRight()}>
           Close
@@ -153,7 +169,7 @@ export function CardListRight(props: ICardListRight) {
         </button>
       </div>
       <CardListRightContent cardData={cardData} loadCard={loadCard} />
-    </>
+    </div>
   );
 }
 

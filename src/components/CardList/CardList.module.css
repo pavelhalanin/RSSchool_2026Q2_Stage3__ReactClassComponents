@@ -169,7 +169,7 @@
   width: auto;
   opacity: 0.1;
 
-  transition: all 1s ease;
+  transition: all 1s ease-in;
 
   background-color: rgba(0, 0, 0, 0.1);
   border-radius: 8px;
