@@ -40,96 +40,105 @@ export function CardListRight(props: ICardListRight) {
     });
   };
 
-  useEffect(() => {
-    if (props.details === null) {
-      return;
-    }
+  async function loadCard() {
+    setCardData({
+      item: null,
+      isFetch: true,
+      fetchError: null,
+    });
 
-    (async function () {
-      await sleep(300);
+    await sleep(500);
 
-      const GRAPHQL = `
-        query MyQuery {
-          pokemon(where: {id: {_eq: ${props.details}}}) {
-            base_experience
-            height
-            id
-            is_default
-            name
-            pokemon_species_id
-            weight
-            pokemonabilities {
-              ability {
-                abilitynames(where: {language: {id: {_eq: 9}}}) {
-                  id
-                  name
-                }
-              }
-            }
-            pokemontypes {
-              slot
-              type {
+    const GRAPHQL = `
+      query MyQuery {
+        pokemon(where: {id: {_eq: ${props.details}}}) {
+          base_experience
+          height
+          id
+          is_default
+          name
+          pokemon_species_id
+          weight
+          pokemonabilities {
+            ability {
+              abilitynames(where: {language: {id: {_eq: 9}}}) {
+                id
                 name
               }
             }
-            pokemonsprites {
-              sprites
-            }
-            pokemoncries {
-              cries
+          }
+          pokemontypes {
+            slot
+            type {
+              name
             }
           }
+          pokemonsprites {
+            sprites
+          }
+          pokemoncries {
+            cries
+          }
         }
-      `;
+      }
+    `;
 
-      const URL_ = `https://graphql.pokeapi.co/v1beta2`;
+    const URL_ = `https://graphql.pokeapi.co/v1beta2`;
 
-      try {
-        const RESPONSE = await fetch(URL_, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            query: GRAPHQL,
-          }),
-        });
+    try {
+      const RESPONSE = await fetch(URL_, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          query: GRAPHQL,
+        }),
+      });
 
-        const HTTP_STATUS = RESPONSE.status;
+      const HTTP_STATUS = RESPONSE.status;
 
-        if (HTTP_STATUS >= 400 && HTTP_STATUS <= 599) {
-          const TEXT = await RESPONSE.text();
-          const MESSAGE = `HTTP ${HTTP_STATUS}\n${TEXT}`;
+      if (HTTP_STATUS >= 400 && HTTP_STATUS <= 599) {
+        const TEXT = await RESPONSE.text();
+        const MESSAGE = `HTTP ${HTTP_STATUS}\n${TEXT}`;
 
-          setCardData({
-            item: null,
-            isFetch: false,
-            fetchError: MESSAGE,
-          });
-        } else if (HTTP_STATUS !== 200) {
-          const TEXT = await RESPONSE.text();
-          const MESSAGE = `HTTP ${HTTP_STATUS}\n${TEXT}`;
-          setCardData({
-            item: null,
-            isFetch: false,
-            fetchError: MESSAGE,
-          });
-        } else {
-          const DATA = await RESPONSE.json();
-          const POKEMON: IPokemon = DATA.data.pokemon[0];
-          setCardData({
-            item: POKEMON,
-            isFetch: false,
-            fetchError: null,
-          });
-        }
-      } catch (err) {
         setCardData({
           item: null,
           isFetch: false,
-          fetchError: err instanceof Error ? err.message : 'Unknown error',
+          fetchError: MESSAGE,
+        });
+      } else if (HTTP_STATUS !== 200) {
+        const TEXT = await RESPONSE.text();
+        const MESSAGE = `HTTP ${HTTP_STATUS}\n${TEXT}`;
+        setCardData({
+          item: null,
+          isFetch: false,
+          fetchError: MESSAGE,
+        });
+      } else {
+        const DATA = await RESPONSE.json();
+        const POKEMON: IPokemon = DATA.data.pokemon[0];
+        setCardData({
+          item: POKEMON,
+          isFetch: false,
+          fetchError: null,
         });
       }
+    } catch (err) {
+      setCardData({
+        item: null,
+        isFetch: false,
+        fetchError: err instanceof Error ? err.message : 'Unknown error',
+      });
+    }
+  }
+
+  useEffect(() => {
+    if (props.details === null || props.details == '') {
+      return;
+    }
+    (async function () {
+      loadCard();
     })();
   }, [props.details]);
 
@@ -143,19 +152,23 @@ export function CardListRight(props: ICardListRight) {
           Generate error
         </button>
       </div>
-      <CardListRightContent cardData={cardData} />
+      <CardListRightContent cardData={cardData} loadCard={loadCard} />
     </>
   );
 }
 
 interface ICardListRightContent {
   cardData: ICardData;
+  loadCard: () => void;
 }
 
 function CardListRightContent(props: ICardListRightContent) {
   if (props.cardData.fetchError) {
     return (
-      <div className="alert alert-danger">{props.cardData.fetchError}</div>
+      <div className="alert alert-danger">
+        {props.cardData.fetchError}
+        <button onClick={() => props.loadCard()}>Reload</button>
+      </div>
     );
   }
 
