@@ -1,7 +1,7 @@
 import { useEffect, useState, type JSX } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import type { ICardListPokemonWithPadination } from './Left/Pagination/ICardListPokemonPagination';
-import CardListSearch from './Search/CardListSearch';
+import CardListSearch from './CardListSearch/CardListSearch';
 import CardListPokemons from './Left/PokemonCards/CardListPokemons';
 import CardListInit from './CardListInit';
 import type { IPaginationData } from './Left/Pagination/IPaginationData';

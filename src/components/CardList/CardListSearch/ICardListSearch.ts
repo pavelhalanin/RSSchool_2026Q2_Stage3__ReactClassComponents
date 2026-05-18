@@ -1,4 +1,4 @@
-import type { IPaginationData } from './../Left/Pagination/IPaginationData';
+import type { IPaginationData } from '../Left/Pagination/IPaginationData';
 
 export interface ICardListSearch {
   page: string;

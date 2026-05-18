@@ -1,6 +1,6 @@
 import type { JSX } from 'react';
 import CardListInit from '../CardListInit';
-import Search from '../../Search/Search';
+import Search from './Search/Search';
 import ErrorButton from '../../ErrorButton/ErrorButton';
 import styles from '../CardList.module.css';
 import type { ICardListSearch } from './ICardListSearch';

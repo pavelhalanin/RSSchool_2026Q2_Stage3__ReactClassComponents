@@ -1,6 +1,6 @@
 import { cleanup, fireEvent, render, screen } from '@testing-library/react';
 import { describe, it, expect, vi, afterEach } from 'vitest';
-import Search from '../../../components/Search/Search';
+import Search from '../../../components/CardList/CardListSearch/Search/Search';
 import '@testing-library/jest-dom/vitest';
 
 describe('Search Component Tests', () => {
