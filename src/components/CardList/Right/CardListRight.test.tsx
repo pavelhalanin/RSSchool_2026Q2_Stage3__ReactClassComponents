@@ -1,15 +1,22 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { render, waitFor, fireEvent } from '@testing-library/react';
 import { CardListRight } from './CardListRight';
+import FETCH_MOCK from '../../../test-utils/mock/FETCH_MOCK.mock';
+
+interface IFetchResponse {
+  status: number;
+  ok: boolean;
+  json: () => Promise<unknown>;
+  text: () => Promise<string>;
+}
 
 vi.mock('../../../utils/sleep', () => ({
-  default: vi.fn(() => Promise.resolve()),
+  default: () => Promise.resolve(),
 }));
 
 vi.mock('../../../utils/PokemonHelper', () => ({
   default: {
-    getMainImage_byPokemonId: vi.fn((id) => `https://example.com/${id}.png`),
+    getMainImage_byPokemonId: (id: number) => `https://example.com/${id}.png`,
   },
 }));
 
@@ -17,73 +24,164 @@ describe('CardListRight', () => {
   const mockSetParams = vi.fn();
 
   beforeEach(() => {
-    mockSetParams.mockClear();
+    vi.clearAllMocks();
+    FETCH_MOCK.mockReset();
   });
 
-  it('displays loading state during fetch', () => {
+  it('renders pokemon content after successful fetch', async () => {
+    FETCH_MOCK.mockImplementation((): Promise<IFetchResponse> => {
+      return Promise.resolve({
+        status: 200,
+        ok: true,
+        json: () =>
+          Promise.resolve({
+            data: {
+              pokemon: [
+                {
+                  id: 25,
+                  name: 'pikachu',
+                  weight: 60,
+                  height: 4,
+                  pokemontypes: [],
+                  pokemonsprites: [],
+                  pokemoncries: [],
+                },
+              ],
+            },
+          }),
+        text: () => Promise.resolve(''),
+      });
+    });
+
     const { container } = render(
       <CardListRight page="1" details="25" setParams={mockSetParams} />
     );
 
-    const loadingDiv = container.querySelector('.spinner__wrapper');
-    expect(loadingDiv).toBeDefined();
+    await waitFor(() => {
+      expect(container.textContent).toContain('#25');
+    });
+
+    expect(container.textContent).toContain('60 x 4');
+
+    const image = container.querySelector('img');
+
+    expect(image?.getAttribute('src')).toBe('https://example.com/25.png');
   });
 
-  it('closes panel when clicking Close button', async () => {
-    const user = userEvent.setup();
+  it('handles fetch status between 400 and 599', async () => {
+    FETCH_MOCK.mockImplementation((): Promise<IFetchResponse> => {
+      return Promise.resolve({
+        status: 500,
+        ok: false,
+        json: () => Promise.resolve({}),
+        text: () => Promise.resolve('Server error'),
+      });
+    });
+
     const { container } = render(
       <CardListRight page="1" details="25" setParams={mockSetParams} />
     );
 
-    const closeButton = container.querySelector('.btn-danger');
-    await user.click(closeButton!);
-
-    expect(mockSetParams).toHaveBeenCalledWith('1', '');
+    await waitFor(() => {
+      expect(container.textContent).toContain('HTTP 500\nServer error');
+    });
   });
 
-  it('shows error when generating test error', async () => {
-    const user = userEvent.setup();
+  it('handles non 200 status outside 400-599 range', async () => {
+    FETCH_MOCK.mockImplementation((): Promise<IFetchResponse> => {
+      return Promise.resolve({
+        status: 300,
+        ok: false,
+        json: () => Promise.resolve({}),
+        text: () => Promise.resolve('Redirect'),
+      });
+    });
+
     const { container } = render(
       <CardListRight page="1" details="25" setParams={mockSetParams} />
     );
 
-    const buttons = container.querySelectorAll('.btn-danger');
-    const errorButton = buttons[1];
-    await user.click(errorButton);
-
-    const errorDiv = container.querySelector('.alert-danger');
-    expect(errorDiv).toBeDefined();
-    expect(errorDiv?.textContent).toContain('Custom test error HTTP 400-500');
+    await waitFor(() => {
+      expect(container.textContent).toContain('HTTP 300\nRedirect');
+    });
   });
 
-  it('reloads after error when clicking Reload button', async () => {
-    const user = userEvent.setup();
+  it('handles fetch rejection with Error instance', async () => {
+    FETCH_MOCK.mockRejectedValue(new Error('Network failed'));
+
     const { container } = render(
       <CardListRight page="1" details="25" setParams={mockSetParams} />
     );
 
-    const buttons = container.querySelectorAll('.btn-danger');
-    const errorButton = buttons[1];
-    await user.click(errorButton);
+    await waitFor(() => {
+      expect(container.textContent).toContain('Network failed');
+    });
+  });
+
+  it('handles fetch rejection with unknown error', async () => {
+    FETCH_MOCK.mockRejectedValue('Unknown');
+
+    const { container } = render(
+      <CardListRight page="1" details="25" setParams={mockSetParams} />
+    );
+
+    await waitFor(() => {
+      expect(container.textContent).toContain('Unknown error');
+    });
+  });
+
+  it('reloads content after reload button click', async () => {
+    FETCH_MOCK.mockImplementationOnce((): Promise<IFetchResponse> => {
+      return Promise.resolve({
+        status: 500,
+        ok: false,
+        json: () => Promise.resolve({}),
+        text: () => Promise.resolve('Server error'),
+      });
+    }).mockImplementationOnce((): Promise<IFetchResponse> => {
+      return Promise.resolve({
+        status: 200,
+        ok: true,
+        json: () =>
+          Promise.resolve({
+            data: {
+              pokemon: [
+                {
+                  id: 1,
+                  name: 'bulbasaur',
+                  weight: 69,
+                  height: 7,
+                  pokemontypes: [],
+                  pokemonsprites: [],
+                  pokemoncries: [],
+                },
+              ],
+            },
+          }),
+        text: () => Promise.resolve(''),
+      });
+    });
+
+    const { container } = render(
+      <CardListRight page="1" details="1" setParams={mockSetParams} />
+    );
+
+    await waitFor(() => {
+      expect(container.textContent).toContain('HTTP 500\nServer error');
+    });
 
     const reloadButton = container.querySelector('.alert-danger button');
-    await user.click(reloadButton!);
 
-    const loadingDiv = container.querySelector('.spinner__wrapper');
-    expect(loadingDiv).toBeDefined();
+    fireEvent.click(reloadButton!);
+
+    await waitFor(() => {
+      expect(container.textContent).toContain('#1');
+    });
   });
 
-  it('renders nothing when details is null', () => {
-    const { container } = render(
-      <CardListRight page="1" details={null} setParams={mockSetParams} />
-    );
+  it('does not load card when details is empty string', () => {
+    render(<CardListRight page="1" details="" setParams={mockSetParams} />);
 
-    const loadingDiv = container.querySelector('.spinner__wrapper');
-    const errorDiv = container.querySelector('.alert-danger');
-    const contentDiv = container.querySelector('div > h2');
-
-    expect(loadingDiv).toBeNull();
-    expect(errorDiv).toBeNull();
-    expect(contentDiv).toBeNull();
+    expect(FETCH_MOCK).not.toHaveBeenCalled();
   });
 });
