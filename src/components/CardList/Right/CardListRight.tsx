@@ -167,7 +167,9 @@ function CardListRightContent(props: ICardListRightContent) {
     return (
       <div className="alert alert-danger">
         {props.cardData.fetchError}
-        <button onClick={() => props.loadCard()}>Reload</button>
+        <button className="btn btn-success" onClick={() => props.loadCard()}>
+          Repeat load fetch
+        </button>
       </div>
     );
   }
