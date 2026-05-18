@@ -6,7 +6,7 @@ import {
   RouterProvider,
 } from 'react-router-dom';
 import Main from '../Main/Main';
-import About from '../About/About';
+import About from '../../pages/About/About';
 import Error404 from '../../pages/Error404/Error404';
 import RootLayout from '../../layouts/RootLayout';
 import type { JSX } from 'react';
