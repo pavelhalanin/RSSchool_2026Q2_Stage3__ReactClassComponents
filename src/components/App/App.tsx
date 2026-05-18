@@ -8,12 +8,12 @@ import {
 import Main from '../../pages/Main/Main';
 import About from '../../pages/About/About';
 import Error404 from '../../pages/Error404/Error404';
-import RootLayout from '../../layouts/RootLayout';
+import RootOutlet from '../../outlet/RootOutlet';
 import type { JSX } from 'react';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/" element={<RootLayout />}>
+    <Route path="/" element={<RootOutlet />}>
       <Route path="/" element={<Navigate to={'/pokemon/?page=1'} replace />} />
       <Route path="pokemon" element={<Main />} />
       <Route path="about" element={<About />} />

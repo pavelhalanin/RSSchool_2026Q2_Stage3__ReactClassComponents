@@ -3,7 +3,7 @@ import Header from '../components/Header/Header';
 import type { JSX } from 'react';
 import ErrorBoundary from '../components/ErrorBoundary/ErrorBoundary';
 
-export default function RootLayout(): JSX.Element {
+export default function RootOutlet(): JSX.Element {
   return (
     <ErrorBoundary>
       <Header />
