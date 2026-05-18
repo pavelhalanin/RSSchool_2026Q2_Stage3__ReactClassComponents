@@ -8,12 +8,18 @@ import type { IPaginationData } from './Left/Pagination/IPaginationData';
 import styles from './CardList.module.css';
 import { CardListRight } from './Right/CardListRight';
 import sleep from '../../utils/sleep';
+import { useLocalStorage } from '../../hook/useLocalStorage';
 
 export default function CardList(): JSX.Element {
   const LIMIT = CardListInit.getLimit();
   const [searchParams, setSearchParams] = useSearchParams();
   const page = searchParams.get('page') || '1';
   const details = searchParams.get('details');
+
+  const searchStorage = useLocalStorage('search');
+
+  const [search, setSearch] = useState<string>(searchStorage.getItem() || '');
+  const [searchPrev, setSearchPrev] = useState<string | null>(null);
 
   const [pagination, setPagination] = useState<IPaginationData>({
     pagination: {
@@ -27,11 +33,6 @@ export default function CardList(): JSX.Element {
     isFetch: false,
     fetchError: null,
   });
-
-  const [search, setSearch] = useState<string>(
-    localStorage.getItem('search') || ''
-  );
-  const [searchPrev, setSearchPrev] = useState<string | null>(null);
 
   const setParams = (page: string, details: string | null) => {
     setSearchParams({
@@ -61,7 +62,7 @@ export default function CardList(): JSX.Element {
   async function fetchPokemons() {
     try {
       const SEARCH = search.trim();
-      localStorage.setItem('search', SEARCH);
+      searchStorage.setItem(SEARCH);
 
       setPagination(() => {
         return {

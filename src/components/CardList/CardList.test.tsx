@@ -40,7 +40,7 @@ describe('CardList', () => {
   });
 
   it('stores trimmed search value in localStorage', async () => {
-    localStorage.setItem('search', '   pikachu   ');
+    localStorage.setItem('search', JSON.stringify('   pikachu   '));
 
     FETCH_MOCK.mockImplementation(() => {
       return Promise.resolve({
@@ -79,7 +79,7 @@ describe('CardList', () => {
     );
 
     await waitFor(() => {
-      expect(localStorage.getItem('search')).toBe('pikachu');
+      expect(localStorage.getItem('search')).toBe(JSON.stringify('pikachu'));
     });
   });
 });
