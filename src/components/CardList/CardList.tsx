@@ -129,6 +129,19 @@ export default function CardList(): JSX.Element {
 
       const DATA: ICardListPokemonWithPadination = await RESPONSE.json();
 
+      if (page !== '1' && DATA.data.pokemon.length == 0) {
+        setPagination(() => {
+          return {
+            pagination: CardListInit.getInitPagination(),
+            items: [],
+            isFetch: false,
+            fetchError: null,
+          };
+        });
+        setParams('1', details);
+        return;
+      }
+
       const TOTAL_ITEMS = DATA.data.pokemon_aggregate.aggregate.count;
       setPagination(() => {
         return {
@@ -165,7 +178,7 @@ export default function CardList(): JSX.Element {
 
   useEffect(() => {
     fetchPokemons();
-  }, []);
+  }, [page]);
 
   if (!isPositiveNumber(page)) {
     setParams('1', null);
