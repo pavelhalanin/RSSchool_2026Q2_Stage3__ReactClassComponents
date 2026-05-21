@@ -34,3 +34,7 @@ npm install -D msw
 npm install -D @testing-library/user-event
 
 npm install react-router-dom
+
+# task 4
+
+npm i zustand
