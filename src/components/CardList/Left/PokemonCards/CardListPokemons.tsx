@@ -3,20 +3,21 @@ import styles from '../../CardList.module.css';
 import CardListPagination from './../Pagination/CardListPagination';
 import type { ICardListPokemons } from './ICardListPokemons';
 import PokemonHelper from '../../../../utils/PokemonHelper';
+import { useCardListState } from '../../../../store/useCardListState/useCardListState';
 
 export default function CardListPokemons(
   props: ICardListPokemons
 ): JSX.Element {
-  if (props.pagination.fetchError) {
+  const { errorFetch, fetchPokemons, isFetch, items, prevSearch } =
+    useCardListState();
+
+  if (errorFetch) {
     return (
       <>
         <h1 className="h1">Pokémon Collection</h1>
         <div className="alert alert-danger">
-          <div>{props.pagination.fetchError}</div>
-          <button
-            className="btn btn-success"
-            onClick={() => props.fetchPokemons()}
-          >
+          <div>{errorFetch}</div>
+          <button className="btn btn-success" onClick={() => fetchPokemons()}>
             Repeat load fetch
           </button>
         </div>
@@ -24,7 +25,7 @@ export default function CardListPokemons(
     );
   }
 
-  if (props.pagination.isFetch) {
+  if (isFetch) {
     return (
       <>
         <h1 className="h1">Pokémon Collection</h1>
@@ -33,13 +34,13 @@ export default function CardListPokemons(
     );
   }
 
-  if (props.pagination.items.length === 0) {
+  if (items.length === 0) {
     return (
       <>
         <h1 className="h1">Pokémon Collection</h1>
         <div className="alert alert-danger">
-          No Pokémon found by search ({props.searchPrev}) on page {props.page}.
-          Please enter a different search term and click the search button.
+          No Pokémon found by search ({prevSearch}) on page {props.page}. Please
+          enter a different search term and click the search button.
         </div>
       </>
     );
@@ -49,7 +50,7 @@ export default function CardListPokemons(
     <>
       <h1 className="h1">Pokémon Collection</h1>
       <ul className={styles.card_list}>
-        {props.pagination.items.map((pokemon) => {
+        {items.map((pokemon) => {
           const POKEMON_ID: number = Number(pokemon.id);
           const POKEMON_IMAGE: string =
             PokemonHelper.getMainImage_byPokemonId(POKEMON_ID);
@@ -85,11 +86,7 @@ export default function CardListPokemons(
           );
         })}
       </ul>
-      <CardListPagination
-        page={props.page}
-        pagination={props.pagination}
-        setParams={props.setParams}
-      />
+      <CardListPagination page={props.page} setParams={props.setParams} />
     </>
   );
 }

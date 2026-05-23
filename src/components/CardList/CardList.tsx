@@ -1,38 +1,16 @@
-import { useEffect, useState, type JSX } from 'react';
+import { useEffect, type JSX } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import type { ICardListPokemonWithPadination } from './Left/Pagination/ICardListPokemonPagination';
 import CardListSearch from './CardListSearch/CardListSearch';
 import CardListPokemons from './Left/PokemonCards/CardListPokemons';
-import CardListInit from './CardListInit';
-import type { IPaginationData } from './Left/Pagination/IPaginationData';
 import styles from './CardList.module.css';
 import { CardListRight } from './Right/CardListRight';
-import sleep from '../../utils/sleep';
-import { useLocalStorage } from '../../hook/useLocalStorage';
+import { useCardListState } from '../../store/useCardListState/useCardListState';
 
 export default function CardList(): JSX.Element {
-  const LIMIT = CardListInit.getLimit();
   const [searchParams, setSearchParams] = useSearchParams();
   const page = searchParams.get('page') || '1';
   const details = searchParams.get('details');
-
-  const searchStorage = useLocalStorage('search');
-
-  const [search, setSearch] = useState<string>(searchStorage.getItem() || '');
-  const [searchPrev, setSearchPrev] = useState<string | null>(null);
-
-  const [pagination, setPagination] = useState<IPaginationData>({
-    pagination: {
-      TOTOL_ITEMS: 0,
-      LIMITL_ITEMS: LIMIT,
-      CURRENT_PAGE: Number(page),
-      SKIP_ITEMS: 0,
-      LAST_PAGE: 0,
-    },
-    items: [],
-    isFetch: false,
-    fetchError: null,
-  });
+  const { fetchPokemons, setPage } = useCardListState();
 
   const setParams = (page: string, details: string | null) => {
     setSearchParams({
@@ -45,141 +23,10 @@ export default function CardList(): JSX.Element {
     return `${str}`.match(/\d+(?:\.\d+)?/g);
   };
 
-  const getPage = () => {
-    const PAGE = Number(page) || 1;
-    if (PAGE < 1) {
-      return 1;
-    }
-    return PAGE;
-  };
-
-  const getOffet = () => {
-    const PAGE = getPage();
-    const OFFSET = CardListInit.getLimit() * (PAGE - 1);
-    return OFFSET;
-  };
-
-  async function fetchPokemons() {
-    try {
-      const SEARCH = search.trim();
-      searchStorage.setItem(SEARCH);
-
-      setPagination(() => {
-        return {
-          pagination: CardListInit.getInitPagination(),
-          items: [],
-          isFetch: true,
-          fetchError: null,
-        };
-      });
-
-      await sleep(500);
-
-      const OFFSET: number = getOffet();
-
-      const GRAPHQL = `
-        query MyQuery {
-          pokemon(limit: ${LIMIT}, offset: ${OFFSET}, where: {name: {_like: "%${SEARCH}%"}}) {
-            height
-            id
-            name
-            weight
-            pokemontypes {
-              slot
-              type {
-                name
-              }
-            }
-          }
-          pokemon_aggregate(where: {name: {_like: "%${SEARCH}%"}}) {
-            aggregate {
-              count
-            }
-          }
-        }
-      `;
-
-      const URL_ = `https://graphql.pokeapi.co/v1beta2`;
-
-      const RESPONSE = await fetch(URL_, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          query: GRAPHQL,
-        }),
-      });
-
-      const HTTP_STATUS = RESPONSE.status;
-
-      if ((HTTP_STATUS >= 400 && HTTP_STATUS <= 599) || HTTP_STATUS !== 200) {
-        const TEXT = await RESPONSE.text();
-        const MESSAGE = `HTTP ${HTTP_STATUS}\n${TEXT}`;
-
-        setPagination(() => {
-          return {
-            pagination: CardListInit.getInitPagination(),
-            items: [],
-            isFetch: false,
-            fetchError: MESSAGE,
-          };
-        });
-        return;
-      }
-
-      const DATA: ICardListPokemonWithPadination = await RESPONSE.json();
-
-      if (page !== '1' && DATA.data.pokemon.length == 0) {
-        setPagination(() => {
-          return {
-            pagination: CardListInit.getInitPagination(),
-            items: [],
-            isFetch: false,
-            fetchError: null,
-          };
-        });
-        setParams('1', details);
-        return;
-      }
-
-      const TOTAL_ITEMS = DATA.data.pokemon_aggregate.aggregate.count;
-      setPagination(() => {
-        return {
-          pagination: {
-            TOTOL_ITEMS: TOTAL_ITEMS,
-            LIMITL_ITEMS: LIMIT,
-            CURRENT_PAGE: Number(page),
-            SKIP_ITEMS: LIMIT * Number(page),
-            LAST_PAGE: Math.ceil(TOTAL_ITEMS / LIMIT),
-          },
-          items: DATA.data.pokemon,
-          isFetch: false,
-          fetchError: null,
-        };
-      });
-      setSearch(SEARCH);
-      setSearchPrev(SEARCH);
-    } catch (exception) {
-      if (
-        exception instanceof TypeError &&
-        exception.message === 'Failed to fetch'
-      ) {
-        setPagination(() => {
-          return {
-            pagination: CardListInit.getInitPagination(),
-            items: [],
-            isFetch: false,
-            fetchError: `${String(exception)}`,
-          };
-        });
-      }
-    }
-  }
-
   useEffect(() => {
+    setPage(page);
     fetchPokemons();
-  }, [page]);
+  }, [page, fetchPokemons, setPage]);
 
   if (!isPositiveNumber(page)) {
     setParams('1', null);
@@ -193,27 +40,12 @@ export default function CardList(): JSX.Element {
 
   return (
     <>
-      <CardListSearch
-        fetchPokemons={fetchPokemons}
-        page={page}
-        pagination={pagination}
-        search={search}
-        searchPrev={searchPrev}
-        setPagination={setPagination}
-        setParams={setParams}
-        setSearch={setSearch}
-      />
+      <CardListSearch page={page} setParams={setParams} />
       <div className="container">
         <section className="section">
           <div className={styles.card_list__blocks}>
             <div className={styles.card_list__left_block}>
-              <CardListPokemons
-                fetchPokemons={fetchPokemons}
-                page={page}
-                pagination={pagination}
-                searchPrev={searchPrev}
-                setParams={setParams}
-              />
+              <CardListPokemons page={page} setParams={setParams} />
             </div>
             <div
               className={`${styles.card_list__right_block} ${details !== null ? styles['card_list__right_block--open'] : ''}`}

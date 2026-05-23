@@ -1,23 +1,28 @@
 import type { JSX } from 'react';
 import type { ISearchProps } from './ISearchProps';
 import styles from './Search.module.css';
+import { useCardListState } from '../../../../store/useCardListState/useCardListState';
 
 export default function Search(props: ISearchProps): JSX.Element {
+  const { search, prevSearch, errorFetch, setSearch, fetchPokemons } =
+    useCardListState();
+
   return (
     <div className={styles.search__wrapper}>
       <input
         type="search"
-        value={props.search}
+        value={search}
         onChange={(e) => {
-          props.updateState_search(e.target.value);
+          setSearch(e.target.value);
         }}
       />
       <button
         className="btn btn-success"
         onClick={() => {
           props.setParams('1', '');
-          props.fetchPokemons();
+          fetchPokemons();
         }}
+        disabled={!errorFetch && search === prevSearch}
       >
         Search
       </button>

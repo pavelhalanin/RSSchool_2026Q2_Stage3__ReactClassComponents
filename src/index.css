@@ -45,6 +45,10 @@ body {
     box-shadow 0.15s ease-in-out;
 }
 
+.btn:disabled {
+  opacity: 0.65;
+}
+
 .btn-secondary {
   color: #fff;
   background-color: #6c757d;
@@ -57,7 +61,8 @@ body {
   border-color: #565e64;
 }
 
-.btn-success {
+.btn-success,
+.btn-success:hover:disabled {
   color: #fff;
   background-color: #198754;
   border-color: #198754;
