@@ -1,7 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render } from '@testing-library/react';
 import CardListSearch from './CardListSearch';
-import CardListInit from '../CardListInit';
 
 interface SearchMockProps {
   search: string;
@@ -41,25 +40,11 @@ vi.mock('../../ErrorButton/ErrorButton', () => ({
 }));
 
 describe('CardListSearch', () => {
-  const mockSetPagination = vi.fn();
-  const mockSetSearch = vi.fn();
   const mockSetParams = vi.fn();
-  const mockFetchPokemons = vi.fn();
 
   const defaultProps = {
     page: '1',
-    search: 'pikachu',
-    searchPrev: null,
-    pagination: {
-      items: [],
-      isFetch: false,
-      fetchError: null,
-      pagination: CardListInit.getInitPagination(),
-    },
-    setSearch: mockSetSearch,
     setParams: mockSetParams,
-    fetchPokemons: mockFetchPokemons,
-    setPagination: mockSetPagination,
   };
 
   beforeEach(() => {
