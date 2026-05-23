@@ -4,6 +4,7 @@ import { useCardState } from '../../store/useCard/useCardState';
 import { useParams } from 'react-router-dom';
 import { getPokemonSrcImage_byId } from '../../utils/getPokemonSrcImage_byId';
 import { usePokemonNavigation } from '../../hook/usePokemonNavigation/usePokemonNavigation';
+import FetchSpinner from '../../components/FetchSpinner/FetchSpinner';
 
 export function CardOutlet() {
   const { pokemonNavigation } = usePokemonNavigation();
@@ -66,7 +67,7 @@ function CardListRightContent() {
   }
 
   if (isFetch) {
-    return <div className={styles.spinner__wrapper}>Loading</div>;
+    return <FetchSpinner>Loading Card</FetchSpinner>;
   }
 
   if (item === null) {

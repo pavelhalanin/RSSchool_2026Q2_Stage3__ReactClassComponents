@@ -5,6 +5,7 @@ import { useCardListState } from '../../../../store/useCardListState/useCardList
 import { useParams } from 'react-router-dom';
 import { getPokemonSrcImage_byId } from '../../../../utils/getPokemonSrcImage_byId';
 import { usePokemonNavigation } from '../../../../hook/usePokemonNavigation/usePokemonNavigation';
+import FetchSpinner from '../../../FetchSpinner/FetchSpinner';
 
 export default function CardListPokemons(): JSX.Element {
   const { pokemonNavigation } = usePokemonNavigation();
@@ -19,6 +20,10 @@ export default function CardListPokemons(): JSX.Element {
     isSelectedCsvItem_byId,
   } = useCardListState();
 
+  if (isFetch) {
+    return <FetchSpinner>Loading Card List</FetchSpinner>;
+  }
+
   if (errorFetch) {
     return (
       <div className="alert alert-danger">
@@ -28,10 +33,6 @@ export default function CardListPokemons(): JSX.Element {
         </button>
       </div>
     );
-  }
-
-  if (isFetch) {
-    return <div className={styles.spinner__wrapper}>Pokémon Collection</div>;
   }
 
   if (items.length === 0) {
