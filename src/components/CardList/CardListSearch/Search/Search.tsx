@@ -1,9 +1,12 @@
 import type { JSX } from 'react';
-import type { ISearchProps } from './ISearchProps';
 import styles from './Search.module.css';
 import { useCardListState } from '../../../../store/useCardListState/useCardListState';
 
-export default function Search(props: ISearchProps): JSX.Element {
+export interface IPropsSearch {
+  setParams: (page: string, details: string) => void;
+}
+
+export default function Search(props: IPropsSearch): JSX.Element {
   const { search, prevSearch, errorFetch, setSearch, fetchPokemons } =
     useCardListState();
 
