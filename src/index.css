@@ -22,6 +22,10 @@ body {
   font-family: var(--text);
 }
 
+a {
+  color: #06c;
+}
+
 .scroll {
   scrollbar-width: var(--scrollbarWidth);
   scrollbar-color: var(--scrollbarThumbColor) var(--scrollbarBgColor);
