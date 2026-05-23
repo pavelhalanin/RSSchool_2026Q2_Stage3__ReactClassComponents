@@ -1,9 +1,9 @@
 import type { JSX } from 'react';
 import styles from '../../CardList.module.css';
 import CardListPagination from './../Pagination/CardListPagination';
-import PokemonHelper from '../../../../utils/PokemonHelper';
 import { useCardListState } from '../../../../store/useCardListState/useCardListState';
 import { useSearchParams } from 'react-router-dom';
+import { getPokemonSrcImage_byId } from '../../../../utils/getPokemonSrcImage_byId';
 
 export interface IPropsCardListPokemons {
   page: string;
@@ -52,8 +52,7 @@ export default function CardListPokemons(
       <ul className={styles.card_list}>
         {items.map((pokemon) => {
           const POKEMON_ID: number = Number(pokemon.id);
-          const POKEMON_IMAGE: string =
-            PokemonHelper.getMainImage_byPokemonId(POKEMON_ID);
+          const POKEMON_IMAGE: string = getPokemonSrcImage_byId(POKEMON_ID);
           return (
             <li key={POKEMON_ID} className="pokemon-card">
               <button

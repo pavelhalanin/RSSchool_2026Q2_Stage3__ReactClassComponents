@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 import styles from '../CardList.module.css';
-import PokemonHelper from '../../../utils/PokemonHelper';
 import { useCardState } from '../../../store/useCard/useCardState';
 import { useSearchParams } from 'react-router-dom';
+import { getPokemonSrcImage_byId } from '../../../utils/getPokemonSrcImage_byId';
 
 interface ICardListRightProps {
   setParams: (page: null | string, details: string) => void;
@@ -72,7 +72,7 @@ function CardListRightContent() {
 
   const POKEMON = item;
   const POKEMON_ID = POKEMON.id;
-  const POKEMON_IMAGE = PokemonHelper.getMainImage_byPokemonId(POKEMON_ID);
+  const POKEMON_IMAGE = getPokemonSrcImage_byId(POKEMON_ID);
   const POLEMON_W = POKEMON.weight;
   const POKEMON_H = POKEMON.height;
 

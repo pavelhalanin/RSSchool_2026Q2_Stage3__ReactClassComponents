@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
-import PokemonHelper from './PokemonHelper';
+import { getPokemonSrcImage_byId } from './getPokemonSrcImage_byId';
 
-describe('PokemonHelper', () => {
+describe('getPokemonSrcImage_byId', () => {
   it('should generate correct artwork URL for any Pokémon ID', () => {
     const testCases = [
       { id: 1, expected: '/1.png' },
@@ -11,7 +11,7 @@ describe('PokemonHelper', () => {
     ];
 
     testCases.forEach(({ id, expected }) => {
-      const result = PokemonHelper.getMainImage_byPokemonId(id);
+      const result = getPokemonSrcImage_byId(id);
       expect(result).toContain(expected);
       expect(result).toMatch(
         /^https:\/\/raw\.githubusercontent\.com\/PokeAPI\/sprites\/master\/sprites\/pokemon\/other\/official-artwork\/\d+\.png$/
