@@ -9,7 +9,7 @@ import {
 import Main from '../../pages/Main/Main';
 import About from '../../pages/About/About';
 import Error404 from '../../pages/Error404/Error404';
-import RootOutlet from '../../outlet/RootOutlet';
+import RootOutlet from '../../outlet/RootOutlet/RootOutlet';
 import type { JSX } from 'react';
 import { CardOutlet } from '../../outlet/CardOutlet/CardOutlet';
 
