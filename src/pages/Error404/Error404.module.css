@@ -1,9 +1,23 @@
 .image {
   border-radius: 8px;
   max-width: 100%;
-  max-height: max(200px, calc(100vh - 250px));
+  transition: all 1s ease;
 }
 
-.image_block {
-  text-align: center;
+.two_block {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+@media (min-width: 768px) {
+  .image {
+    border-radius: 8px;
+    max-width: 225px;
+    max-height: 225px;
+  }
+  .two_block {
+    flex-wrap: unset;
+    gap: 32px;
+  }
 }
