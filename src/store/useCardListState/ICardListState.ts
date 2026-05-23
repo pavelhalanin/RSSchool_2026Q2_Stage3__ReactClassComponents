@@ -1,5 +1,3 @@
-import type { ICardListPokemon } from '../../components/CardList/Left/PokemonCards/ICardListPokemon';
-
 export interface ICardListState {
   isFetch: boolean;
   errorFetch: null | string;
@@ -31,4 +29,18 @@ export interface ICardListPokemonWithPadination {
       };
     };
   };
+}
+
+export interface ICardListPokemon {
+  id: number;
+  name: string;
+  weight: number;
+  height: number;
+  image_src: string;
+  pokemontypes: Array<{
+    slot: number;
+    type: {
+      name: string;
+    };
+  }>;
 }
