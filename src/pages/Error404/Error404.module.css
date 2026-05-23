@@ -1,0 +1,9 @@
+.image {
+  border-radius: 8px;
+  max-width: 100%;
+  max-height: max(200px, calc(100vh - 250px));
+}
+
+.image_block {
+  text-align: center;
+}

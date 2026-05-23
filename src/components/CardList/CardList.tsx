@@ -1,82 +1,89 @@
-import { Component } from 'react';
+import { useEffect, useState, type JSX } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import type { ICardListPokemonWithPadination } from './Left/Pagination/ICardListPokemonPagination';
+import CardListSearch from './CardListSearch/CardListSearch';
+import CardListPokemons from './Left/PokemonCards/CardListPokemons';
+import CardListInit from './CardListInit';
+import type { IPaginationData } from './Left/Pagination/IPaginationData';
 import styles from './CardList.module.css';
-import type GlobalState from '../Main/GlobalState';
-import Search from '../Search/Search';
-import Card from '../Card/Card';
+import { CardListRight } from './Right/CardListRight';
+import sleep from '../../utils/sleep';
+import { useLocalStorage } from '../../hook/useLocalStorage';
 
-interface CardListProps {
-  state: GlobalState;
-  updateState_errorBoundary: (exception: string) => void;
-  updateState_cardList: (CardList: Partial<GlobalState['cardList']>) => void;
-  updateState_search: (search: Partial<GlobalState['search']>) => void;
-  updateState_card: (card: Partial<GlobalState['card']>) => void;
-  updateState_searchPrev: (search: Partial<GlobalState['searchPrev']>) => void;
-}
+export default function CardList(): JSX.Element {
+  const LIMIT = CardListInit.getLimit();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const page = searchParams.get('page') || '1';
+  const details = searchParams.get('details');
 
-class CardList extends Component<CardListProps, GlobalState> {
-  constructor(props: CardListProps) {
-    super(props);
-  }
+  const searchStorage = useLocalStorage('search');
 
-  componentDidMount() {
-    this.fetchPokemons();
-  }
+  const [search, setSearch] = useState<string>(searchStorage.getItem() || '');
+  const [searchPrev, setSearchPrev] = useState<string | null>(null);
 
-  componentWillUnmount() {}
+  const [pagination, setPagination] = useState<IPaginationData>({
+    pagination: {
+      TOTOL_ITEMS: 0,
+      LIMITL_ITEMS: LIMIT,
+      CURRENT_PAGE: Number(page),
+      SKIP_ITEMS: 0,
+      LAST_PAGE: 0,
+    },
+    items: [],
+    isFetch: false,
+    fetchError: null,
+  });
 
-  generateFetchError() {
-    this.props.updateState_cardList({
-      pokemons: [],
-      isFetchNow: false,
-      errorFetch: 'Custom test error HTTP 400-500',
+  const setParams = (page: string, details: string | null) => {
+    setSearchParams({
+      page,
+      ...(details && { details }),
     });
-  }
+  };
 
-  fetchPokemons = async () => {
+  const isPositiveNumber = (str: number | string) => {
+    return `${str}`.match(/\d+(?:\.\d+)?/g);
+  };
+
+  const getPage = () => {
+    const PAGE = Number(page) || 1;
+    if (PAGE < 1) {
+      return 1;
+    }
+    return PAGE;
+  };
+
+  const getOffet = () => {
+    const PAGE = getPage();
+    const OFFSET = CardListInit.getLimit() * (PAGE - 1);
+    return OFFSET;
+  };
+
+  async function fetchPokemons() {
     try {
-      const SEARCH = this.props.state.search.trim();
-      localStorage.setItem('search', SEARCH);
+      const SEARCH = search.trim();
+      searchStorage.setItem(SEARCH);
 
-      if (
-        SEARCH === this.props.state.searchPrev &&
-        this.props.state.cardList.errorFetch === null &&
-        SEARCH !== null
-      ) {
-        console.log(
-          [
-            `No load Pokemon card list because:`,
-            `- SEARCH "${SEARCH}" === searchPrev "${this.props.state.searchPrev}"`,
-            `- and errorFetch === null`,
-            `- and SEARCH !== null`,
-          ].join('\n')
-        );
-        return;
-      }
-
-      this.props.updateState_cardList({
-        pokemons: [],
-        isFetchNow: true,
-        errorFetch: null,
+      setPagination(() => {
+        return {
+          pagination: CardListInit.getInitPagination(),
+          items: [],
+          isFetch: true,
+          fetchError: null,
+        };
       });
+
+      await sleep(500);
+
+      const OFFSET: number = getOffet();
 
       const GRAPHQL = `
         query MyQuery {
-          pokemon(where: {name: {_like: "%${SEARCH}%"}}) {
-            # base_experience
+          pokemon(limit: ${LIMIT}, offset: ${OFFSET}, where: {name: {_like: "%${SEARCH}%"}}) {
             height
             id
-            # is_default
             name
-            # pokemon_species_id
             weight
-            # pokemonabilities {
-            #   ability {
-            #     abilitynames(where: {language: {id: {_eq: 9}}}) {
-            #       id
-            #       name
-            #     }
-            #   }
-            # }
             pokemontypes {
               slot
               type {
@@ -84,10 +91,16 @@ class CardList extends Component<CardListProps, GlobalState> {
               }
             }
           }
+          pokemon_aggregate(where: {name: {_like: "%${SEARCH}%"}}) {
+            aggregate {
+              count
+            }
+          }
         }
       `;
 
       const URL_ = `https://graphql.pokeapi.co/v1beta2`;
+
       const RESPONSE = await fetch(URL_, {
         method: 'POST',
         headers: {
@@ -100,179 +113,120 @@ class CardList extends Component<CardListProps, GlobalState> {
 
       const HTTP_STATUS = RESPONSE.status;
 
-      if (HTTP_STATUS >= 400 && HTTP_STATUS <= 599) {
+      if ((HTTP_STATUS >= 400 && HTTP_STATUS <= 599) || HTTP_STATUS !== 200) {
         const TEXT = await RESPONSE.text();
         const MESSAGE = `HTTP ${HTTP_STATUS}\n${TEXT}`;
 
-        this.props.updateState_cardList({
-          pokemons: [],
-          isFetchNow: false,
-          errorFetch: MESSAGE,
-        });
-
-        return;
-      }
-
-      if (HTTP_STATUS !== 200) {
-        const TEXT = await RESPONSE.text();
-        const MESSAGE = `HTTP ${HTTP_STATUS}\n${TEXT}`;
-
-        this.props.updateState_cardList({
-          pokemons: [],
-          isFetchNow: false,
-          errorFetch: MESSAGE,
-        });
-
-        return;
-      }
-
-      const DATA = await RESPONSE.json();
-
-      const POKEMONS: GlobalState['cardList']['pokemons'] = (
-        DATA.data.pokemon || []
-      )
-        .filter(Boolean)
-        .map((e: GlobalState['cardList']['pokemons'][number]) => {
+        setPagination(() => {
           return {
-            ...e,
-            image_src: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${e.id}.png`,
+            pagination: CardListInit.getInitPagination(),
+            items: [],
+            isFetch: false,
+            fetchError: MESSAGE,
           };
         });
+        return;
+      }
 
-      this.props.updateState_cardList({
-        pokemons: POKEMONS,
-        isFetchNow: false,
-        errorFetch: null,
+      const DATA: ICardListPokemonWithPadination = await RESPONSE.json();
+
+      if (page !== '1' && DATA.data.pokemon.length == 0) {
+        setPagination(() => {
+          return {
+            pagination: CardListInit.getInitPagination(),
+            items: [],
+            isFetch: false,
+            fetchError: null,
+          };
+        });
+        setParams('1', details);
+        return;
+      }
+
+      const TOTAL_ITEMS = DATA.data.pokemon_aggregate.aggregate.count;
+      setPagination(() => {
+        return {
+          pagination: {
+            TOTOL_ITEMS: TOTAL_ITEMS,
+            LIMITL_ITEMS: LIMIT,
+            CURRENT_PAGE: Number(page),
+            SKIP_ITEMS: LIMIT * Number(page),
+            LAST_PAGE: Math.ceil(TOTAL_ITEMS / LIMIT),
+          },
+          items: DATA.data.pokemon,
+          isFetch: false,
+          fetchError: null,
+        };
       });
-      this.props.updateState_search(SEARCH);
-      this.props.updateState_searchPrev(SEARCH);
+      setSearch(SEARCH);
+      setSearchPrev(SEARCH);
     } catch (exception) {
-      this.props.updateState_errorBoundary(String(exception));
-    }
-  };
-
-  emulateCustomError() {
-    try {
-      throw new Error('Custom Error Boundary generated for Fallback UI');
-    } catch (exception) {
-      this.props.updateState_errorBoundary(String(exception));
+      if (
+        exception instanceof TypeError &&
+        exception.message === 'Failed to fetch'
+      ) {
+        setPagination(() => {
+          return {
+            pagination: CardListInit.getInitPagination(),
+            items: [],
+            isFetch: false,
+            fetchError: `${String(exception)}`,
+          };
+        });
+      }
     }
   }
 
-  render() {
-    const { pokemons, isFetchNow, errorFetch } = this.props.state.cardList;
+  useEffect(() => {
+    fetchPokemons();
+  }, [page]);
 
-    if (isFetchNow) {
-      return <div className={styles.spinner__wrapper}>Pokémon Collection</div>;
-    }
+  if (!isPositiveNumber(page)) {
+    setParams('1', null);
+    return <></>;
+  }
 
-    return (
-      <>
-        <Card
-          state={this.props.state}
-          updateState_errorBoundary={this.props.updateState_errorBoundary}
-          updateState_card={this.props.updateState_card}
-          updateState_cardList={this.props.updateState_cardList}
-        />
-        <div className="container">
-          <section className="section">
-            <Search
-              state={this.props.state}
-              fetchPokemons={this.fetchPokemons}
-              updateState_errorBoundary={this.props.updateState_errorBoundary}
-              updateState_cardList={this.props.updateState_cardList}
-              updateState_search={this.props.updateState_search}
-            />
-            <div className={styles.error_buttons__wrapper}>
-              <button
-                className="btn btn-danger"
-                onClick={() => this.emulateCustomError()}
-              >
-                Generate error boundary
-              </button>
-              <button
-                className="btn btn-danger"
-                onClick={() => this.generateFetchError()}
-              >
-                Generate fetch error
-              </button>
+  if (details == '') {
+    setParams(page, null);
+    return <></>;
+  }
+
+  return (
+    <>
+      <CardListSearch
+        fetchPokemons={fetchPokemons}
+        page={page}
+        pagination={pagination}
+        search={search}
+        searchPrev={searchPrev}
+        setPagination={setPagination}
+        setParams={setParams}
+        setSearch={setSearch}
+      />
+      <div className="container">
+        <section className="section">
+          <div className={styles.card_list__blocks}>
+            <div className={styles.card_list__left_block}>
+              <CardListPokemons
+                fetchPokemons={fetchPokemons}
+                page={page}
+                pagination={pagination}
+                searchPrev={searchPrev}
+                setParams={setParams}
+              />
             </div>
-          </section>
-        </div>
-        <div className="container">
-          <section className="section">
-            <h1 className={styles.h1}>Pokémon Collection</h1>
-            {errorFetch ? (
-              <div className="alert alert-danger">
-                <div>{errorFetch}</div>
-                <button
-                  className="btn btn-success"
-                  onClick={() => this.fetchPokemons()}
-                >
-                  Repeat load fetch
-                </button>
-              </div>
-            ) : (
-              <>
-                {pokemons.length != 0 ? (
-                  ''
-                ) : (
-                  <div className="container">
-                    <div className="alert alert-danger">
-                      No Pokémon found by search. Please enter a different
-                      search term and click the search button.
-                    </div>
-                  </div>
-                )}
-
-                <ul className={styles.card_list}>
-                  {pokemons?.map((pokemon) => {
-                    return (
-                      <li key={pokemon.id} className="pokemon-card">
-                        <button
-                          onClick={() => {
-                            this.props.updateState_card({
-                              dialogIsOpen: true,
-                              pokemonId: pokemon.id,
-                              isFetchNow: false,
-                              pokemon: null,
-                            });
-                          }}
-                        >
-                          <div className={styles.card_list__image_block}>
-                            <img
-                              src={pokemon.image_src}
-                              alt={pokemon.name}
-                              onError={(e) => {
-                                (e.target as HTMLImageElement).title =
-                                  `Не удалось загрузить фото\n${pokemon.image_src}`;
-                              }}
-                            />
-                          </div>
-                          <h2 className={styles.card_list__pokemon_id}>
-                            #{pokemon.id}
-                          </h2>
-                          <h3>{pokemon.name}</h3>
-                          <div>
-                            {pokemon.weight} x {pokemon.height}
-                          </div>
-                          <ul className={styles.pokemon__types}>
-                            {pokemon.pokemontypes.map((e) => {
-                              return <li key={e.type.name}>{e.type.name}</li>;
-                            })}
-                          </ul>
-                        </button>
-                      </li>
-                    );
-                  })}
-                </ul>
-              </>
-            )}
-          </section>
-        </div>
-      </>
-    );
-  }
+            <div
+              className={`${styles.card_list__right_block} ${details !== null ? styles['card_list__right_block--open'] : ''}`}
+            >
+              <CardListRight
+                page={page}
+                details={details}
+                setParams={setParams}
+              />
+            </div>
+          </div>
+        </section>
+      </div>
+    </>
+  );
 }
-
-export default CardList;
