@@ -1,13 +1,17 @@
 import type { JSX } from 'react';
 import styles from '../../CardList.module.css';
 import CardListPagination from './../Pagination/CardListPagination';
-import type { ICardListPokemons } from './ICardListPokemons';
 import PokemonHelper from '../../../../utils/PokemonHelper';
 import { useCardListState } from '../../../../store/useCardListState/useCardListState';
 import { useSearchParams } from 'react-router-dom';
 
+export interface IPropsCardListPokemons {
+  page: string;
+  setParams: (page: null | string, details: string) => void;
+}
+
 export default function CardListPokemons(
-  props: ICardListPokemons
+  props: IPropsCardListPokemons
 ): JSX.Element {
   const [searchParams] = useSearchParams();
   const page = searchParams.get('page');
