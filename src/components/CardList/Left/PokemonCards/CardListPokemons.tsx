@@ -21,7 +21,7 @@ export default function CardListPokemons(
   if (errorFetch) {
     return (
       <div className="alert alert-danger">
-        <div>{errorFetch}</div>
+        <p>{errorFetch}</p>
         <button className="btn btn-success" onClick={() => fetchPokemons()}>
           Repeat load fetch
         </button>

@@ -51,7 +51,7 @@ function CardListRightContent() {
   if (errorFetch) {
     return (
       <div className="alert alert-danger">
-        {errorFetch}
+        <p>{errorFetch}</p>
         <button
           className="btn btn-success"
           onClick={() => loadCard_byDetails(details)}
