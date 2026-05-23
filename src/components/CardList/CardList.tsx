@@ -5,6 +5,7 @@ import CardListPokemons from './Left/PokemonCards/CardListPokemons';
 import styles from './CardList.module.css';
 import { useCardListState } from '../../store/useCardListState/useCardListState';
 import { usePokemonNavigation } from '../../hook/usePokemonNavigation/usePokemonNavigation';
+import CsvPanel from '../CsvPanel/CsvPanel';
 
 export default function CardList(): JSX.Element {
   const { pokemonNavigation } = usePokemonNavigation();
@@ -48,6 +49,7 @@ export default function CardList(): JSX.Element {
           </div>
         </section>
       </div>
+      <CsvPanel />
     </>
   );
 }

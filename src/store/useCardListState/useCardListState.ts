@@ -3,6 +3,7 @@ import type {
   ICardListPokemonWithPadination,
   ICardListState,
 } from './ICardListState';
+import { downloadFile_byText } from '../../utils/downloadFile_byText/downloadFIle_byText';
 
 export const useCardListState = create<ICardListState>((set, get) => ({
   isFetch: false,
@@ -19,6 +20,7 @@ export const useCardListState = create<ICardListState>((set, get) => ({
     TOTAL_ITEMS: 0,
   },
   items: [],
+  csvItems: [],
   setSearch(newSearch) {
     console.log(
       new Date().toJSON().slice(0, 19),
@@ -163,5 +165,60 @@ export const useCardListState = create<ICardListState>((set, get) => ({
         CURRENT_PAGE: +PAGE,
       },
     }));
+  },
+  addOrRemoveCsvItem(isChecked, pokemonId) {
+    if (!isChecked) {
+      set((state) => ({
+        ...state,
+        csvItems: state.csvItems.filter((e) => e.id !== pokemonId),
+      }));
+      return;
+    }
+
+    set((state) => ({
+      ...state,
+      csvItems: [
+        ...state.csvItems,
+        ...state.items.filter((e) => e.id === pokemonId),
+      ],
+    }));
+  },
+  isSelectedCsvItem_byId(pokemonId: number) {
+    const STATE = get();
+    const FILTERED_ARRAY = STATE.csvItems.filter((e) => e.id === pokemonId);
+    const IS_SELECTED = FILTERED_ARRAY.length > 0;
+    return IS_SELECTED;
+  },
+  unselectAllCsvItems() {
+    set((state) => ({
+      ...state,
+      csvItems: [],
+    }));
+  },
+  downloadCsvItems() {
+    const CSV_ROWS_ARRAY: Array<string> = [];
+    const SEPARATOR = '\t';
+    CSV_ROWS_ARRAY.push(['id', 'name', 'weight', 'height'].join(SEPARATOR));
+
+    const STATE = get();
+    const SELECTED_CARDS = STATE.csvItems;
+
+    for (let i = 0; i < SELECTED_CARDS.length; i++) {
+      const POKEMON = SELECTED_CARDS[i];
+      CSV_ROWS_ARRAY.push(
+        [
+          `${POKEMON.id}`,
+          `${POKEMON.name}`,
+          `${POKEMON.weight}`,
+          `${POKEMON.height}`,
+        ].join(SEPARATOR)
+      );
+    }
+
+    const CSV = CSV_ROWS_ARRAY.join('\n');
+
+    const DATE_PREFIX: string = new Date().toJSON().slice(0, 19);
+    const FILENAME: string = `${DATE_PREFIX}_pokemon_selected_cards.csv`;
+    downloadFile_byText(FILENAME, CSV);
   },
 }));

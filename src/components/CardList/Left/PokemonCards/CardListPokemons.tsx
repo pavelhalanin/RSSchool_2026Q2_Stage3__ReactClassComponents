@@ -9,8 +9,15 @@ import { usePokemonNavigation } from '../../../../hook/usePokemonNavigation/useP
 export default function CardListPokemons(): JSX.Element {
   const { pokemonNavigation } = usePokemonNavigation();
   const { page } = useParams();
-  const { errorFetch, fetchPokemons, isFetch, items, prevSearch } =
-    useCardListState();
+  const {
+    errorFetch,
+    fetchPokemons,
+    isFetch,
+    items,
+    prevSearch,
+    addOrRemoveCsvItem,
+    isSelectedCsvItem_byId,
+  } = useCardListState();
 
   if (errorFetch) {
     return (
@@ -44,8 +51,16 @@ export default function CardListPokemons(): JSX.Element {
           const POKEMON_IMAGE: string = getPokemonSrcImage_byId(POKEMON_ID);
           return (
             <li key={POKEMON_ID}>
-              <input type="checkbox" />
+              <input
+                className={styles.card_list__checkbox_button}
+                type="checkbox"
+                checked={isSelectedCsvItem_byId(POKEMON_ID)}
+                onChange={(event) =>
+                  addOrRemoveCsvItem(event.target.checked, POKEMON_ID)
+                }
+              />
               <button
+                className={styles.card_list__button}
                 onClick={() => {
                   pokemonNavigation({ page, details: `${POKEMON_ID}` });
                 }}

@@ -20,7 +20,7 @@
   position: relative;
 }
 
-.card_list > li > input[type='checkbox'] {
+.card_list > li > input[type='checkbox'].card_list__checkbox_button {
   position: absolute;
   top: 16px;
   right: 16px;
@@ -29,7 +29,7 @@
   display: block;
 }
 
-.card_list > li > button {
+.card_list > li > button.card_list__button {
   padding: 0;
   width: 100%;
 
@@ -42,7 +42,7 @@
   transition: all ease 0.5s;
 }
 
-.card_list > li > button:hover {
+.card_list > li > button.card_list__button:hover {
   cursor: pointer;
   box-shadow: 0 0 32px rgba(0, 0, 0, 0.25);
 }
