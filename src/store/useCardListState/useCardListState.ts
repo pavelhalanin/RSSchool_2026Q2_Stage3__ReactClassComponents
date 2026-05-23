@@ -50,6 +50,11 @@ export const useCardListState = create<ICardListState>((set, get) => ({
     }
 
     try {
+      set((state) => ({
+        ...state,
+        isFetch: true,
+      }));
+
       const SEARCH = STATE.search.trim();
       const OFFSET = STATE.pagination.LIMITL_ITEMS * (Number(STATE.page) - 1);
 

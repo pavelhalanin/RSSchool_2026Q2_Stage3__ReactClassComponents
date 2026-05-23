@@ -24,12 +24,7 @@ export default function CardListPokemons(): JSX.Element {
   }
 
   if (isFetch) {
-    return (
-      <>
-        <h1 className="h1">Pokémon Collection</h1>
-        <div className={styles.spinner__wrapper}>Pokémon Collection</div>
-      </>
-    );
+    return <div className={styles.spinner__wrapper}>Pokémon Collection</div>;
   }
 
   if (items.length === 0) {
