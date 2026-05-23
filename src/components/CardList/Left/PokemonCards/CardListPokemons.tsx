@@ -4,24 +4,24 @@ import CardListPagination from './../Pagination/CardListPagination';
 import type { ICardListPokemons } from './ICardListPokemons';
 import PokemonHelper from '../../../../utils/PokemonHelper';
 import { useCardListState } from '../../../../store/useCardListState/useCardListState';
+import { useSearchParams } from 'react-router-dom';
 
 export default function CardListPokemons(
   props: ICardListPokemons
 ): JSX.Element {
+  const [searchParams] = useSearchParams();
+  const page = searchParams.get('page');
   const { errorFetch, fetchPokemons, isFetch, items, prevSearch } =
     useCardListState();
 
   if (errorFetch) {
     return (
-      <>
-        <h1 className="h1">Pokémon Collection</h1>
-        <div className="alert alert-danger">
-          <div>{errorFetch}</div>
-          <button className="btn btn-success" onClick={() => fetchPokemons()}>
-            Repeat load fetch
-          </button>
-        </div>
-      </>
+      <div className="alert alert-danger">
+        <div>{errorFetch}</div>
+        <button className="btn btn-success" onClick={() => fetchPokemons()}>
+          Repeat load fetch
+        </button>
+      </div>
     );
   }
 
@@ -36,19 +36,15 @@ export default function CardListPokemons(
 
   if (items.length === 0) {
     return (
-      <>
-        <h1 className="h1">Pokémon Collection</h1>
-        <div className="alert alert-danger">
-          No Pokémon found by search ({prevSearch}) on page {props.page}. Please
-          enter a different search term and click the search button.
-        </div>
-      </>
+      <div className="alert alert-danger">
+        No Pokémon found by search ({prevSearch}) on page {page}. Please enter a
+        different search term and click the search button.
+      </div>
     );
   }
 
   return (
     <>
-      <h1 className="h1">Pokémon Collection</h1>
       <ul className={styles.card_list}>
         {items.map((pokemon) => {
           const POKEMON_ID: number = Number(pokemon.id);
@@ -58,7 +54,7 @@ export default function CardListPokemons(
             <li key={POKEMON_ID} className="pokemon-card">
               <button
                 onClick={() => {
-                  props.setParams(props.page, `${POKEMON_ID}`);
+                  props.setParams(page, `${POKEMON_ID}`);
                 }}
               >
                 <div className={styles.card_list__image_block}>
@@ -86,7 +82,7 @@ export default function CardListPokemons(
           );
         })}
       </ul>
-      <CardListPagination page={props.page} setParams={props.setParams} />
+      <CardListPagination setParams={props.setParams} />
     </>
   );
 }

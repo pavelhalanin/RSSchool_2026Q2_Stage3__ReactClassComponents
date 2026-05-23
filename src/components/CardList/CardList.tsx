@@ -12,9 +12,9 @@ export default function CardList(): JSX.Element {
   const details = searchParams.get('details');
   const { fetchPokemons, setPage } = useCardListState();
 
-  const setParams = (page: string, details: string | null) => {
+  const setParams = (page: null | string, details: string | null) => {
     setSearchParams({
-      page,
+      page: page ? page : '',
       ...(details && { details }),
     });
   };
@@ -45,16 +45,13 @@ export default function CardList(): JSX.Element {
         <section className="section">
           <div className={styles.card_list__blocks}>
             <div className={styles.card_list__left_block}>
+              <h1 className="h1">Pokémon Collection</h1>
               <CardListPokemons page={page} setParams={setParams} />
             </div>
             <div
               className={`${styles.card_list__right_block} ${details !== null ? styles['card_list__right_block--open'] : ''}`}
             >
-              <CardListRight
-                page={page}
-                details={details}
-                setParams={setParams}
-              />
+              <CardListRight setParams={setParams} />
             </div>
           </div>
         </section>

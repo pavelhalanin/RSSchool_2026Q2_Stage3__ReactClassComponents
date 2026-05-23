@@ -1,146 +1,32 @@
-import { useEffect, useState } from 'react';
-import type { IPokemon } from './IPokemon';
+import { useEffect } from 'react';
 import styles from '../CardList.module.css';
-import sleep from '../../../utils/sleep';
 import PokemonHelper from '../../../utils/PokemonHelper';
+import { useCardState } from '../../../store/useCard/useCardState';
+import { useSearchParams } from 'react-router-dom';
 
-interface ICardListRight {
-  page: string;
-  details: string | null;
-  setParams: (page: string, details: string) => void;
+interface ICardListRightProps {
+  setParams: (page: null | string, details: string) => void;
 }
 
-interface ICardData {
-  item: null | IPokemon;
-  isFetch: boolean;
-  fetchError: null | string;
-}
-
-export function CardListRight(props: ICardListRight) {
-  const [cardData, setCardData] = useState<ICardData>({
-    item: null,
-    isFetch: false,
-    fetchError: null,
-  });
+export function CardListRight(props: ICardListRightProps) {
+  const { closeCard, generateFetchError, loadCard_byDetails } = useCardState();
+  const [searchParams] = useSearchParams();
+  const page = searchParams.get('page');
+  const details = searchParams.get('details');
 
   const closeRight = () => {
-    setCardData({
-      item: null,
-      isFetch: false,
-      fetchError: null,
-    });
-    props.setParams(props.page, '');
+    closeCard();
+    props.setParams(page, '');
   };
-
-  const generateFetchError = () => {
-    setCardData({
-      item: null,
-      isFetch: false,
-      fetchError: 'Custom test error HTTP 400-500',
-    });
-  };
-
-  async function loadCard() {
-    setCardData({
-      item: null,
-      isFetch: true,
-      fetchError: null,
-    });
-
-    await sleep(500);
-
-    const GRAPHQL = `
-      query MyQuery {
-        pokemon(where: {id: {_eq: ${props.details}}}) {
-          base_experience
-          height
-          id
-          is_default
-          name
-          pokemon_species_id
-          weight
-          pokemonabilities {
-            ability {
-              abilitynames(where: {language: {id: {_eq: 9}}}) {
-                id
-                name
-              }
-            }
-          }
-          pokemontypes {
-            slot
-            type {
-              name
-            }
-          }
-          pokemonsprites {
-            sprites
-          }
-          pokemoncries {
-            cries
-          }
-        }
-      }
-    `;
-
-    const URL_ = `https://graphql.pokeapi.co/v1beta2`;
-
-    try {
-      const RESPONSE = await fetch(URL_, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          query: GRAPHQL,
-        }),
-      });
-
-      const HTTP_STATUS = RESPONSE.status;
-
-      if (HTTP_STATUS >= 400 && HTTP_STATUS <= 599) {
-        const TEXT = await RESPONSE.text();
-        const MESSAGE = `HTTP ${HTTP_STATUS}\n${TEXT}`;
-
-        setCardData({
-          item: null,
-          isFetch: false,
-          fetchError: MESSAGE,
-        });
-      } else if (HTTP_STATUS !== 200) {
-        const TEXT = await RESPONSE.text();
-        const MESSAGE = `HTTP ${HTTP_STATUS}\n${TEXT}`;
-        setCardData({
-          item: null,
-          isFetch: false,
-          fetchError: MESSAGE,
-        });
-      } else {
-        const DATA = await RESPONSE.json();
-        const POKEMON: IPokemon = DATA.data.pokemon[0];
-        setCardData({
-          item: POKEMON,
-          isFetch: false,
-          fetchError: null,
-        });
-      }
-    } catch (err) {
-      setCardData({
-        item: null,
-        isFetch: false,
-        fetchError: err instanceof Error ? err.message : 'Unknown error',
-      });
-    }
-  }
 
   useEffect(() => {
-    if (props.details === null || props.details == '') {
+    if (details === null || details == '') {
       return;
     }
     (async function () {
-      loadCard();
+      await loadCard_byDetails(details);
     })();
-  }, [props.details]);
+  }, [details, loadCard_byDetails]);
 
   return (
     <>
@@ -152,37 +38,39 @@ export function CardListRight(props: ICardListRight) {
           Generate error
         </button>
       </div>
-      <CardListRightContent cardData={cardData} loadCard={loadCard} />
+      <CardListRightContent />
     </>
   );
 }
 
-interface ICardListRightContent {
-  cardData: ICardData;
-  loadCard: () => void;
-}
+function CardListRightContent() {
+  const { errorFetch, isFetch, item, loadCard_byDetails } = useCardState();
+  const [searchParams] = useSearchParams();
+  const details = searchParams.get('details');
 
-function CardListRightContent(props: ICardListRightContent) {
-  if (props.cardData.fetchError) {
+  if (errorFetch) {
     return (
       <div className="alert alert-danger">
-        {props.cardData.fetchError}
-        <button className="btn btn-success" onClick={() => props.loadCard()}>
+        {errorFetch}
+        <button
+          className="btn btn-success"
+          onClick={() => loadCard_byDetails(details)}
+        >
           Repeat load fetch
         </button>
       </div>
     );
   }
 
-  if (props.cardData.isFetch) {
+  if (isFetch) {
     return <div className={styles.spinner__wrapper}>Loading</div>;
   }
 
-  if (props.cardData.item === null) {
+  if (item === null) {
     return <></>;
   }
 
-  const POKEMON = props.cardData.item;
+  const POKEMON = item;
   const POKEMON_ID = POKEMON.id;
   const POKEMON_IMAGE = PokemonHelper.getMainImage_byPokemonId(POKEMON_ID);
   const POLEMON_W = POKEMON.weight;
