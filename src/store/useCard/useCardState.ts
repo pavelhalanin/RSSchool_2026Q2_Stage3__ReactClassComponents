@@ -21,7 +21,7 @@ export const useCardState = create<ICardState>((set) => ({
     }));
   },
   async loadCard_byDetails(details) {
-    if (details === null) {
+    if (!details) {
       return;
     }
 

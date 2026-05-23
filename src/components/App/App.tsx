@@ -11,11 +11,15 @@ import About from '../../pages/About/About';
 import Error404 from '../../pages/Error404/Error404';
 import RootOutlet from '../../outlet/RootOutlet';
 import type { JSX } from 'react';
+import { CardOutlet } from '../../outlet/CardOutlet/CardOutlet';
 
 const routesConfig = createRoutesFromElements(
   <Route path="/" element={<RootOutlet />}>
-    <Route path="/" element={<Navigate to={'/pokemon/?page=1'} replace />} />
+    <Route path="/" element={<Navigate to={'/pokemon/1'} replace />} />
     <Route path="pokemon" element={<Main />} />
+    <Route path="pokemon/:page" element={<Main />}>
+      <Route path=":details" element={<CardOutlet />} />
+    </Route>
     <Route path="about" element={<About />} />
     <Route path="*" element={<Error404 />} />
   </Route>

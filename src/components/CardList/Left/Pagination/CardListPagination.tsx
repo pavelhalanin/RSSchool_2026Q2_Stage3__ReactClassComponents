@@ -1,15 +1,12 @@
-import { useSearchParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useCardListState } from '../../../../store/useCardListState/useCardListState';
 import styles from './../../CardList.module.css';
+import { usePokemonNavigation } from '../../../../hook/usePokemonNavigation/usePokemonNavigation';
 
-export interface IPropsCardListPagination {
-  setParams: (page: string, details: string) => void;
-}
-
-export default function CardListPagination(props: IPropsCardListPagination) {
+export default function CardListPagination() {
+  const { pokemonNavigation } = usePokemonNavigation();
   const { pagination } = useCardListState();
-  const [searchParams] = useSearchParams();
-  const page = searchParams.get('page');
+  const { page } = useParams();
 
   return (
     <ul className={styles.pagination}>
@@ -20,7 +17,7 @@ export default function CardListPagination(props: IPropsCardListPagination) {
           <li key={ELEMENT_PAGE}>
             <button
               onClick={() => {
-                props.setParams(`${ELEMENT_PAGE}`, '');
+                pokemonNavigation({ page: `${ELEMENT_PAGE}` });
               }}
               className={IS_ACTIVE ? styles.pagination__active : ''}
             >

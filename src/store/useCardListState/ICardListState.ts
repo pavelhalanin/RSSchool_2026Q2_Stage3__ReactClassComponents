@@ -17,7 +17,7 @@ export interface ICardListState {
   generateFetchError: () => void;
   setSearch: (newSearch: string) => void;
   fetchPokemons: () => void;
-  setPage: (newPage: string) => void;
+  setPage: (newPage: undefined | string) => void;
 }
 
 export interface ICardListPokemonWithPadination {

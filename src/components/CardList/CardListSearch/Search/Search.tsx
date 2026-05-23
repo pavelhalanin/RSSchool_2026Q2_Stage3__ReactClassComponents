@@ -1,12 +1,10 @@
 import type { JSX } from 'react';
 import styles from './Search.module.css';
 import { useCardListState } from '../../../../store/useCardListState/useCardListState';
+import { usePokemonNavigation } from '../../../../hook/usePokemonNavigation/usePokemonNavigation';
 
-export interface IPropsSearch {
-  setParams: (page: string, details: string) => void;
-}
-
-export default function Search(props: IPropsSearch): JSX.Element {
+export default function Search(): JSX.Element {
+  const { pokemonNavigation } = usePokemonNavigation();
   const { search, prevSearch, errorFetch, setSearch, fetchPokemons } =
     useCardListState();
 
@@ -22,7 +20,7 @@ export default function Search(props: IPropsSearch): JSX.Element {
       <button
         className="btn btn-success"
         onClick={() => {
-          props.setParams('1', '');
+          pokemonNavigation({ page: 1 });
           fetchPokemons();
         }}
         disabled={!errorFetch && search === prevSearch}

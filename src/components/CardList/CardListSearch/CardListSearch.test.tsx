@@ -40,18 +40,11 @@ vi.mock('../../ErrorButton/ErrorButton', () => ({
 }));
 
 describe('CardListSearch', () => {
-  const mockSetParams = vi.fn();
-
-  const defaultProps = {
-    page: '1',
-    setParams: mockSetParams,
-  };
-
   beforeEach(() => {
     vi.clearAllMocks();
   });
 
   it('renders without errors', () => {
-    expect(() => render(<CardListSearch {...defaultProps} />)).not.toThrow();
+    expect(() => render(<CardListSearch />)).not.toThrow();
   });
 });

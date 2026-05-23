@@ -2,19 +2,13 @@ import type { JSX } from 'react';
 import styles from '../../CardList.module.css';
 import CardListPagination from './../Pagination/CardListPagination';
 import { useCardListState } from '../../../../store/useCardListState/useCardListState';
-import { useSearchParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { getPokemonSrcImage_byId } from '../../../../utils/getPokemonSrcImage_byId';
+import { usePokemonNavigation } from '../../../../hook/usePokemonNavigation/usePokemonNavigation';
 
-export interface IPropsCardListPokemons {
-  page: string;
-  setParams: (page: null | string, details: string) => void;
-}
-
-export default function CardListPokemons(
-  props: IPropsCardListPokemons
-): JSX.Element {
-  const [searchParams] = useSearchParams();
-  const page = searchParams.get('page');
+export default function CardListPokemons(): JSX.Element {
+  const { pokemonNavigation } = usePokemonNavigation();
+  const { page } = useParams();
   const { errorFetch, fetchPokemons, isFetch, items, prevSearch } =
     useCardListState();
 
@@ -57,7 +51,7 @@ export default function CardListPokemons(
             <li key={POKEMON_ID} className="pokemon-card">
               <button
                 onClick={() => {
-                  props.setParams(page, `${POKEMON_ID}`);
+                  pokemonNavigation({ page, details: `${POKEMON_ID}` });
                 }}
               >
                 <div className={styles.card_list__image_block}>
@@ -85,7 +79,7 @@ export default function CardListPokemons(
           );
         })}
       </ul>
-      <CardListPagination setParams={props.setParams} />
+      <CardListPagination />
     </>
   );
 }

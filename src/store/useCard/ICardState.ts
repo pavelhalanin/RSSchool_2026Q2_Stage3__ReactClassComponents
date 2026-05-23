@@ -4,7 +4,7 @@ export interface ICardState {
   item: null | IPokemon;
   closeCard: () => void;
   generateFetchError: () => void;
-  loadCard_byDetails: (details: null | string) => void;
+  loadCard_byDetails: (details: undefined | string) => void;
 }
 
 export interface IPokemon {

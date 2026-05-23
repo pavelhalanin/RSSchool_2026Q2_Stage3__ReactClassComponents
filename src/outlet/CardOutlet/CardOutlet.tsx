@@ -1,32 +1,32 @@
 import { useEffect } from 'react';
-import styles from '../CardList.module.css';
-import { useCardState } from '../../../store/useCard/useCardState';
-import { useSearchParams } from 'react-router-dom';
-import { getPokemonSrcImage_byId } from '../../../utils/getPokemonSrcImage_byId';
+import styles from './../../components/CardList/CardList.module.css';
+import { useCardState } from '../../store/useCard/useCardState';
+import { useParams } from 'react-router-dom';
+import { getPokemonSrcImage_byId } from '../../utils/getPokemonSrcImage_byId';
+import { usePokemonNavigation } from '../../hook/usePokemonNavigation/usePokemonNavigation';
 
-interface ICardListRightProps {
-  setParams: (page: null | string, details: string) => void;
-}
-
-export function CardListRight(props: ICardListRightProps) {
+export function CardOutlet() {
+  const { pokemonNavigation } = usePokemonNavigation();
   const { closeCard, generateFetchError, loadCard_byDetails } = useCardState();
-  const [searchParams] = useSearchParams();
-  const page = searchParams.get('page');
-  const details = searchParams.get('details');
+  const { page, details } = useParams();
 
   const closeRight = () => {
     closeCard();
-    props.setParams(page, '');
+    pokemonNavigation({ page });
   };
 
   useEffect(() => {
-    if (details === null || details == '') {
+    if (!details) {
       return;
     }
     (async function () {
       await loadCard_byDetails(details);
     })();
   }, [details, loadCard_byDetails]);
+
+  if (!details) {
+    return <></>;
+  }
 
   return (
     <>
@@ -45,8 +45,11 @@ export function CardListRight(props: ICardListRightProps) {
 
 function CardListRightContent() {
   const { errorFetch, isFetch, item, loadCard_byDetails } = useCardState();
-  const [searchParams] = useSearchParams();
-  const details = searchParams.get('details');
+  const { details } = useParams();
+
+  if (details === null) {
+    return <></>;
+  }
 
   if (errorFetch) {
     return (

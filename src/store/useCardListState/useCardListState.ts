@@ -148,17 +148,14 @@ export const useCardListState = create<ICardListState>((set, get) => ({
       `useCardListState setPage(${newPage})`
     );
 
-    let page = Number(newPage) || 1;
-    if (page <= 0) {
-      page = 1;
-    }
+    const PAGE: string = Number(newPage) > 0 ? `${newPage}` : '1';
 
     set((state) => ({
       ...state,
-      page: newPage,
+      page: PAGE,
       pagination: {
         ...state.pagination,
-        CURRENT_PAGE: page,
+        CURRENT_PAGE: +PAGE,
       },
     }));
   },
