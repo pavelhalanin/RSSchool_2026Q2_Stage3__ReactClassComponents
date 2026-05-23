@@ -1,9 +1,12 @@
 import { useSearchParams } from 'react-router-dom';
 import { useCardListState } from '../../../../store/useCardListState/useCardListState';
 import styles from './../../CardList.module.css';
-import type { ICardListPagination } from './ICardListPagination';
 
-export default function CardListPagination(props: ICardListPagination) {
+export interface IPropsCardListPagination {
+  setParams: (page: string, details: string) => void;
+}
+
+export default function CardListPagination(props: IPropsCardListPagination) {
   const { pagination } = useCardListState();
   const [searchParams] = useSearchParams();
   const page = searchParams.get('page');
