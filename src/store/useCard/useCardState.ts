@@ -1,7 +1,6 @@
 import { create } from 'zustand';
-import type { ICardState } from './ICardState';
+import type { ICardState, IPokemon } from './ICardState';
 import sleep from '../../utils/sleep';
-import type { IPokemon } from '../../components/CardList/Right/IPokemon';
 
 export const useCardState = create<ICardState>((set) => ({
   isFetch: false,
