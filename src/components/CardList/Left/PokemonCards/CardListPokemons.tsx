@@ -1,5 +1,5 @@
 import type { JSX } from 'react';
-import styles from '../../CardList.module.css';
+import styles from './CardListPokemons.module.css';
 import CardListPagination from './../Pagination/CardListPagination';
 import { useCardListState } from '../../../../store/useCardListState/useCardListState';
 import { useParams } from 'react-router-dom';
@@ -43,7 +43,8 @@ export default function CardListPokemons(): JSX.Element {
           const POKEMON_ID: number = Number(pokemon.id);
           const POKEMON_IMAGE: string = getPokemonSrcImage_byId(POKEMON_ID);
           return (
-            <li key={POKEMON_ID} className="pokemon-card">
+            <li key={POKEMON_ID}>
+              <input type="checkbox" />
               <button
                 onClick={() => {
                   pokemonNavigation({ page, details: `${POKEMON_ID}` });
