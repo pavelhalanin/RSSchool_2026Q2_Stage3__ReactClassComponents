@@ -2,10 +2,16 @@ import type { JSX } from 'react';
 import Search from './Search/Search';
 import ErrorButton from '../../ErrorButton/ErrorButton';
 import styles from '../CardList.module.css';
-import type { ICardListSearch } from './ICardListSearch';
 import { useCardListState } from '../../../store/useCardListState/useCardListState';
 
-export default function CardListSearch(props: ICardListSearch): JSX.Element {
+export interface IPropsCardListSearch {
+  page: string;
+  setParams: (page: string, details: string) => void;
+}
+
+export default function CardListSearch(
+  props: IPropsCardListSearch
+): JSX.Element {
   const { generateFetchError } = useCardListState();
 
   return (
