@@ -21,3 +21,14 @@ export interface ICardListState {
   fetchPokemons: () => void;
   setPage: (newPage: string) => void;
 }
+
+export interface ICardListPokemonWithPadination {
+  data: {
+    pokemon: Array<ICardListPokemon>;
+    pokemon_aggregate: {
+      aggregate: {
+        count: number;
+      };
+    };
+  };
+}

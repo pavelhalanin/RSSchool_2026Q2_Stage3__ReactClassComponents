@@ -1,6 +1,8 @@
 import { create } from 'zustand';
-import type { ICardListState } from './ICardListState';
-import type { ICardListPokemonWithPadination } from '../../components/CardList/Left/Pagination/ICardListPokemonPagination';
+import type {
+  ICardListPokemonWithPadination,
+  ICardListState,
+} from './ICardListState';
 
 export const useCardListState = create<ICardListState>((set, get) => ({
   isFetch: false,
