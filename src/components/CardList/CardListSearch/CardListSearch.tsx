@@ -3,24 +3,20 @@ import Search from './Search/Search';
 import ErrorButton from '../../ErrorButton/ErrorButton';
 import styles from '../CardList.module.css';
 import { useCardListState } from '../../../store/useCardListState/useCardListState';
+import ContainerSection from '../../ContainerSection/ContainerSection';
 
 export default function CardListSearch(): JSX.Element {
   const { generateFetchError } = useCardListState();
 
   return (
-    <div className="container">
-      <section className="section">
-        <Search />
-        <div className={styles.error_buttons__wrapper}>
-          <ErrorButton />
-          <button
-            className="btn btn-danger"
-            onClick={() => generateFetchError()}
-          >
-            Generate fetch error
-          </button>
-        </div>
-      </section>
-    </div>
+    <ContainerSection>
+      <Search />
+      <div className={styles.error_buttons__wrapper}>
+        <ErrorButton />
+        <button className="btn btn-danger" onClick={() => generateFetchError()}>
+          Generate fetch error
+        </button>
+      </div>
+    </ContainerSection>
   );
 }

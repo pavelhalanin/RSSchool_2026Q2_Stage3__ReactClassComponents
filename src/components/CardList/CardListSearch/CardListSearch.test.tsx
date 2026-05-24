@@ -1,6 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render } from '@testing-library/react';
 import CardListSearch from './CardListSearch';
+import ThemeProvider from '../../../context/theme/ThemeProvider';
 
 interface SearchMockProps {
   search: string;
@@ -45,6 +46,12 @@ describe('CardListSearch', () => {
   });
 
   it('renders without errors', () => {
-    expect(() => render(<CardListSearch />)).not.toThrow();
+    expect(() =>
+      render(
+        <ThemeProvider>
+          <CardListSearch />
+        </ThemeProvider>
+      )
+    ).not.toThrow();
   });
 });

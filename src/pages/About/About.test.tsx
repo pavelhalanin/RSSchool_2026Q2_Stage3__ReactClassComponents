@@ -2,6 +2,7 @@ import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import About from './About';
 import styles from './About.module.css';
+import ThemeProvider from '../../context/theme/ThemeProvider';
 
 vi.mock('./IconDiscord', () => ({
   default: () => <svg data-testid="mock-discord" width="16" height="16" />,
@@ -17,7 +18,11 @@ vi.mock('./IconLinkedIn', () => ({
 
 describe('About', () => {
   it('renders complete page structure', () => {
-    const { container } = render(<About />);
+    const { container } = render(
+      <ThemeProvider>
+        <About />
+      </ThemeProvider>
+    );
 
     expect(container.querySelector('.container')).toBeTruthy();
     expect(container.querySelector('.section')).toBeTruthy();
@@ -25,7 +30,11 @@ describe('About', () => {
   });
 
   it('opens links in new tab', () => {
-    render(<About />);
+    render(
+      <ThemeProvider>
+        <About />
+      </ThemeProvider>
+    );
 
     const links = screen.getAllByRole('link');
     links.forEach((link) => {
@@ -35,7 +44,11 @@ describe('About', () => {
   });
 
   it('renders all icons', () => {
-    const { container } = render(<About />);
+    const { container } = render(
+      <ThemeProvider>
+        <About />
+      </ThemeProvider>
+    );
 
     expect(
       container.querySelector('[data-testid="mock-discord"]')
@@ -47,14 +60,22 @@ describe('About', () => {
   });
 
   it('applies CSS module classes to lists', () => {
-    const { container } = render(<About />);
+    const { container } = render(
+      <ThemeProvider>
+        <About />
+      </ThemeProvider>
+    );
 
     const lists = container.querySelectorAll(`.${styles.ul}`);
     expect(lists.length).toBe(2);
   });
 
   it('applies school class to RS School link', () => {
-    const { container } = render(<About />);
+    const { container } = render(
+      <ThemeProvider>
+        <About />
+      </ThemeProvider>
+    );
     const schoolLink = container.querySelector(`.${styles.school}`);
 
     expect(schoolLink).toBeTruthy();
