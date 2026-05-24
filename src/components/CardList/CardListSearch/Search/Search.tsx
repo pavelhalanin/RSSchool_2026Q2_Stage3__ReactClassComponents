@@ -1,12 +1,19 @@
 import type { JSX } from 'react';
 import styles from './Search.module.css';
-import { useCardListState } from '../../../../store/slices/useCardListState/useCardListState';
 import { usePokemonNavigation } from '../../../../hook/usePokemonNavigation/usePokemonNavigation';
+import {
+  useCardListActions,
+  useCardListErrorFetch,
+  useCardListPrevSearch,
+  useCardListSearch,
+} from '../../../../store/slices/useCardListState/hook';
 
 export default function Search(): JSX.Element {
   const { pokemonNavigation } = usePokemonNavigation();
-  const { search, prevSearch, errorFetch, setSearch, fetchPokemons } =
-    useCardListState();
+  const search = useCardListSearch();
+  const prevSearch = useCardListPrevSearch();
+  const errorFetch = useCardListErrorFetch();
+  const { setSearch, fetchPokemons } = useCardListActions();
 
   return (
     <div className={styles.search__wrapper}>

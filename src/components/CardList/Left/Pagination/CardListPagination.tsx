@@ -1,11 +1,11 @@
 import { useParams } from 'react-router-dom';
-import { useCardListState } from '../../../../store/slices/useCardListState/useCardListState';
 import styles from './../../CardList.module.css';
 import { usePokemonNavigation } from '../../../../hook/usePokemonNavigation/usePokemonNavigation';
+import { useCardListPagination } from '../../../../store/slices/useCardListState/hook';
 
 export default function CardListPagination() {
   const { pokemonNavigation } = usePokemonNavigation();
-  const { pagination } = useCardListState();
+  const pagination = useCardListPagination();
   const { page } = useParams();
 
   return (

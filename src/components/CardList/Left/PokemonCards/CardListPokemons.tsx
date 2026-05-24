@@ -1,25 +1,29 @@
 import type { JSX } from 'react';
 import styles from './CardListPokemons.module.css';
 import CardListPagination from './../Pagination/CardListPagination';
-import { useCardListState } from '../../../../store/slices/useCardListState/useCardListState';
 import { useParams } from 'react-router-dom';
 import { getPokemonSrcImage_byId } from '../../../../utils/getPokemonSrcImage_byId';
 import { usePokemonNavigation } from '../../../../hook/usePokemonNavigation/usePokemonNavigation';
 import FetchSpinner from '../../../FetchSpinner/FetchSpinner';
 import AlertDanger from '../../../AlertDanger/AlertDanger';
+import {
+  useCardListActions,
+  useCardListCsvItems,
+  useCardListErrorFetch,
+  useCardListIsFetch,
+  useCardListItems,
+  useCardListPrevSearch,
+} from '../../../../store/slices/useCardListState/hook';
 
 export default function CardListPokemons(): JSX.Element {
   const { pokemonNavigation } = usePokemonNavigation();
   const { page } = useParams();
-  const {
-    errorFetch,
-    fetchPokemons,
-    isFetch,
-    items,
-    prevSearch,
-    addOrRemoveCsvItem,
-    isSelectedCsvItem_byId,
-  } = useCardListState();
+  const errorFetch = useCardListErrorFetch();
+  const isFetch = useCardListIsFetch();
+  const items = useCardListItems();
+  const csvItems = useCardListCsvItems();
+  const prevSearch = useCardListPrevSearch();
+  const { fetchPokemons, addOrRemoveCsvItem } = useCardListActions();
 
   if (isFetch) {
     return <FetchSpinner>Loading Card List</FetchSpinner>;
@@ -56,7 +60,7 @@ export default function CardListPokemons(): JSX.Element {
               <input
                 className={styles.card_list__checkbox_button}
                 type="checkbox"
-                checked={isSelectedCsvItem_byId(POKEMON_ID)}
+                checked={csvItems.filter((e) => e.id === POKEMON_ID).length > 0}
                 onChange={(event) =>
                   addOrRemoveCsvItem(event.target.checked, POKEMON_ID)
                 }

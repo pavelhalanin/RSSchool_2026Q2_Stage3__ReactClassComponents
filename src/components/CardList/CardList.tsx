@@ -3,15 +3,15 @@ import { Outlet, useParams } from 'react-router-dom';
 import CardListSearch from './CardListSearch/CardListSearch';
 import CardListPokemons from './Left/PokemonCards/CardListPokemons';
 import styles from './CardList.module.css';
-import { useCardListState } from '../../store/slices/useCardListState/useCardListState';
 import { usePokemonNavigation } from '../../hook/usePokemonNavigation/usePokemonNavigation';
 import CsvPanel from '../CsvPanel/CsvPanel';
 import ContainerSection from '../ContainerSection/ContainerSection';
+import { useCardListActions } from '../../store/slices/useCardListState/hook';
 
 export default function CardList(): JSX.Element {
   const { pokemonNavigation } = usePokemonNavigation();
   const { page, details } = useParams();
-  const { fetchPokemons, setPage } = useCardListState();
+  const { fetchPokemons, setPage } = useCardListActions();
 
   const isPositiveNumber = (str: undefined | string) => {
     return `${str}`.match(/\d+(?:\.\d+)?/g);

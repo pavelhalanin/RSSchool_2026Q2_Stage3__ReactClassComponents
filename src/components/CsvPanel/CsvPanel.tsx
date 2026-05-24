@@ -1,10 +1,13 @@
-import { useCardListState } from '../../store/slices/useCardListState/useCardListState';
+import {
+  useCardListActions,
+  useCardListCsvItems,
+} from '../../store/slices/useCardListState/hook';
 import ContainerSection from '../ContainerSection/ContainerSection';
 import styles from './CsvPanel.module.css';
 
 export default function CsvPanel() {
-  const { csvItems, unselectAllCsvItems, downloadCsvItems } =
-    useCardListState();
+  const csvItems = useCardListCsvItems();
+  const { unselectAllCsvItems, downloadCsvItems } = useCardListActions();
 
   if (csvItems.length === 0) {
     return <></>;

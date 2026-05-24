@@ -14,16 +14,21 @@ export interface ICardListState {
   };
   items: Array<ICardListPokemon>;
   csvItems: Array<ICardListPokemon>;
+}
 
+interface ICardListActions {
   generateFetchError: () => void;
   setSearch: (newSearch: string) => void;
   fetchPokemons: () => void;
   setPage: (newPage: undefined | string) => void;
 
   addOrRemoveCsvItem: (isChecked: boolean, pokemonId: number) => void;
-  isSelectedCsvItem_byId: (pokemonId: number) => boolean;
   unselectAllCsvItems: () => void;
   downloadCsvItems: () => void;
+}
+
+export interface ICardListStore extends ICardListState {
+  actions: ICardListActions;
 }
 
 export interface ICardListPokemonWithPadination {
