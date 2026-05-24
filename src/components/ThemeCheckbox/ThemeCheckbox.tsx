@@ -1,16 +1,10 @@
-import { useContext } from 'react';
-import { ThemeContext } from '../../context/theme/ThemeContext';
 import styles from './ThemeCheckbox.module.css';
 import MoonIcon from './MoonIcon/MoonIcon';
 import SunIcon from './SunIcon/SunIcon';
+import { useTheme } from '../../hook/useTheme/useTheme';
 
 export default function ThemeCheckbox() {
-  const context = useContext(ThemeContext);
-  if (!context) {
-    throw new Error('ThemeContext must be used within ThemeProvider');
-  }
-
-  const { theme, changeTheme } = context;
+  const { theme, changeTheme } = useTheme();
 
   return (
     <>

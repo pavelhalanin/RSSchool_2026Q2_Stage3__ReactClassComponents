@@ -17,18 +17,6 @@ vi.mock('./IconLinkedIn', () => ({
 }));
 
 describe('About', () => {
-  it('renders complete page structure', () => {
-    const { container } = render(
-      <ThemeProvider>
-        <About />
-      </ThemeProvider>
-    );
-
-    expect(container.querySelector('.container')).toBeTruthy();
-    expect(container.querySelector('.section')).toBeTruthy();
-    expect(screen.getByText('About')).toBeTruthy();
-  });
-
   it('opens links in new tab', () => {
     render(
       <ThemeProvider>

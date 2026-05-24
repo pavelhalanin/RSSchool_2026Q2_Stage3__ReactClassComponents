@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
 import { ThemeContext, type Theme } from './ThemeContext';
 
 interface IPropsThemeProvider {
@@ -11,6 +11,10 @@ export default function ThemeProvider(props: IPropsThemeProvider) {
   const changeTheme = () => {
     setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
   };
+
+  useEffect(() => {
+    document.body.setAttribute('data-theme', theme);
+  }, [theme]);
 
   return (
     <ThemeContext.Provider

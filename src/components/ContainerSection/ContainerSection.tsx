@@ -1,18 +1,14 @@
 import { type ReactNode } from 'react';
-import { useTheme } from '../../hook/useTheme/useTheme';
+import styles from './ContainerSection.module.css';
 
 interface IPropsContainerSection {
   children: ReactNode;
 }
 
 export default function ContainerSection(props: IPropsContainerSection) {
-  const { theme } = useTheme();
-
   return (
-    <div className="container">
-      <section className="section" data-theme={theme}>
-        {props.children}
-      </section>
+    <div className={styles.container}>
+      <section className={styles.section}>{props.children}</section>
     </div>
   );
 }

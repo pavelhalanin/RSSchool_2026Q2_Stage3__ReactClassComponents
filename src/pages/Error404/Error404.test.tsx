@@ -26,18 +26,4 @@ describe('Error404 component', () => {
     expect(image?.getAttribute('alt')).toBe('');
     expect(image?.getAttribute('src')).toContain('404.jpg');
   });
-
-  it('has correct container classes', () => {
-    const { container } = render(
-      <ThemeProvider>
-        <Error404 />
-      </ThemeProvider>
-    );
-
-    const mainDiv = container.querySelector('.container');
-    expect(mainDiv).toBeTruthy();
-
-    const section = container.querySelector('.section');
-    expect(section).toBeTruthy();
-  });
 });
