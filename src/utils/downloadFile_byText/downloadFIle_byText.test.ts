@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { downloadFile_byText } from './downloadFIle_byText';
+import { downloadFile_byText } from './downloadFile_byText';
 
 describe('downloadFile_byText', () => {
   let anchor: HTMLAnchorElement;
