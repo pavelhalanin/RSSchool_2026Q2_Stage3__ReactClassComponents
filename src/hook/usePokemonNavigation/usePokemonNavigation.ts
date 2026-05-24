@@ -17,7 +17,7 @@ export function usePokemonNavigation() {
         uri += `/${details}`;
       }
     }
-    console.log(`navigate(${uri})`);
+
     navigate(uri);
   };
 
