@@ -2,9 +2,16 @@ export interface ICardState {
   isFetch: boolean;
   errorFetch: null | string;
   item: null | IPokemon;
+}
+
+interface ICardActions {
   closeCard: () => void;
   generateFetchError: () => void;
   loadCard_byDetails: (details: undefined | string) => void;
+}
+
+export interface ICardStore extends ICardState {
+  actions: ICardActions;
 }
 
 export interface IPokemon {

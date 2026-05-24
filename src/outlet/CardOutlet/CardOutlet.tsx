@@ -1,14 +1,15 @@
 import { useEffect } from 'react';
 import styles from './../../components/CardList/CardList.module.css';
-import { useCardState } from '../../store/useCard/useCardState';
 import { useParams } from 'react-router-dom';
 import { getPokemonSrcImage_byId } from '../../utils/getPokemonSrcImage_byId';
 import { usePokemonNavigation } from '../../hook/usePokemonNavigation/usePokemonNavigation';
 import FetchSpinner from '../../components/FetchSpinner/FetchSpinner';
+import { useCardActions, useCardAll } from '../../store/useCard/hook';
 
 export function CardOutlet() {
   const { pokemonNavigation } = usePokemonNavigation();
-  const { closeCard, generateFetchError, loadCard_byDetails } = useCardState();
+  const { closeCard, generateFetchError, loadCard_byDetails } =
+    useCardActions();
   const { page, details } = useParams();
 
   const closeRight = () => {
@@ -45,7 +46,8 @@ export function CardOutlet() {
 }
 
 function CardListRightContent() {
-  const { errorFetch, isFetch, item, loadCard_byDetails } = useCardState();
+  const { errorFetch, isFetch, item } = useCardAll();
+  const { loadCard_byDetails } = useCardActions();
   const { details } = useParams();
 
   if (details === null) {
