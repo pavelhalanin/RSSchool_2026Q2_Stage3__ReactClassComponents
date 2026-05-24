@@ -1,7 +1,7 @@
 import type { JSX } from 'react';
 import styles from './CardListPokemons.module.css';
 import CardListPagination from './../Pagination/CardListPagination';
-import { useCardListState } from '../../../../store/useCardListState/useCardListState';
+import { useCardListState } from '../../../../store/slices/useCardListState/useCardListState';
 import { useParams } from 'react-router-dom';
 import { getPokemonSrcImage_byId } from '../../../../utils/getPokemonSrcImage_byId';
 import { usePokemonNavigation } from '../../../../hook/usePokemonNavigation/usePokemonNavigation';

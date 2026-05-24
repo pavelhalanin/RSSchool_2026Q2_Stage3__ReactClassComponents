@@ -2,7 +2,7 @@ import type { JSX } from 'react';
 import Search from './Search/Search';
 import ErrorButton from '../../ErrorButton/ErrorButton';
 import styles from '../CardList.module.css';
-import { useCardListState } from '../../../store/useCardListState/useCardListState';
+import { useCardListState } from '../../../store/slices/useCardListState/useCardListState';
 import ContainerSection from '../../ContainerSection/ContainerSection';
 
 export default function CardListSearch(): JSX.Element {

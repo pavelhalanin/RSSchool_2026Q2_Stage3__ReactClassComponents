@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import { getPokemonSrcImage_byId } from '../../utils/getPokemonSrcImage_byId';
 import { usePokemonNavigation } from '../../hook/usePokemonNavigation/usePokemonNavigation';
 import FetchSpinner from '../../components/FetchSpinner/FetchSpinner';
-import { useCardActions, useCardAll } from '../../store/useCard/hook';
+import { useCardActions, useCardAll } from '../../store/slices/useCard/hook';
 import AlertDanger from '../../components/AlertDanger/AlertDanger';
 
 export function CardOutlet() {

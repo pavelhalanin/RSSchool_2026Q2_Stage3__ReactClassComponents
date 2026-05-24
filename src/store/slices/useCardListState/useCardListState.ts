@@ -3,7 +3,7 @@ import type {
   ICardListPokemonWithPadination,
   ICardListState,
 } from './ICardListState';
-import { downloadFile_byText } from '../../utils/downloadFile_byText/downloadFIle_byText';
+import { downloadFile_byText } from './../../../utils/downloadFile_byText/downloadFile_byText';
 
 export const useCardListState = create<ICardListState>((set, get) => ({
   isFetch: false,

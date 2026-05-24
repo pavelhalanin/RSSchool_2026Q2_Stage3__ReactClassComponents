@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 import type { ICardState, ICardStore, IPokemon } from './types';
-import sleep from '../../utils/sleep';
+import sleep from '../../../utils/sleep';
 
 const defaultCard: ICardState = {
   isFetch: false,

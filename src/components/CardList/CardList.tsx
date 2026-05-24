@@ -3,7 +3,7 @@ import { Outlet, useParams } from 'react-router-dom';
 import CardListSearch from './CardListSearch/CardListSearch';
 import CardListPokemons from './Left/PokemonCards/CardListPokemons';
 import styles from './CardList.module.css';
-import { useCardListState } from '../../store/useCardListState/useCardListState';
+import { useCardListState } from '../../store/slices/useCardListState/useCardListState';
 import { usePokemonNavigation } from '../../hook/usePokemonNavigation/usePokemonNavigation';
 import CsvPanel from '../CsvPanel/CsvPanel';
 import ContainerSection from '../ContainerSection/ContainerSection';

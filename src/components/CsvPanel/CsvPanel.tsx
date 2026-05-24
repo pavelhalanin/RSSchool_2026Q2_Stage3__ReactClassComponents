@@ -1,4 +1,4 @@
-import { useCardListState } from '../../store/useCardListState/useCardListState';
+import { useCardListState } from '../../store/slices/useCardListState/useCardListState';
 import ContainerSection from '../ContainerSection/ContainerSection';
 import styles from './CsvPanel.module.css';
 

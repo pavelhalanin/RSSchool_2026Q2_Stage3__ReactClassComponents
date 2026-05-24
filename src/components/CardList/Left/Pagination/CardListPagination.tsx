@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom';
-import { useCardListState } from '../../../../store/useCardListState/useCardListState';
+import { useCardListState } from '../../../../store/slices/useCardListState/useCardListState';
 import styles from './../../CardList.module.css';
 import { usePokemonNavigation } from '../../../../hook/usePokemonNavigation/usePokemonNavigation';
 

@@ -1,6 +1,6 @@
 import type { JSX } from 'react';
 import styles from './Search.module.css';
-import { useCardListState } from '../../../../store/useCardListState/useCardListState';
+import { useCardListState } from '../../../../store/slices/useCardListState/useCardListState';
 import { usePokemonNavigation } from '../../../../hook/usePokemonNavigation/usePokemonNavigation';
 
 export default function Search(): JSX.Element {
