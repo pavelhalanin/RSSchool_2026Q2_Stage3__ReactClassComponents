@@ -1,18 +1,12 @@
-import { useContext, type ReactNode } from 'react';
-import { ThemeContext } from '../../context/theme/ThemeContext';
+import { type ReactNode } from 'react';
+import { useTheme } from '../../hook/useTheme/useTheme';
 
 interface IPropsContainerSection {
   children: ReactNode;
 }
 
 export default function ContainerSection(props: IPropsContainerSection) {
-  const context = useContext(ThemeContext);
-
-  if (!context) {
-    throw new Error('ThemeContext must be used within ThemeProvider');
-  }
-
-  const { theme } = context;
+  const { theme } = useTheme();
 
   return (
     <div className="container">

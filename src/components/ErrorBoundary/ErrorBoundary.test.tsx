@@ -1,15 +1,18 @@
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
 import ErrorBoundary from './ErrorBoundary';
+import ThemeProvider from '../../context/theme/ThemeProvider';
 
 describe('ErrorBoundary', () => {
   it('should render children when no error occurs', () => {
     const NoErrorComponent = () => <div>No error component</div>;
 
     render(
-      <ErrorBoundary>
-        <NoErrorComponent />
-      </ErrorBoundary>
+      <ThemeProvider>
+        <ErrorBoundary>
+          <NoErrorComponent />
+        </ErrorBoundary>
+      </ThemeProvider>
     );
 
     const DIV = screen.getByText('No error component');
@@ -32,9 +35,11 @@ describe('ErrorBoundary', () => {
     };
 
     render(
-      <ErrorBoundary>
-        <ErrorRenderComponent />
-      </ErrorBoundary>
+      <ThemeProvider>
+        <ErrorBoundary>
+          <ErrorRenderComponent />
+        </ErrorBoundary>
+      </ThemeProvider>
     );
 
     const DIV = screen.getByText(/You triggered error component/i);
