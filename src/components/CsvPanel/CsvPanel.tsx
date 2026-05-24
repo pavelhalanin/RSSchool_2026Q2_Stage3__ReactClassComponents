@@ -10,21 +10,23 @@ export default function CsvPanel() {
   }
 
   return (
-    <div className={styles.csv_panel}>
-      <div className={styles.csv_panel__fixed}>
-        <ul>
-          <li>Selected {csvItems.length}</li>
-          <li>
-            <button className="btn btn-danger" onClick={unselectAllCsvItems}>
-              Unselect all
-            </button>
-          </li>
-          <li>
-            <button className="btn btn-success" onClick={downloadCsvItems}>
-              Download CSV
-            </button>
-          </li>
-        </ul>
+    <div className={styles.csv_panel__sticky}>
+      <div className="container">
+        <section className="section">
+          <ul>
+            <li>Selected {csvItems.length}</li>
+            <li>
+              <button className="btn btn-danger" onClick={unselectAllCsvItems}>
+                Unselect all
+              </button>
+            </li>
+            <li>
+              <button className="btn btn-success" onClick={downloadCsvItems}>
+                Download CSV
+              </button>
+            </li>
+          </ul>
+        </section>
       </div>
     </div>
   );
