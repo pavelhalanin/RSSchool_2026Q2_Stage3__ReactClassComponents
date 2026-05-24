@@ -3,12 +3,8 @@
 }
 
 .theme_label {
-  position: fixed;
-  bottom: 32px;
-  right: 32px;
-
-  width: 64px;
-  height: 64px;
+  width: 32px;
+  height: 32px;
   background-color: rgba(0, 102, 204, 0.9);
   border-radius: 50%;
 
@@ -21,6 +17,6 @@
 }
 
 .theme_label > svg {
-  width: 32px;
-  height: 32px;
+  width: 20px;
+  height: 20px;
 }
