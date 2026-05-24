@@ -90,24 +90,6 @@ a {
   border-color: #b02a37;
 }
 
-.alert {
-  padding: 1rem;
-  border-radius: 0.25rem;
-  border: 1px solid transparent;
-}
-
-.alert-danger {
-  background-color: #f8d7da;
-  border-color: #f5c2c7;
-  color: #842029;
-}
-
-.alert-info {
-  background-color: #cff4fc;
-  border-color: #9eeaf9;
-  color: #055160;
-}
-
 .container {
   padding: 8px;
   margin: 0 auto;

@@ -6,6 +6,7 @@ import { useParams } from 'react-router-dom';
 import { getPokemonSrcImage_byId } from '../../../../utils/getPokemonSrcImage_byId';
 import { usePokemonNavigation } from '../../../../hook/usePokemonNavigation/usePokemonNavigation';
 import FetchSpinner from '../../../FetchSpinner/FetchSpinner';
+import AlertDanger from '../../../AlertDanger/AlertDanger';
 
 export default function CardListPokemons(): JSX.Element {
   const { pokemonNavigation } = usePokemonNavigation();
@@ -26,21 +27,21 @@ export default function CardListPokemons(): JSX.Element {
 
   if (errorFetch) {
     return (
-      <div className="alert alert-danger">
+      <AlertDanger>
         <p>{errorFetch}</p>
         <button className="btn btn-success" onClick={() => fetchPokemons()}>
           Repeat load fetch
         </button>
-      </div>
+      </AlertDanger>
     );
   }
 
   if (items.length === 0) {
     return (
-      <div className="alert alert-danger">
+      <AlertDanger>
         No Pokémon found by search ({prevSearch}) on page {page}. Please enter a
         different search term and click the search button.
-      </div>
+      </AlertDanger>
     );
   }
 
