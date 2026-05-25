@@ -16,26 +16,30 @@ import { useCardListStore } from './../useCardListStore';
 import type { ICardListState } from './../types';
 
 const defaultState: ICardListState = {
-  isFetch: false,
-  errorFetch: null,
-  search: '',
-  prevSearch: null,
-  page: '1',
-  prevPage: '1',
-  pagination: {
-    CURRENT_PAGE: 1,
-    LAST_PAGE: 1,
-    LIMITL_ITEMS: 8,
-    SKIP_ITEMS: 0,
-    TOTAL_ITEMS: 0,
+  cardListState: {
+    isFetch: false,
+    errorFetch: null,
+    search: '',
+    prevSearch: null,
+    page: '1',
+    prevPage: '1',
+    pagination: {
+      CURRENT_PAGE: 1,
+      LAST_PAGE: 1,
+      LIMITL_ITEMS: 8,
+      SKIP_ITEMS: 0,
+      TOTAL_ITEMS: 0,
+    },
+    items: [],
+    csvItems: [],
   },
-  items: [],
-  csvItems: [],
 };
 
 describe('Custom hooks for CardList store', () => {
   beforeEach(() => {
-    useCardListStore.setState(defaultState);
+    useCardListStore.setState({
+      cardListState: { ...defaultState.cardListState },
+    });
   });
 
   describe('useCardListIsFetch', () => {
@@ -44,7 +48,9 @@ describe('Custom hooks for CardList store', () => {
       expect(result.current).toBe(false);
 
       act(() => {
-        useCardListStore.setState({ isFetch: true });
+        useCardListStore.setState((state) => ({
+          cardListState: { ...state.cardListState, isFetch: true },
+        }));
       });
       expect(result.current).toBe(true);
     });
@@ -57,7 +63,9 @@ describe('Custom hooks for CardList store', () => {
 
       const errorMsg = 'Network error';
       act(() => {
-        useCardListStore.setState({ errorFetch: errorMsg });
+        useCardListStore.setState((state) => ({
+          cardListState: { ...state.cardListState, errorFetch: errorMsg },
+        }));
       });
       expect(result.current).toBe(errorMsg);
     });
@@ -69,7 +77,9 @@ describe('Custom hooks for CardList store', () => {
       expect(result.current).toBe('');
 
       act(() => {
-        useCardListStore.setState({ search: 'pikachu' });
+        useCardListStore.setState((state) => ({
+          cardListState: { ...state.cardListState, search: 'pikachu' },
+        }));
       });
       expect(result.current).toBe('pikachu');
     });
@@ -81,7 +91,9 @@ describe('Custom hooks for CardList store', () => {
       expect(result.current).toBeNull();
 
       act(() => {
-        useCardListStore.setState({ prevSearch: 'bulbasaur' });
+        useCardListStore.setState((state) => ({
+          cardListState: { ...state.cardListState, prevSearch: 'bulbasaur' },
+        }));
       });
       expect(result.current).toBe('bulbasaur');
     });
@@ -93,7 +105,9 @@ describe('Custom hooks for CardList store', () => {
       expect(result.current).toBe('1');
 
       act(() => {
-        useCardListStore.setState({ page: '3' });
+        useCardListStore.setState((state) => ({
+          cardListState: { ...state.cardListState, page: '3' },
+        }));
       });
       expect(result.current).toBe('3');
     });
@@ -105,7 +119,9 @@ describe('Custom hooks for CardList store', () => {
       expect(result.current).toBe('1');
 
       act(() => {
-        useCardListStore.setState({ prevPage: '2' });
+        useCardListStore.setState((state) => ({
+          cardListState: { ...state.cardListState, prevPage: '2' },
+        }));
       });
       expect(result.current).toBe('2');
     });
@@ -114,7 +130,7 @@ describe('Custom hooks for CardList store', () => {
   describe('useCardListPagination', () => {
     it('should return full pagination object', () => {
       const { result } = renderHook(() => useCardListPagination());
-      expect(result.current).toEqual(defaultState.pagination);
+      expect(result.current).toEqual(defaultState.cardListState.pagination);
 
       const newPagination = {
         CURRENT_PAGE: 2,
@@ -124,7 +140,9 @@ describe('Custom hooks for CardList store', () => {
         TOTAL_ITEMS: 50,
       };
       act(() => {
-        useCardListStore.setState({ pagination: newPagination });
+        useCardListStore.setState((state) => ({
+          cardListState: { ...state.cardListState, pagination: newPagination },
+        }));
       });
       expect(result.current).toEqual(newPagination);
     });
@@ -146,7 +164,9 @@ describe('Custom hooks for CardList store', () => {
         },
       ];
       act(() => {
-        useCardListStore.setState({ items: mockItems });
+        useCardListStore.setState((state) => ({
+          cardListState: { ...state.cardListState, items: mockItems },
+        }));
       });
       expect(result.current).toEqual(mockItems);
     });
@@ -168,7 +188,9 @@ describe('Custom hooks for CardList store', () => {
         },
       ];
       act(() => {
-        useCardListStore.setState({ csvItems: mockCsvItems });
+        useCardListStore.setState((state) => ({
+          cardListState: { ...state.cardListState, csvItems: mockCsvItems },
+        }));
       });
       expect(result.current).toEqual(mockCsvItems);
     });
@@ -225,18 +247,21 @@ describe('Custom hooks for CardList store', () => {
       }));
 
       act(() => {
-        useCardListStore.setState({
-          csvItems: [
-            {
-              id: 1,
-              name: 'test',
-              weight: 0,
-              height: 0,
-              image_src: '',
-              pokemontypes: [],
-            },
-          ],
-        });
+        useCardListStore.setState((state) => ({
+          cardListState: {
+            ...state.cardListState,
+            csvItems: [
+              {
+                id: 1,
+                name: 'test',
+                weight: 0,
+                height: 0,
+                image_src: '',
+                pokemontypes: [],
+              },
+            ],
+          },
+        }));
       });
       expect(result.current.csvItems.length).toBe(1);
 

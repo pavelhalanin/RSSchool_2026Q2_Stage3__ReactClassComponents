@@ -8,21 +8,23 @@ import type {
 import { downloadFile_byText } from '../../../utils/downloadFile_byText/downloadFile_byText';
 
 const defaultCardList: ICardListState = {
-  isFetch: false,
-  errorFetch: null,
-  search: '',
-  prevSearch: null,
-  page: '1',
-  prevPage: '1',
-  pagination: {
-    CURRENT_PAGE: 1,
-    LAST_PAGE: 1,
-    LIMITL_ITEMS: 8,
-    SKIP_ITEMS: 0,
-    TOTAL_ITEMS: 0,
+  cardListState: {
+    isFetch: false,
+    errorFetch: null,
+    search: '',
+    prevSearch: null,
+    page: '1',
+    prevPage: '1',
+    pagination: {
+      CURRENT_PAGE: 1,
+      LAST_PAGE: 1,
+      LIMITL_ITEMS: 8,
+      SKIP_ITEMS: 0,
+      TOTAL_ITEMS: 0,
+    },
+    items: [],
+    csvItems: [],
   },
-  items: [],
-  csvItems: [],
 };
 
 export const createCardListSlice: StateCreator<
@@ -33,7 +35,7 @@ export const createCardListSlice: StateCreator<
 > = devtools(
   (set, get) => ({
     ...defaultCardList,
-    actions: {
+    cardListActions: {
       setSearch(newSearch) {
         console.log(
           new Date().toJSON().slice(0, 19),
@@ -42,7 +44,10 @@ export const createCardListSlice: StateCreator<
         set(
           (state) => ({
             ...state,
-            search: newSearch,
+            cardListState: {
+              ...state.cardListState,
+              search: newSearch,
+            },
           }),
           false,
           'cardList/setSearch'
@@ -55,14 +60,16 @@ export const createCardListSlice: StateCreator<
         );
         const STATE = get();
 
-        const IS_NOT_ERROR_FETCH = !STATE.errorFetch;
-        const IS_EQUALS_SEARCH = STATE.search === STATE.prevSearch;
-        const IS_EQUALS_PAGE = STATE.page === STATE.prevPage;
+        const IS_NOT_ERROR_FETCH = !STATE.cardListState.errorFetch;
+        const IS_EQUALS_SEARCH =
+          STATE.cardListState.search === STATE.cardListState.prevSearch;
+        const IS_EQUALS_PAGE =
+          STATE.cardListState.page === STATE.cardListState.prevPage;
         if (IS_NOT_ERROR_FETCH && IS_EQUALS_SEARCH && IS_EQUALS_PAGE) {
           console.log(
             new Date().toJSON().slice(0, 19),
             `useCardListState fetchPokemons() ignore`,
-            `page = ${STATE.page} === prevPage = ${STATE.prevPage}`
+            `page = ${STATE.cardListState.page} === prevPage = ${STATE.cardListState.prevPage}`
           );
           return;
         }
@@ -71,19 +78,23 @@ export const createCardListSlice: StateCreator<
           set(
             (state) => ({
               ...state,
-              isFetch: true,
+              cardListState: {
+                ...state.cardListState,
+                isFetch: true,
+              },
             }),
             false,
             'cardList/fetchPokemons/start'
           );
 
-          const SEARCH = STATE.search.trim();
+          const SEARCH = STATE.cardListState.search.trim();
           const OFFSET =
-            STATE.pagination.LIMITL_ITEMS * (Number(STATE.page) - 1);
+            STATE.cardListState.pagination.LIMITL_ITEMS *
+            (Number(STATE.cardListState.page) - 1);
 
           const GRAPHQL = `
               query MyQuery {
-                pokemon(limit: ${STATE.pagination.LIMITL_ITEMS}, offset: ${OFFSET}, where: {name: {_like: "%${SEARCH}%"}}) {
+                pokemon(limit: ${STATE.cardListState.pagination.LIMITL_ITEMS}, offset: ${OFFSET}, where: {name: {_like: "%${SEARCH}%"}}) {
                   height
                   id
                   name
@@ -124,8 +135,11 @@ export const createCardListSlice: StateCreator<
             set(
               (state) => ({
                 ...state,
-                items: [],
-                errorFetch: MESSAGE,
+                cardListState: {
+                  ...state.cardListState,
+                  items: [],
+                  errorFetch: MESSAGE,
+                },
               }),
               false,
               'cardList/fetchPokemons/error'
@@ -140,20 +154,23 @@ export const createCardListSlice: StateCreator<
           set(
             (state) => ({
               ...state,
-              prevPage: STATE.page,
-              items: DATA.data.pokemon,
-              search: SEARCH,
-              prevSearch: SEARCH,
-              errorFetch: null,
-              isFetch: false,
-              pagination: {
-                ...state.pagination,
-                CURRENT_PAGE: Number(STATE.page),
-                TOTAL_ITEMS: TOTAL_ITEMS,
-                SKIP_ITEMS: OFFSET,
-                LAST_PAGE: Math.ceil(
-                  TOTAL_ITEMS / state.pagination.LIMITL_ITEMS
-                ),
+              cardListState: {
+                ...state.cardListState,
+                prevPage: STATE.cardListState.page,
+                items: DATA.data.pokemon,
+                search: SEARCH,
+                prevSearch: SEARCH,
+                errorFetch: null,
+                isFetch: false,
+                pagination: {
+                  ...state.cardListState.pagination,
+                  CURRENT_PAGE: Number(STATE.cardListState.page),
+                  TOTAL_ITEMS: TOTAL_ITEMS,
+                  SKIP_ITEMS: OFFSET,
+                  LAST_PAGE: Math.ceil(
+                    TOTAL_ITEMS / state.cardListState.pagination.LIMITL_ITEMS
+                  ),
+                },
               },
             }),
             false,
@@ -163,7 +180,10 @@ export const createCardListSlice: StateCreator<
           set(
             (state) => ({
               ...state,
-              errorFetch: `${exception}`,
+              cardListState: {
+                ...state.cardListState,
+                errorFetch: `${exception}`,
+              },
             }),
             false,
             'cardList/fetchPokemons/catch'
@@ -172,7 +192,10 @@ export const createCardListSlice: StateCreator<
           set(
             (state) => ({
               ...state,
-              isFetch: false,
+              cardListState: {
+                ...state.cardListState,
+                isFetch: false,
+              },
             }),
             false,
             'cardList/fetchPokemons/finally'
@@ -183,9 +206,12 @@ export const createCardListSlice: StateCreator<
         set(
           (state) => ({
             ...state,
-            items: [],
-            isFetch: false,
-            errorFetch: 'Custom test error HTTP 400-500',
+            cardListState: {
+              ...state.cardListState,
+              items: [],
+              isFetch: false,
+              errorFetch: 'Custom test error HTTP 400-500',
+            },
           }),
           false,
           'cardList/generateFetchError'
@@ -202,10 +228,13 @@ export const createCardListSlice: StateCreator<
         set(
           (state) => ({
             ...state,
-            page: PAGE,
-            pagination: {
-              ...state.pagination,
-              CURRENT_PAGE: +PAGE,
+            cardListState: {
+              ...state.cardListState,
+              page: PAGE,
+              pagination: {
+                ...state.cardListState.pagination,
+                CURRENT_PAGE: +PAGE,
+              },
             },
           }),
           false,
@@ -217,7 +246,12 @@ export const createCardListSlice: StateCreator<
           set(
             (state) => ({
               ...state,
-              csvItems: state.csvItems.filter((e) => e.id !== pokemonId),
+              cardListState: {
+                ...state.cardListState,
+                csvItems: state.cardListState.csvItems.filter(
+                  (e) => e.id !== pokemonId
+                ),
+              },
             }),
             false,
             'cardList/addOrRemoveCsvItem/remove'
@@ -228,10 +262,13 @@ export const createCardListSlice: StateCreator<
         set(
           (state) => ({
             ...state,
-            csvItems: [
-              ...state.csvItems,
-              ...state.items.filter((e) => e.id === pokemonId),
-            ],
+            cardListState: {
+              ...state.cardListState,
+              csvItems: [
+                ...state.cardListState.csvItems,
+                ...state.cardListState.items.filter((e) => e.id === pokemonId),
+              ],
+            },
           }),
           false,
           'cardList/addOrRemoveCsvItem/add'
@@ -241,7 +278,10 @@ export const createCardListSlice: StateCreator<
         set(
           (state) => ({
             ...state,
-            csvItems: [],
+            cardListState: {
+              ...state.cardListState,
+              csvItems: [],
+            },
           }),
           false,
           'cardList/unselectAllCsvItems'
@@ -255,7 +295,7 @@ export const createCardListSlice: StateCreator<
         );
 
         const STATE = get();
-        const SELECTED_CARDS = STATE.csvItems;
+        const SELECTED_CARDS = STATE.cardListState.csvItems;
 
         for (let i = 0; i < SELECTED_CARDS.length; i++) {
           const POKEMON = SELECTED_CARDS[i];

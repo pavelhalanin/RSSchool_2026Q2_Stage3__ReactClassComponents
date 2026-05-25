@@ -1,19 +1,21 @@
 export interface ICardListState {
-  isFetch: boolean;
-  errorFetch: null | string;
-  search: string;
-  prevSearch: null | string;
-  page: string;
-  prevPage: string;
-  pagination: {
-    TOTAL_ITEMS: number;
-    LIMITL_ITEMS: number;
-    CURRENT_PAGE: number;
-    SKIP_ITEMS: number;
-    LAST_PAGE: number;
+  cardListState: {
+    isFetch: boolean;
+    errorFetch: null | string;
+    search: string;
+    prevSearch: null | string;
+    page: string;
+    prevPage: string;
+    pagination: {
+      TOTAL_ITEMS: number;
+      LIMITL_ITEMS: number;
+      CURRENT_PAGE: number;
+      SKIP_ITEMS: number;
+      LAST_PAGE: number;
+    };
+    items: Array<ICardListPokemon>;
+    csvItems: Array<ICardListPokemon>;
   };
-  items: Array<ICardListPokemon>;
-  csvItems: Array<ICardListPokemon>;
 }
 
 interface ICardListActions {
@@ -28,7 +30,7 @@ interface ICardListActions {
 }
 
 export interface ICardListSlice extends ICardListState {
-  actions: ICardListActions;
+  cardListActions: ICardListActions;
 }
 
 export interface ICardListPokemonWithPadination {

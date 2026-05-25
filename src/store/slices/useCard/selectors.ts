@@ -1,15 +1,17 @@
 import type { ICardSlice } from './types';
 
-export const cardIsFetchSelector = (state: ICardSlice) => state.isFetch;
+export const cardIsFetchSelector = (state: ICardSlice) =>
+  state.cardState.isFetch;
 
-export const cardErrorFetchSelector = (state: ICardSlice) => state.errorFetch;
+export const cardErrorFetchSelector = (state: ICardSlice) =>
+  state.cardState.errorFetch;
 
-export const cardItemSelector = (state: ICardSlice) => state.item;
+export const cardItemSelector = (state: ICardSlice) => state.cardState.item;
 
 export const allCardSelector = (state: ICardSlice) => ({
-  isFetch: state.isFetch,
-  errorFetch: state.errorFetch,
-  item: state.item,
+  isFetch: state.cardState.isFetch,
+  errorFetch: state.cardState.errorFetch,
+  item: state.cardState.item,
 });
 
-export const cardActionsSelector = (state: ICardSlice) => state.actions;
+export const cardActionsSelector = (state: ICardSlice) => state.cardActions;

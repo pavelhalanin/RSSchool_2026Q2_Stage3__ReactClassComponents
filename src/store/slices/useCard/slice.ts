@@ -4,9 +4,11 @@ import type { ICardState, ICardSlice, IPokemon } from './types';
 import sleep from '../../../utils/sleep';
 
 const initialState: ICardState = {
-  isFetch: false,
-  errorFetch: null,
-  item: null,
+  cardState: {
+    isFetch: false,
+    errorFetch: null,
+    item: null,
+  },
 };
 
 export const createCardSlice: StateCreator<
@@ -17,16 +19,26 @@ export const createCardSlice: StateCreator<
 > = devtools(
   (set) => ({
     ...initialState,
-    actions: {
+    cardActions: {
       closeCard: () => {
-        set(initialState, false, 'card/closeCard');
+        set(
+          (state) => ({
+            ...state,
+            ...initialState,
+          }),
+          false,
+          'card/closeCard'
+        );
       },
       generateFetchError() {
         set(
-          () => ({
-            item: null,
-            isFetch: false,
-            errorFetch: 'Custom test error HTTP 400-500',
+          (state) => ({
+            ...state,
+            cardState: {
+              item: null,
+              isFetch: false,
+              errorFetch: 'Custom test error HTTP 400-500',
+            },
           }),
           false,
           'card/generateFetchError'
@@ -36,10 +48,13 @@ export const createCardSlice: StateCreator<
         if (!details) return;
 
         set(
-          () => ({
-            item: null,
-            isFetch: true,
-            errorFetch: null,
+          (state) => ({
+            ...state,
+            cardState: {
+              item: null,
+              isFetch: true,
+              errorFetch: null,
+            },
           }),
           false,
           'card/loadCard/start'
@@ -100,10 +115,13 @@ export const createCardSlice: StateCreator<
             const TEXT = await RESPONSE.text();
             const MESSAGE = `HTTP ${HTTP_STATUS}\n${TEXT}`;
             set(
-              () => ({
-                item: null,
-                isFetch: false,
-                errorFetch: MESSAGE,
+              (state) => ({
+                ...state,
+                cardState: {
+                  item: null,
+                  isFetch: false,
+                  errorFetch: MESSAGE,
+                },
               }),
               false,
               'card/loadCard/http_error'
@@ -116,20 +134,26 @@ export const createCardSlice: StateCreator<
           const POKEMON: IPokemon = DATA.data.pokemon[0];
 
           set(
-            () => ({
-              item: POKEMON,
-              isFetch: false,
-              errorFetch: null,
+            (state) => ({
+              ...state,
+              cardState: {
+                item: POKEMON,
+                isFetch: false,
+                errorFetch: null,
+              },
             }),
             false,
             'card/loadCard/success'
           );
         } catch (exception) {
           set(
-            () => ({
-              item: null,
-              isFetch: false,
-              errorFetch: String(exception),
+            (state) => ({
+              ...state,
+              cardState: {
+                item: null,
+                isFetch: false,
+                errorFetch: String(exception),
+              },
             }),
             false,
             'card/loadCard/error'

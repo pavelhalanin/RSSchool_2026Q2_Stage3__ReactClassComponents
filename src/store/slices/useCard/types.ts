@@ -1,7 +1,9 @@
 export interface ICardState {
-  isFetch: boolean;
-  errorFetch: null | string;
-  item: null | IPokemon;
+  cardState: {
+    isFetch: boolean;
+    errorFetch: null | string;
+    item: null | IPokemon;
+  };
 }
 
 interface ICardActions {
@@ -11,7 +13,7 @@ interface ICardActions {
 }
 
 export interface ICardSlice extends ICardState {
-  actions: ICardActions;
+  cardActions: ICardActions;
 }
 
 export interface IPokemon {

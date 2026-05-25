@@ -16,67 +16,77 @@ const mockPokemon: IPokemon = {
 describe('useCardStore', () => {
   beforeEach(() => {
     useCardStore.setState({
-      isFetch: false,
-      errorFetch: null,
-      item: null,
-      actions: useCardStore.getState().actions,
+      cardState: {
+        isFetch: false,
+        errorFetch: null,
+        item: null,
+      },
+      cardActions: useCardStore.getState().cardActions,
     });
     FETCH_MOCK.mockClear();
   });
 
   it('should have initial state', () => {
     const state = useCardStore.getState();
-    expect(state.isFetch).toBe(false);
-    expect(state.errorFetch).toBeNull();
-    expect(state.item).toBeNull();
+    expect(state.cardState.isFetch).toBe(false);
+    expect(state.cardState.errorFetch).toBeNull();
+    expect(state.cardState.item).toBeNull();
   });
 
   describe('closeCard', () => {
     it('should reset state to default', () => {
-      const { actions } = useCardStore.getState();
+      const { cardActions } = useCardStore.getState();
       useCardStore.setState({
-        isFetch: true,
-        errorFetch: 'error',
-        item: mockPokemon,
+        cardState: {
+          isFetch: true,
+          errorFetch: 'error',
+          item: mockPokemon,
+        },
       });
-      actions.closeCard();
+      cardActions.closeCard();
       const state = useCardStore.getState();
-      expect(state.isFetch).toBe(false);
-      expect(state.errorFetch).toBeNull();
-      expect(state.item).toBeNull();
+      expect(state.cardState.isFetch).toBe(false);
+      expect(state.cardState.errorFetch).toBeNull();
+      expect(state.cardState.item).toBeNull();
     });
   });
 
   describe('generateFetchError', () => {
     it('should set errorFetch and clear item', () => {
-      const { actions } = useCardStore.getState();
-      useCardStore.setState({ item: mockPokemon, isFetch: true });
-      actions.generateFetchError();
+      const { cardActions } = useCardStore.getState();
+      useCardStore.setState({
+        cardState: {
+          item: mockPokemon,
+          isFetch: true,
+          errorFetch: null,
+        },
+      });
+      cardActions.generateFetchError();
       const state = useCardStore.getState();
-      expect(state.isFetch).toBe(false);
-      expect(state.errorFetch).toBe('Custom test error HTTP 400-500');
-      expect(state.item).toBeNull();
+      expect(state.cardState.isFetch).toBe(false);
+      expect(state.cardState.errorFetch).toBe('Custom test error HTTP 400-500');
+      expect(state.cardState.item).toBeNull();
     });
   });
 
   describe('loadCard_byDetails', () => {
     it('should do nothing if details is undefined', async () => {
-      const { actions } = useCardStore.getState();
-      await actions.loadCard_byDetails(undefined);
+      const { cardActions } = useCardStore.getState();
+      await cardActions.loadCard_byDetails(undefined);
       const state = useCardStore.getState();
-      expect(state.isFetch).toBe(false);
-      expect(state.errorFetch).toBeNull();
-      expect(state.item).toBeNull();
+      expect(state.cardState.isFetch).toBe(false);
+      expect(state.cardState.errorFetch).toBeNull();
+      expect(state.cardState.item).toBeNull();
       expect(FETCH_MOCK).not.toHaveBeenCalled();
     });
 
     it('should do nothing if details is null', async () => {
-      const { actions } = useCardStore.getState();
-      await actions.loadCard_byDetails(null as unknown as undefined);
+      const { cardActions } = useCardStore.getState();
+      await cardActions.loadCard_byDetails(null as unknown as undefined);
       const state = useCardStore.getState();
-      expect(state.isFetch).toBe(false);
-      expect(state.errorFetch).toBeNull();
-      expect(state.item).toBeNull();
+      expect(state.cardState.isFetch).toBe(false);
+      expect(state.cardState.errorFetch).toBeNull();
+      expect(state.cardState.item).toBeNull();
       expect(FETCH_MOCK).not.toHaveBeenCalled();
     });
 
@@ -87,18 +97,19 @@ describe('useCardStore', () => {
         text: async () => '',
       } as Response);
 
-      const { actions } = useCardStore.getState();
-      const promise = actions.loadCard_byDetails('1');
+      const { cardActions } = useCardStore.getState();
+      const promise = cardActions.loadCard_byDetails('1');
+
       let state = useCardStore.getState();
-      expect(state.isFetch).toBe(true);
-      expect(state.errorFetch).toBeNull();
-      expect(state.item).toBeNull();
+      expect(state.cardState.isFetch).toBe(true);
+      expect(state.cardState.errorFetch).toBeNull();
+      expect(state.cardState.item).toBeNull();
 
       await promise;
       state = useCardStore.getState();
-      expect(state.isFetch).toBe(false);
-      expect(state.errorFetch).toBeNull();
-      expect(state.item).toEqual(mockPokemon);
+      expect(state.cardState.isFetch).toBe(false);
+      expect(state.cardState.errorFetch).toBeNull();
+      expect(state.cardState.item).toEqual(mockPokemon);
       expect(FETCH_MOCK).toHaveBeenCalledTimes(1);
     });
 
@@ -109,22 +120,22 @@ describe('useCardStore', () => {
         json: async () => ({}),
       } as Response);
 
-      const { actions } = useCardStore.getState();
-      await actions.loadCard_byDetails('999');
+      const { cardActions } = useCardStore.getState();
+      await cardActions.loadCard_byDetails('999');
       const state = useCardStore.getState();
-      expect(state.isFetch).toBe(false);
-      expect(state.item).toBeNull();
+      expect(state.cardState.isFetch).toBe(false);
+      expect(state.cardState.item).toBeNull();
     });
 
     it('should handle network exception', async () => {
       FETCH_MOCK.mockRejectedValue(new Error('Network error'));
 
-      const { actions } = useCardStore.getState();
-      await actions.loadCard_byDetails('1');
+      const { cardActions } = useCardStore.getState();
+      await cardActions.loadCard_byDetails('1');
       const state = useCardStore.getState();
-      expect(state.isFetch).toBe(false);
-      expect(state.errorFetch).toBe('Error: Network error');
-      expect(state.item).toBeNull();
+      expect(state.cardState.isFetch).toBe(false);
+      expect(state.cardState.errorFetch).toBe('Error: Network error');
+      expect(state.cardState.item).toBeNull();
     });
   });
 });

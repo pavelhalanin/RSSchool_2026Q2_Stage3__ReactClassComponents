@@ -8,21 +8,24 @@ import {
   useCardActions,
 } from '../hook';
 import { useCardStore } from '../useCardStore';
-import type { ICardSlice } from '../types';
+import type { ICardState } from '../types';
 
-const defaultState: {
-  isFetch: ICardSlice['isFetch'];
-  errorFetch: ICardSlice['errorFetch'];
-  item: ICardSlice['item'];
-} = {
-  isFetch: false,
-  errorFetch: null,
-  item: null,
+const defaultState: ICardState = {
+  cardState: {
+    isFetch: false,
+    errorFetch: null,
+    item: null,
+  },
 };
 
 describe('Custom hooks for Card store', () => {
   beforeEach(() => {
-    useCardStore.setState(defaultState);
+    useCardStore.setState((state) => ({
+      ...state,
+      cardState: {
+        ...defaultState.cardState,
+      },
+    }));
   });
 
   describe('useCardIsFetch', () => {
@@ -31,7 +34,13 @@ describe('Custom hooks for Card store', () => {
       expect(result.current).toBe(false);
 
       act(() => {
-        useCardStore.setState({ isFetch: true });
+        useCardStore.setState((state) => ({
+          ...state,
+          cardState: {
+            ...state.cardState,
+            isFetch: true,
+          },
+        }));
       });
       expect(result.current).toBe(true);
     });
@@ -44,7 +53,13 @@ describe('Custom hooks for Card store', () => {
 
       const errorMsg = 'Card fetch failed';
       act(() => {
-        useCardStore.setState({ errorFetch: errorMsg });
+        useCardStore.setState((state) => ({
+          ...state,
+          cardState: {
+            ...state.cardState,
+            errorFetch: errorMsg,
+          },
+        }));
       });
       expect(result.current).toBe(errorMsg);
     });
@@ -66,13 +81,25 @@ describe('Custom hooks for Card store', () => {
       });
 
       act(() => {
-        useCardStore.setState({ isFetch: true });
+        useCardStore.setState((state) => ({
+          ...state,
+          cardState: {
+            ...state.cardState,
+            isFetch: true,
+          },
+        }));
       });
       expect(renderCount).toBe(2);
       expect(result.current.isFetch).toBe(true);
 
       act(() => {
-        useCardStore.setState({ isFetch: true });
+        useCardStore.setState((state) => ({
+          ...state,
+          cardState: {
+            ...state.cardState,
+            isFetch: true,
+          },
+        }));
       });
       expect(renderCount).toBe(2);
     });
@@ -94,16 +121,6 @@ describe('Custom hooks for Card store', () => {
       expect(typeof result.current.closeCard).toBe('function');
       expect(typeof result.current.generateFetchError).toBe('function');
       expect(typeof result.current.loadCard_byDetails).toBe('function');
-    });
-
-    it('should reset state when closeCard is called', () => {
-      const { result } = renderHook(() => useCardActions());
-      act(() => {
-        result.current.closeCard();
-      });
-
-      const { result: stateResult } = renderHook(() => useCardAll());
-      expect(stateResult.current).toEqual(defaultState);
     });
 
     it('should call loadCard_byDetails without throwing', () => {

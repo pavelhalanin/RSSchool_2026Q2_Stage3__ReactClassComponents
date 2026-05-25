@@ -13,32 +13,39 @@ import {
 import type { ICardListSlice } from './types';
 import { useCardListStore } from './useCardListStore';
 
-export const useCardListIsFetch = (): ICardListSlice['isFetch'] =>
-  useCardListStore(cardListIsFetchSelector);
+export const useCardListIsFetch =
+  (): ICardListSlice['cardListState']['isFetch'] =>
+    useCardListStore(cardListIsFetchSelector);
 
-export const useCardListErrorFetch = (): ICardListSlice['errorFetch'] =>
-  useCardListStore(cardListErrorFetchSelector);
+export const useCardListErrorFetch =
+  (): ICardListSlice['cardListState']['errorFetch'] =>
+    useCardListStore(cardListErrorFetchSelector);
 
-export const useCardListSearch = (): ICardListSlice['search'] =>
-  useCardListStore(cardListSearchSelector);
+export const useCardListSearch =
+  (): ICardListSlice['cardListState']['search'] =>
+    useCardListStore(cardListSearchSelector);
 
-export const useCardListPrevSearch = (): ICardListSlice['prevSearch'] =>
-  useCardListStore(cardListPrevSearchSelector);
+export const useCardListPrevSearch =
+  (): ICardListSlice['cardListState']['prevSearch'] =>
+    useCardListStore(cardListPrevSearchSelector);
 
-export const useCardListPage = (): ICardListSlice['page'] =>
+export const useCardListPage = (): ICardListSlice['cardListState']['page'] =>
   useCardListStore(cardListPageSelector);
 
-export const useCardListPrevPage = (): ICardListSlice['prevPage'] =>
-  useCardListStore(cardListPrevPageSelector);
+export const useCardListPrevPage =
+  (): ICardListSlice['cardListState']['prevPage'] =>
+    useCardListStore(cardListPrevPageSelector);
 
-export const useCardListPagination = (): ICardListSlice['pagination'] =>
-  useCardListStore(cardListPaginationSelector);
+export const useCardListPagination =
+  (): ICardListSlice['cardListState']['pagination'] =>
+    useCardListStore(cardListPaginationSelector);
 
-export const useCardListItems = (): ICardListSlice['items'] =>
+export const useCardListItems = (): ICardListSlice['cardListState']['items'] =>
   useCardListStore(cardListItemsSelector);
 
-export const useCardListCsvItems = (): ICardListSlice['csvItems'] =>
-  useCardListStore(cardListCsvItemsSelector);
+export const useCardListCsvItems =
+  (): ICardListSlice['cardListState']['csvItems'] =>
+    useCardListStore(cardListCsvItemsSelector);
 
-export const useCardListActions = (): ICardListSlice['actions'] =>
+export const useCardListActions = (): ICardListSlice['cardListActions'] =>
   useCardListStore(cardListActionsSelector);
