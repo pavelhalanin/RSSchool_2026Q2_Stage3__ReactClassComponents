@@ -10,7 +10,7 @@ interface ICardActions {
   loadCard_byDetails: (details: undefined | string) => void;
 }
 
-export interface ICardStore extends ICardState {
+export interface ICardSlice extends ICardState {
   actions: ICardActions;
 }
 

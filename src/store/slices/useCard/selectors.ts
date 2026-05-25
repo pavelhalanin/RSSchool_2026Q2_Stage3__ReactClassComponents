@@ -1,15 +1,15 @@
-import type { ICardStore } from './types';
+import type { ICardSlice } from './types';
 
-export const cardIsFetchSelector = (state: ICardStore) => state.isFetch;
+export const cardIsFetchSelector = (state: ICardSlice) => state.isFetch;
 
-export const cardErrorFetchSelector = (state: ICardStore) => state.errorFetch;
+export const cardErrorFetchSelector = (state: ICardSlice) => state.errorFetch;
 
-export const cardItemSelector = (state: ICardStore) => state.item;
+export const cardItemSelector = (state: ICardSlice) => state.item;
 
-export const allCardSelector = (state: ICardStore) => ({
+export const allCardSelector = (state: ICardSlice) => ({
   isFetch: state.isFetch,
   errorFetch: state.errorFetch,
   item: state.item,
 });
 
-export const cardActionsSelector = (state: ICardStore) => state.actions;
+export const cardActionsSelector = (state: ICardSlice) => state.actions;

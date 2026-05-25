@@ -8,12 +8,12 @@ import {
   useCardActions,
 } from '../hook';
 import { useCardStore } from '../useCardStore';
-import type { ICardStore } from '../types';
+import type { ICardSlice } from '../types';
 
 const defaultState: {
-  isFetch: ICardStore['isFetch'];
-  errorFetch: ICardStore['errorFetch'];
-  item: ICardStore['item'];
+  isFetch: ICardSlice['isFetch'];
+  errorFetch: ICardSlice['errorFetch'];
+  item: ICardSlice['item'];
 } = {
   isFetch: false,
   errorFetch: null,

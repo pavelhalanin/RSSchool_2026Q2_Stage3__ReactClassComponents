@@ -6,23 +6,23 @@ import {
   cardIsFetchSelector,
   cardItemSelector,
 } from './selectors';
-import type { ICardStore } from './types';
+import type { ICardSlice } from './types';
 import { useCardStore } from './useCardStore';
 
-export const useCardIsFetch = (): ICardStore['isFetch'] =>
+export const useCardIsFetch = (): ICardSlice['isFetch'] =>
   useCardStore(cardIsFetchSelector);
 
-export const useCardErrorFetch = (): ICardStore['errorFetch'] =>
+export const useCardErrorFetch = (): ICardSlice['errorFetch'] =>
   useCardStore(cardErrorFetchSelector);
 
-export const useCardItem = (): ICardStore['item'] =>
+export const useCardItem = (): ICardSlice['item'] =>
   useCardStore(cardItemSelector);
 
 export const useCardAll = (): {
-  isFetch: ICardStore['isFetch'];
-  errorFetch: ICardStore['errorFetch'];
-  item: ICardStore['item'];
+  isFetch: ICardSlice['isFetch'];
+  errorFetch: ICardSlice['errorFetch'];
+  item: ICardSlice['item'];
 } => useCardStore(useShallow(allCardSelector));
 
-export const useCardActions = (): ICardStore['actions'] =>
+export const useCardActions = (): ICardSlice['actions'] =>
   useCardStore(cardActionsSelector);
