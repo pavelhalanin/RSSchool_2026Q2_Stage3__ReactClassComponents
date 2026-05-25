@@ -1,23 +1,36 @@
 import type { JSX } from 'react';
-import type { ISearchProps } from './ISearchProps';
 import styles from './Search.module.css';
+import { usePokemonNavigation } from '../../../../hook/usePokemonNavigation/usePokemonNavigation';
+import {
+  useCardListActions,
+  useCardListErrorFetch,
+  useCardListPrevSearch,
+  useCardListSearch,
+} from '../../../../store/slices/useCardListState/hook';
 
-export default function Search(props: ISearchProps): JSX.Element {
+export default function Search(): JSX.Element {
+  const { pokemonNavigation } = usePokemonNavigation();
+  const search = useCardListSearch();
+  const prevSearch = useCardListPrevSearch();
+  const errorFetch = useCardListErrorFetch();
+  const { setSearch, fetchPokemons } = useCardListActions();
+
   return (
     <div className={styles.search__wrapper}>
       <input
         type="search"
-        value={props.search}
+        value={search}
         onChange={(e) => {
-          props.updateState_search(e.target.value);
+          setSearch(e.target.value);
         }}
       />
       <button
         className="btn btn-success"
         onClick={() => {
-          props.setParams('1', '');
-          props.fetchPokemons();
+          pokemonNavigation({ page: 1 });
+          fetchPokemons();
         }}
+        disabled={!errorFetch && search === prevSearch}
       >
         Search
       </button>

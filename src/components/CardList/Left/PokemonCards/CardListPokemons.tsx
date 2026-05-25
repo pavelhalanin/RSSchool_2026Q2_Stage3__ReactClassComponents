@@ -1,63 +1,74 @@
 import type { JSX } from 'react';
-import styles from '../../CardList.module.css';
+import styles from './CardListPokemons.module.css';
 import CardListPagination from './../Pagination/CardListPagination';
-import type { ICardListPokemons } from './ICardListPokemons';
-import PokemonHelper from '../../../../utils/PokemonHelper';
+import { useParams } from 'react-router-dom';
+import { getPokemonSrcImage_byId } from '../../../../utils/getPokemonSrcImage_byId';
+import { usePokemonNavigation } from '../../../../hook/usePokemonNavigation/usePokemonNavigation';
+import FetchSpinner from '../../../FetchSpinner/FetchSpinner';
+import AlertDanger from '../../../AlertDanger/AlertDanger';
+import {
+  useCardListActions,
+  useCardListCsvItems,
+  useCardListErrorFetch,
+  useCardListIsFetch,
+  useCardListItems,
+  useCardListPrevSearch,
+} from '../../../../store/slices/useCardListState/hook';
 
-export default function CardListPokemons(
-  props: ICardListPokemons
-): JSX.Element {
-  if (props.pagination.fetchError) {
+export default function CardListPokemons(): JSX.Element {
+  const { pokemonNavigation } = usePokemonNavigation();
+  const { page } = useParams();
+  const errorFetch = useCardListErrorFetch();
+  const isFetch = useCardListIsFetch();
+  const items = useCardListItems();
+  const csvItems = useCardListCsvItems();
+  const prevSearch = useCardListPrevSearch();
+  const { fetchPokemons, addOrRemoveCsvItem } = useCardListActions();
+
+  if (isFetch) {
+    return <FetchSpinner>Loading Card List</FetchSpinner>;
+  }
+
+  if (errorFetch) {
     return (
-      <>
-        <h1 className="h1">Pokémon Collection</h1>
-        <div className="alert alert-danger">
-          <div>{props.pagination.fetchError}</div>
-          <button
-            className="btn btn-success"
-            onClick={() => props.fetchPokemons()}
-          >
-            Repeat load fetch
-          </button>
-        </div>
-      </>
+      <AlertDanger>
+        <p>{errorFetch}</p>
+        <button className="btn btn-success" onClick={() => fetchPokemons()}>
+          Repeat load fetch
+        </button>
+      </AlertDanger>
     );
   }
 
-  if (props.pagination.isFetch) {
+  if (items.length === 0) {
     return (
-      <>
-        <h1 className="h1">Pokémon Collection</h1>
-        <div className={styles.spinner__wrapper}>Pokémon Collection</div>
-      </>
-    );
-  }
-
-  if (props.pagination.items.length === 0) {
-    return (
-      <>
-        <h1 className="h1">Pokémon Collection</h1>
-        <div className="alert alert-danger">
-          No Pokémon found by search ({props.searchPrev}) on page {props.page}.
-          Please enter a different search term and click the search button.
-        </div>
-      </>
+      <AlertDanger>
+        No Pokémon found by search ({prevSearch}) on page {page}. Please enter a
+        different search term and click the search button.
+      </AlertDanger>
     );
   }
 
   return (
     <>
-      <h1 className="h1">Pokémon Collection</h1>
       <ul className={styles.card_list}>
-        {props.pagination.items.map((pokemon) => {
+        {items.map((pokemon) => {
           const POKEMON_ID: number = Number(pokemon.id);
-          const POKEMON_IMAGE: string =
-            PokemonHelper.getMainImage_byPokemonId(POKEMON_ID);
+          const POKEMON_IMAGE: string = getPokemonSrcImage_byId(POKEMON_ID);
           return (
-            <li key={POKEMON_ID} className="pokemon-card">
+            <li key={POKEMON_ID}>
+              <input
+                className={styles.card_list__checkbox_button}
+                type="checkbox"
+                checked={csvItems.filter((e) => e.id === POKEMON_ID).length > 0}
+                onChange={(event) =>
+                  addOrRemoveCsvItem(event.target.checked, POKEMON_ID)
+                }
+              />
               <button
+                className={styles.card_list__button}
                 onClick={() => {
-                  props.setParams(props.page, `${POKEMON_ID}`);
+                  pokemonNavigation({ page, details: `${POKEMON_ID}` });
                 }}
               >
                 <div className={styles.card_list__image_block}>
@@ -85,11 +96,7 @@ export default function CardListPokemons(
           );
         })}
       </ul>
-      <CardListPagination
-        page={props.page}
-        pagination={props.pagination}
-        setParams={props.setParams}
-      />
+      <CardListPagination />
     </>
   );
 }

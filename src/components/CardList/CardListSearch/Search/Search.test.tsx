@@ -1,77 +1,138 @@
-import { cleanup, fireEvent, render, screen } from '@testing-library/react';
-import { describe, it, expect, vi, afterEach } from 'vitest';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { render, fireEvent } from '@testing-library/react';
 import Search from './Search';
-import '@testing-library/jest-dom/vitest';
+import type { ICardListActions } from '../../../../store/slices/useCardListState/types';
 
-describe('Search Component Tests', () => {
-  const localStorageMock = (() => {
-    const STORE: Record<string, string> = {};
-    return {
-      getItem: vi.fn((key: string) => STORE[key] || null),
-      setItem: vi.fn((key: string, value: string) => {
-        STORE[key] = value;
-      }),
-    };
-  })();
+vi.mock('../../../../hook/usePokemonNavigation/usePokemonNavigation', () => ({
+  usePokemonNavigation: vi.fn(),
+}));
 
-  const mock_fetchPokemons = vi.fn();
-  const mock_updateState_search = vi.fn();
-  const setParams = vi.fn();
+vi.mock('../../../../store/slices/useCardListState/hook', () => ({
+  useCardListSearch: vi.fn(),
+  useCardListPrevSearch: vi.fn(),
+  useCardListErrorFetch: vi.fn(),
+  useCardListActions: vi.fn(),
+}));
 
-  afterEach(() => {
-    cleanup(); // Очищает DOM
-    vi.clearAllMocks(); // Очищает моки
+import { usePokemonNavigation } from '../../../../hook/usePokemonNavigation/usePokemonNavigation';
+import {
+  useCardListSearch,
+  useCardListPrevSearch,
+  useCardListErrorFetch,
+  useCardListActions,
+} from '../../../../store/slices/useCardListState/hook';
+
+const mockUsePokemonNavigation = vi.mocked(usePokemonNavigation);
+const mockUseCardListSearch = vi.mocked(useCardListSearch);
+const mockUseCardListPrevSearch = vi.mocked(useCardListPrevSearch);
+const mockUseCardListErrorFetch = vi.mocked(useCardListErrorFetch);
+const mockUseCardListActions = vi.mocked(useCardListActions);
+
+describe('Search', () => {
+  const mockPokemonNavigation = vi.fn();
+  const mockSetSearch = vi.fn();
+  const mockFetchPokemons = vi.fn();
+
+  const createFullMockActions = (): ICardListActions => ({
+    setSearch: mockSetSearch,
+    fetchPokemons: mockFetchPokemons,
+    generateFetchError: vi.fn(),
+    setPage: vi.fn(),
+    addOrRemoveCsvItem: vi.fn(),
+    unselectAllCsvItems: vi.fn(),
+    downloadCsvItems: vi.fn(),
   });
 
-  it('Search Component Tests. Rendering Tests. Renders search input', () => {
-    render(
-      <Search
-        search=""
-        fetchPokemons={mock_fetchPokemons}
-        updateState_search={mock_updateState_search}
-        setParams={setParams}
-      />
-    );
+  beforeEach(() => {
+    vi.clearAllMocks();
 
-    const INPUT = screen.getByRole('searchbox'); // Поиск <input type="search">
-    expect(INPUT).toBeInTheDocument(); // Существует элемент?
+    mockUsePokemonNavigation.mockReturnValue({
+      pokemonNavigation: mockPokemonNavigation,
+    });
 
-    fireEvent.change(INPUT, { target: { value: 'pikachu' } }); // Симуляция ввода текста
-
-    expect(mock_updateState_search).toHaveBeenCalledTimes(1); // Функция вызвана один раз?
-    expect(mock_updateState_search).toHaveBeenCalledWith('pikachu'); // Проверка, что при вызове передали 'pikachu'
+    mockUseCardListActions.mockReturnValue(createFullMockActions());
   });
 
-  it('Search Component Tests. Rendering Tests. Renders search button', () => {
-    render(
-      <Search
-        search=""
-        fetchPokemons={mock_fetchPokemons}
-        updateState_search={mock_updateState_search}
-        setParams={setParams}
-      />
-    );
+  it('renders input with current search value', () => {
+    mockUseCardListSearch.mockReturnValue('pikachu');
+    mockUseCardListPrevSearch.mockReturnValue('pika');
+    mockUseCardListErrorFetch.mockReturnValue(null);
 
-    const BUTTON = screen.getByText('Search'); // Находим кнопку с текстом Search
-    expect(BUTTON).toBeInTheDocument(); // Существует элемент?
-    fireEvent.click(BUTTON); // Симуляция клика пользователя
-
-    expect(mock_fetchPokemons).toHaveBeenCalledTimes(1); // Функция вызвана один раз?
+    const { container } = render(<Search />);
+    const input = container.querySelector(
+      'input[type="search"]'
+    ) as HTMLInputElement;
+    expect(input).not.toBeNull();
+    expect(input.value).toBe('pikachu');
   });
 
-  it('Search Component Tests. Rendering Tests. Shows empty input when no saved term exists', () => {
-    localStorageMock.getItem.mockReturnValueOnce(null);
+  it('calls setSearch on input change', () => {
+    mockUseCardListSearch.mockReturnValue('');
+    mockUseCardListPrevSearch.mockReturnValue('');
+    mockUseCardListErrorFetch.mockReturnValue(null);
 
-    render(
-      <Search
-        search=""
-        fetchPokemons={mock_fetchPokemons}
-        updateState_search={mock_updateState_search}
-        setParams={setParams}
-      />
-    );
+    const { container } = render(<Search />);
+    const input = container.querySelector(
+      'input[type="search"]'
+    ) as HTMLInputElement;
+    fireEvent.change(input, { target: { value: 'bulbasaur' } });
+    expect(mockSetSearch).toHaveBeenCalledWith('bulbasaur');
+  });
 
-    const INPUT = screen.getByRole('searchbox') as HTMLInputElement;
-    expect(INPUT.value).toBe('');
+  it('button is disabled when no error and search equals prevSearch', () => {
+    mockUseCardListSearch.mockReturnValue('charmander');
+    mockUseCardListPrevSearch.mockReturnValue('charmander');
+    mockUseCardListErrorFetch.mockReturnValue(null);
+
+    const { container } = render(<Search />);
+    const button = container.querySelector('.btn-success') as HTMLButtonElement;
+    expect(button.disabled).toBe(true);
+  });
+
+  it('button is not disabled when search differs from prevSearch', () => {
+    mockUseCardListSearch.mockReturnValue('charmander');
+    mockUseCardListPrevSearch.mockReturnValue('char');
+    mockUseCardListErrorFetch.mockReturnValue(null);
+
+    const { container } = render(<Search />);
+    const button = container.querySelector('.btn-success') as HTMLButtonElement;
+    expect(button.disabled).toBe(false);
+  });
+
+  it('button is not disabled when errorFetch exists', () => {
+    mockUseCardListSearch.mockReturnValue('squirtle');
+    mockUseCardListPrevSearch.mockReturnValue('squirtle');
+    mockUseCardListErrorFetch.mockReturnValue('Some error');
+
+    const { container } = render(<Search />);
+    const button = container.querySelector('.btn-success') as HTMLButtonElement;
+    expect(button.disabled).toBe(false);
+  });
+
+  it('calls pokemonNavigation and fetchPokemons on button click when enabled', () => {
+    mockUseCardListSearch.mockReturnValue('pidgey');
+    mockUseCardListPrevSearch.mockReturnValue('pidegy');
+    mockUseCardListErrorFetch.mockReturnValue(null);
+
+    const { container } = render(<Search />);
+    const button = container.querySelector('.btn-success') as HTMLButtonElement;
+    fireEvent.click(button);
+
+    expect(mockPokemonNavigation).toHaveBeenCalledWith({ page: 1 });
+    expect(mockFetchPokemons).toHaveBeenCalled();
+  });
+
+  it('does not call actions when button is disabled and clicked', () => {
+    mockUseCardListSearch.mockReturnValue('rattata');
+    mockUseCardListPrevSearch.mockReturnValue('rattata');
+    mockUseCardListErrorFetch.mockReturnValue(null);
+
+    const { container } = render(<Search />);
+    const button = container.querySelector('.btn-success') as HTMLButtonElement;
+    expect(button.disabled).toBe(true);
+    fireEvent.click(button);
+
+    expect(mockPokemonNavigation).not.toHaveBeenCalled();
+    expect(mockFetchPokemons).not.toHaveBeenCalled();
   });
 });
