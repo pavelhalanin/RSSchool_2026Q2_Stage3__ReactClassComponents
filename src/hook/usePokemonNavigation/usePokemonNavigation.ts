@@ -10,12 +10,10 @@ export function usePokemonNavigation() {
     const page = Number(newParams.page) > 0 ? newParams.page : '1';
     const details = newParams.details;
 
-    let uri = '/pokemon';
-    if (page) {
-      uri += `/${page}`;
-      if (details) {
-        uri += `/${details}`;
-      }
+    let uri = `/pokemon/${page}`;
+
+    if (details) {
+      uri += `/${details}`;
     }
 
     navigate(uri);
