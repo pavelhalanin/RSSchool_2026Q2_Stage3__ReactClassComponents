@@ -18,7 +18,7 @@ export interface ICardListState {
   };
 }
 
-interface ICardListActions {
+export interface ICardListActions {
   generateFetchError: () => void;
   setSearch: (newSearch: string) => void;
   fetchPokemons: () => void;
