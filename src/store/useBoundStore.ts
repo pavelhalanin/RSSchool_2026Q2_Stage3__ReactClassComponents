@@ -6,7 +6,7 @@ import { createCardListSlice } from './slices/useCardListState/slice';
 
 type IBoundState = ICardListSlice & ICardSlice;
 
-export const useCardListStore = create<IBoundState>()((...a) => ({
+export const useBoundStore = create<IBoundState>()((...a) => ({
   ...createCardListSlice(...a),
   ...createCardSlice(...a),
 }));
