@@ -27,7 +27,7 @@ interface ICardListActions {
   downloadCsvItems: () => void;
 }
 
-export interface ICardListStore extends ICardListState {
+export interface ICardListSlice extends ICardListState {
   actions: ICardListActions;
 }
 

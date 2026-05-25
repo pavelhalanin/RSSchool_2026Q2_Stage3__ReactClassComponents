@@ -10,35 +10,35 @@ import {
   cardListCsvItemsSelector,
   cardListActionsSelector,
 } from './selectors';
-import type { ICardListStore } from './types';
+import type { ICardListSlice } from './types';
 import { useCardListStore } from './useCardListStore';
 
-export const useCardListIsFetch = (): ICardListStore['isFetch'] =>
+export const useCardListIsFetch = (): ICardListSlice['isFetch'] =>
   useCardListStore(cardListIsFetchSelector);
 
-export const useCardListErrorFetch = (): ICardListStore['errorFetch'] =>
+export const useCardListErrorFetch = (): ICardListSlice['errorFetch'] =>
   useCardListStore(cardListErrorFetchSelector);
 
-export const useCardListSearch = (): ICardListStore['search'] =>
+export const useCardListSearch = (): ICardListSlice['search'] =>
   useCardListStore(cardListSearchSelector);
 
-export const useCardListPrevSearch = (): ICardListStore['prevSearch'] =>
+export const useCardListPrevSearch = (): ICardListSlice['prevSearch'] =>
   useCardListStore(cardListPrevSearchSelector);
 
-export const useCardListPage = (): ICardListStore['page'] =>
+export const useCardListPage = (): ICardListSlice['page'] =>
   useCardListStore(cardListPageSelector);
 
-export const useCardListPrevPage = (): ICardListStore['prevPage'] =>
+export const useCardListPrevPage = (): ICardListSlice['prevPage'] =>
   useCardListStore(cardListPrevPageSelector);
 
-export const useCardListPagination = (): ICardListStore['pagination'] =>
+export const useCardListPagination = (): ICardListSlice['pagination'] =>
   useCardListStore(cardListPaginationSelector);
 
-export const useCardListItems = (): ICardListStore['items'] =>
+export const useCardListItems = (): ICardListSlice['items'] =>
   useCardListStore(cardListItemsSelector);
 
-export const useCardListCsvItems = (): ICardListStore['csvItems'] =>
+export const useCardListCsvItems = (): ICardListSlice['csvItems'] =>
   useCardListStore(cardListCsvItemsSelector);
 
-export const useCardListActions = (): ICardListStore['actions'] =>
+export const useCardListActions = (): ICardListSlice['actions'] =>
   useCardListStore(cardListActionsSelector);

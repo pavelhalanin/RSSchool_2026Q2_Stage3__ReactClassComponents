@@ -1,26 +1,26 @@
-import type { ICardListStore } from './types';
+import type { ICardListSlice } from './types';
 
-export const cardListIsFetchSelector = (state: ICardListStore) => state.isFetch;
+export const cardListIsFetchSelector = (state: ICardListSlice) => state.isFetch;
 
-export const cardListErrorFetchSelector = (state: ICardListStore) =>
+export const cardListErrorFetchSelector = (state: ICardListSlice) =>
   state.errorFetch;
 
-export const cardListSearchSelector = (state: ICardListStore) => state.search;
+export const cardListSearchSelector = (state: ICardListSlice) => state.search;
 
-export const cardListPrevSearchSelector = (state: ICardListStore) =>
+export const cardListPrevSearchSelector = (state: ICardListSlice) =>
   state.prevSearch;
 
-export const cardListPageSelector = (state: ICardListStore) => state.page;
+export const cardListPageSelector = (state: ICardListSlice) => state.page;
 
-export const cardListPrevPageSelector = (state: ICardListStore) =>
+export const cardListPrevPageSelector = (state: ICardListSlice) =>
   state.prevPage;
 
-export const cardListPaginationSelector = (state: ICardListStore) =>
+export const cardListPaginationSelector = (state: ICardListSlice) =>
   state.pagination;
 
-export const cardListItemsSelector = (state: ICardListStore) => state.items;
+export const cardListItemsSelector = (state: ICardListSlice) => state.items;
 
-export const cardListCsvItemsSelector = (state: ICardListStore) =>
+export const cardListCsvItemsSelector = (state: ICardListSlice) =>
   state.csvItems;
 
-export const cardListActionsSelector = (state: ICardListStore) => state.actions;
+export const cardListActionsSelector = (state: ICardListSlice) => state.actions;
