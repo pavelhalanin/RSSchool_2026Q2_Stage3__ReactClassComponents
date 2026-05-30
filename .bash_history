@@ -38,3 +38,7 @@ npm install react-router-dom
 # task 4
 
 npm i zustand
+
+# task 5
+
+npm i @tanstack/react-query
