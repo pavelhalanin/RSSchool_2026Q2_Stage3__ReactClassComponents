@@ -1,9 +1,12 @@
 import { create } from 'zustand';
-import type { ICardListSlice } from './slices/useCardListState/types';
-import { createCardListSlice } from './slices/useCardListState/slice';
+import type { ICsvCardListSlice } from './slices/useCsvCardList/types';
+import { createCsvCardListSlice } from './slices/useCsvCardList/slice';
+import type { ISearchSlice } from './slices/useSearch/types';
+import { createSearchSlice } from './slices/useSearch/slice';
 
-type IBoundState = ICardListSlice;
+type IBoundState = ICsvCardListSlice & ISearchSlice;
 
 export const useBoundStore = create<IBoundState>()((...a) => ({
-  ...createCardListSlice(...a),
+  ...createCsvCardListSlice(...a),
+  ...createSearchSlice(...a),
 }));

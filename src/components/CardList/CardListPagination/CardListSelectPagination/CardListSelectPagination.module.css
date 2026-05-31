@@ -1,0 +1,43 @@
+.select_block {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  display: flex;
+}
+
+.select_block label {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 8px;
+}
+
+.select_block label,
+.select_block select {
+  border: 2px solid #06c;
+  border-radius: 8px;
+
+  height: 42px;
+}
+
+.select_block label {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-right: 0;
+  height: calc(42px - 8px * 2 - 2px * 2);
+}
+
+.select_block select {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+body[data-theme='dark'] .select_block select {
+  color: white;
+  background-color: #06c;
+}
+
+.select {
+  padding: 8px;
+}

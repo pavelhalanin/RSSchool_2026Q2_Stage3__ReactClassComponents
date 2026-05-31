@@ -16,8 +16,8 @@ export default function CardContent() {
   const { data, error, isError, isFetching, refetch } = useQuery({
     queryKey: ['card', details],
     queryFn: () => getCardFetch(details),
-    staleTime: Number(import.meta.env.VITE_STALE_TIME) || 10000,
-    gcTime: Number(import.meta.env.VITE_GC_TIME) || 20000,
+    staleTime: Number(import.meta.env.VITE_CARD_STALE_TIME) || 10000,
+    gcTime: Number(import.meta.env.VITE_CARD_GC_TIME) || 20000,
     retry: false,
   });
 

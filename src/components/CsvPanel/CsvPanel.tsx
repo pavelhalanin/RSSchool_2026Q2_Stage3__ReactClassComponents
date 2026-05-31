@@ -1,13 +1,13 @@
 import {
-  useCardListActions,
-  useCardListCsvItems,
-} from '../../store/slices/useCardListState/hook';
+  useCsvCardListActions,
+  useCsvCardListItems,
+} from '../../store/slices/useCsvCardList/hook';
 import ContainerSection from '../ContainerSection/ContainerSection';
 import styles from './CsvPanel.module.css';
 
 export default function CsvPanel() {
-  const csvItems = useCardListCsvItems();
-  const { unselectAllCsvItems, downloadCsvItems } = useCardListActions();
+  const csvItems = useCsvCardListItems();
+  const { unselectAll, downloadCsvItems } = useCsvCardListActions();
 
   if (csvItems.length === 0) {
     return <></>;
@@ -19,7 +19,7 @@ export default function CsvPanel() {
         <ul>
           <li>Selected {csvItems.length}</li>
           <li>
-            <button className="btn btn-danger" onClick={unselectAllCsvItems}>
+            <button className="btn btn-danger" onClick={unselectAll}>
               Unselect all
             </button>
           </li>

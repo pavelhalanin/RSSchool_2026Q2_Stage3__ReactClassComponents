@@ -1,27 +1,16 @@
-export const useLocalStorage = (key: string) => {
-  const setItem = (value: unknown) => {
-    try {
-      window.localStorage.setItem(key, JSON.stringify(value));
-    } catch (error) {
-      console.log(error);
-    }
+import { storageGetItem, storageRemoveItem, storageSetItem } from './Storage';
+
+export const useLocalStorage = () => {
+  const setItem = (key: string, value: string): void => {
+    storageSetItem(key, value);
   };
 
-  const getItem = () => {
-    try {
-      const item = window.localStorage.getItem(key);
-      return item ? JSON.parse(item) : undefined;
-    } catch (error) {
-      console.log(error);
-    }
+  const getItem = (key: string): string | null => {
+    return storageGetItem(key);
   };
 
-  const removeItem = () => {
-    try {
-      window.localStorage.removeItem(key);
-    } catch (error) {
-      console.log(error);
-    }
+  const removeItem = (key: string): void => {
+    return storageRemoveItem(key);
   };
 
   return { setItem, getItem, removeItem };
