@@ -1,4 +1,4 @@
-import type { IPokemon } from '../../../../store/slices/useCard/types';
+import type IPokemon from '../../../../query/card/IPokemon';
 import CardCrieAudio from './CardCrieAudio/CardCrieAudio';
 
 interface IPropsCardCries {

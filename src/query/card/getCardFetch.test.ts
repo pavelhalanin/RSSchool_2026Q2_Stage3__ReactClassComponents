@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import getCardFetch from './getCardFetch';
 import getCardGraphql from './getCardGraphql';
-import type { IPokemon } from '../../store/slices/useCard/types';
+import type IPokemon from './IPokemon';
 import FETCH_MOCK from './../../test-utils/mock/FETCH_MOCK.mock';
 
 vi.mock('./getCardGraphql', () => ({

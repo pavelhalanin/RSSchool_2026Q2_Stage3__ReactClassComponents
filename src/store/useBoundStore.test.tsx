@@ -26,16 +26,9 @@ const defaultCardListState = {
   csvItems: [],
 };
 
-const defaultCardState = {
-  isFetch: false,
-  errorFetch: null,
-  item: null,
-};
-
 beforeEach(() => {
   useBoundStore.setState({
     cardListState: { ...defaultCardListState },
-    cardState: { ...defaultCardState },
   });
   vi.clearAllMocks();
 });

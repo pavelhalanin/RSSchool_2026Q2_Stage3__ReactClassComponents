@@ -1,4 +1,4 @@
-import type { IPokemon } from '../../../../store/slices/useCard/types';
+import type IPokemon from '../../../../query/card/IPokemon';
 import { getPokemonSrcImage_byId } from '../../../../utils/getPokemonSrcImage_byId';
 import styles from './CardMainData.module.css';
 

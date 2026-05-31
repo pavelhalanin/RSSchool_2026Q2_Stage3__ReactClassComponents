@@ -1,22 +1,4 @@
-export interface ICardState {
-  cardState: {
-    isFetch: boolean;
-    errorFetch: null | string;
-    item: null | IPokemon;
-  };
-}
-
-interface ICardActions {
-  closeCard: () => void;
-  generateFetchError: () => void;
-  loadCard_byDetails: (details: undefined | string) => void;
-}
-
-export interface ICardSlice extends ICardState {
-  cardActions: ICardActions;
-}
-
-export interface IPokemon {
+export default interface IPokemon {
   id: number;
   name: string;
   weight: number;

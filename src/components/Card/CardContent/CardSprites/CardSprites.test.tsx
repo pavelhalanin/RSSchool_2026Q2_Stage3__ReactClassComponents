@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render } from '@testing-library/react';
 import CardSprites from './CardSprites';
-import type { IPokemon } from '../../../../store/slices/useCard/types';
+import type IPokemon from '../../../../query/card/IPokemon';
 import extractImageUrls from '../../../../query/card/extractImageUrls';
 
 vi.mock('../../../../query/card/extractImageUrls', () => ({

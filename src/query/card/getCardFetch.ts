@@ -1,4 +1,4 @@
-import type { IPokemon } from '../../store/slices/useCard/types';
+import type IPokemon from './IPokemon';
 import getCardGraphql from './getCardGraphql';
 
 export default async function getCardFetch(

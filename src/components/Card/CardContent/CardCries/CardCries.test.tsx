@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { render } from '@testing-library/react';
 import CardCries from './CardCries';
-import type { IPokemon } from '../../../../store/slices/useCard/types';
+import type IPokemon from '../../../../query/card/IPokemon';
 
 describe('CardCries', () => {
   it('returns empty fragment when data is null', () => {

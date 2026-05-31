@@ -1,5 +1,5 @@
 import extractImageUrls from '../../../../query/card/extractImageUrls';
-import type { IPokemon } from '../../../../store/slices/useCard/types';
+import type IPokemon from '../../../../query/card/IPokemon';
 import styles from './CardSprites.module.css';
 
 interface IPropsCardSprites {

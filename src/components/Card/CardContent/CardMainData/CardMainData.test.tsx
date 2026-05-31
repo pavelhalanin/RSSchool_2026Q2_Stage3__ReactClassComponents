@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render } from '@testing-library/react';
 import CardMainData from './CardMainData';
-import type { IPokemon } from '../../../../store/slices/useCard/types';
+import type IPokemon from '../../../../query/card/IPokemon';
 import { getPokemonSrcImage_byId } from '../../../../utils/getPokemonSrcImage_byId';
 
 vi.mock('../../../../utils/getPokemonSrcImage_byId', () => ({
