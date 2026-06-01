@@ -1,5 +1,6 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import { render, screen, cleanup } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import CardContent from './CardContent';
 import { useParams } from 'react-router-dom';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
@@ -47,7 +48,7 @@ vi.mock('./../../CardList/CardList.module.css', () => ({
   default: { card_list__right_block_buttons: 'mocked-buttons-class' },
 }));
 
-describe('CardContent lines', () => {
+describe('CardContent', () => {
   const mockRefetch = vi.fn();
   const mockRemoveQueries = vi.fn();
   const mockQueryClient = {
@@ -58,6 +59,10 @@ describe('CardContent lines', () => {
     vi.clearAllMocks();
     vi.mocked(useParams).mockReturnValue({ details: '25' });
     vi.mocked(useQueryClient).mockReturnValue(mockQueryClient as never);
+  });
+
+  afterEach(() => {
+    cleanup();
   });
 
   it('renders FetchSpinner when isFetching is true', () => {
@@ -75,7 +80,7 @@ describe('CardContent lines', () => {
     expect(spinner?.textContent).toBe('Loading Card');
   });
 
-  it('renders AlertDanger when isError is true', () => {
+  it('renders AlertDanger when isError is true and calls refetch on button click', async () => {
     const testError = new Error('Network error');
     vi.mocked(useQuery).mockReturnValue({
       data: null,
@@ -88,10 +93,15 @@ describe('CardContent lines', () => {
     render(<CardContent />);
     const alert = screen.queryByTestId('alert-danger');
     expect(alert).not.toBeNull();
+
     const errorText = screen.queryByText('Error: Network error');
     expect(errorText).not.toBeNull();
-    const refetchButton = screen.queryByRole('button', { name: 'Refetch' });
+
+    const refetchButton = screen.getByRole('button', { name: 'Refetch' });
     expect(refetchButton).not.toBeNull();
+
+    await userEvent.click(refetchButton);
+    expect(mockRefetch).toHaveBeenCalledTimes(1);
   });
 
   it('renders child components when data is loaded', () => {
@@ -107,5 +117,51 @@ describe('CardContent lines', () => {
     expect(screen.queryByTestId('card-main-data')).not.toBeNull();
     expect(screen.queryByTestId('card-cries')).not.toBeNull();
     expect(screen.queryByTestId('card-sprites')).not.toBeNull();
+  });
+
+  it('calls removeQueries and refetch when "Reload" button is clicked', async () => {
+    vi.mocked(useQuery).mockReturnValue({
+      data: { id: 25, name: 'Pikachu' },
+      error: null,
+      isError: false,
+      isFetching: false,
+      refetch: mockRefetch,
+    } as never);
+
+    render(<CardContent />);
+
+    const reloadButtons = screen.getAllByRole('button', { name: /Reload/i });
+    expect(reloadButtons.length).toBeGreaterThan(0);
+    const reloadButton = reloadButtons[0];
+
+    await userEvent.click(reloadButton);
+
+    expect(mockRemoveQueries).toHaveBeenCalledTimes(1);
+    expect(mockRemoveQueries).toHaveBeenCalledWith({
+      queryKey: ['card', '25'],
+    });
+    expect(mockRefetch).toHaveBeenCalledTimes(1);
+  });
+
+  it('calls removeQueries with queryKey ["card"] when "Clear all cards cache" button is clicked', async () => {
+    vi.mocked(useQuery).mockReturnValue({
+      data: { id: 25, name: 'Pikachu' },
+      error: null,
+      isError: false,
+      isFetching: false,
+      refetch: mockRefetch,
+    } as never);
+
+    render(<CardContent />);
+
+    const clearAllButton = screen.getByRole('button', {
+      name: /Clear all cards cache/i,
+    });
+    await userEvent.click(clearAllButton);
+
+    expect(mockRemoveQueries).toHaveBeenCalledTimes(1);
+    expect(mockRemoveQueries).toHaveBeenCalledWith({
+      queryKey: ['card'],
+    });
   });
 });
