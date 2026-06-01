@@ -1,0 +1,30 @@
+.pages {
+  margin: 0;
+  padding: 0;
+
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+
+.pages > li {
+  list-style-type: none;
+}
+
+.pages > li > button {
+  width: 42px;
+  height: 42px;
+  background-color: #06c;
+  color: white;
+  border: 1px solid #06c;
+  border-radius: 8px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.pages > li > button:disabled {
+  opacity: 0.6;
+}

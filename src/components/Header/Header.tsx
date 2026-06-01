@@ -3,6 +3,8 @@ import styles from './Header.module.css';
 import type { JSX } from 'react';
 import ContainerSection from '../ContainerSection/ContainerSection';
 import ThemeCheckbox from '../ThemeCheckbox/ThemeCheckbox';
+import ErrorButton from '../ErrorButton/ErrorButton';
+import RemoveCacheButtons from './RemoveCacheButtons/RemoveCacheButtons';
 
 export default function Header(): JSX.Element {
   return (
@@ -20,6 +22,12 @@ export default function Header(): JSX.Element {
           </li>
           <li>
             <ThemeCheckbox />
+          </li>
+          <li>
+            <ErrorButton />
+          </li>
+          <li>
+            <RemoveCacheButtons />
           </li>
         </ul>
       </nav>

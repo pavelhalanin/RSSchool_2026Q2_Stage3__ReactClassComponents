@@ -1,0 +1,38 @@
+.input {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 24px;
+  height: 24px;
+  display: block;
+
+  appearance: none;
+}
+
+.input::before {
+  content: '';
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: calc(24px - 1px * 2);
+  height: calc(24px - 1px * 2);
+
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  background-color: white;
+  color: white;
+  border: 1px solid #06c;
+  border-radius: 4px;
+}
+
+body[data-theme='dark'] .input[type='checkbox']:before {
+  background-color: #212529;
+}
+
+.input:checked:before,
+body[data-theme='dark'] .input:checked:before {
+  content: '✔';
+  background-color: #06c;
+}
