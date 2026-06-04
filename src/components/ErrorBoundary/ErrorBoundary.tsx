@@ -1,4 +1,5 @@
 import { Component, type ErrorInfo, type ReactNode } from "react";
+import AlertDanger from "../AlertDanger/AlertDanger";
 
 export interface IPropsErrorBoundary {
   children: ReactNode;
@@ -35,10 +36,10 @@ export default class ErrorBoundary extends Component<
   render() {
     if (this.state.errorBoundary) {
       return (
-        <div>
+        <AlertDanger>
           <h2>Fallback UI (ErrorBoundary)</h2>
           {this.state.errorBoundary}
-        </div>
+        </AlertDanger>
       );
     }
 
