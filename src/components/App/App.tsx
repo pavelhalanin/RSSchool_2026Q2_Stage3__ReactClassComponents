@@ -1,3 +1,9 @@
+import Modal from "../Modal/Modal";
+
 export default function App() {
-  return <div>Hello, World!</div>;
+  return (
+    <div>
+      <Modal />
+    </div>
+  );
 }
