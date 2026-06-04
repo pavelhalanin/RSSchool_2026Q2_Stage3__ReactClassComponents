@@ -1,9 +1,10 @@
+import ErrorBoundary from "../ErrorBoundary/ErrorBoundary";
 import Modal from "../Modal/Modal";
 
 export default function App() {
   return (
-    <div>
+    <ErrorBoundary>
       <Modal />
-    </div>
+    </ErrorBoundary>
   );
 }
