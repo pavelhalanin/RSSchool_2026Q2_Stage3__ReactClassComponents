@@ -7,3 +7,5 @@ npm install -D prettier eslint-config-prettier
 
 npx prettier --check .
 npx prettier --write .
+
+npm install --save-dev husky
