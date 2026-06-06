@@ -1,0 +1,27 @@
+.error__wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.error__line {
+  position: absolute;
+  top: 4px;
+  left: 0;
+  width: 100%;
+  border: 1px dashed #842029;
+  opacity: 0.4;
+  z-index: 5;
+}
+
+.error__content {
+  z-index: 6;
+  position: absolute;
+  top: 4px;
+  left: 50%;
+  width: 50%;
+  opacity: 0.4;
+}
+
+.error__content:hover {
+  opacity: 1;
+}
