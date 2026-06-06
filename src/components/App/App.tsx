@@ -1,10 +1,10 @@
 import ErrorBoundary from "../ErrorBoundary/ErrorBoundary";
-import Modal from "../Modal/Modal";
+import FormButtons from "../NavButtons/NavButtons";
 
 export default function App() {
   return (
     <ErrorBoundary>
-      <Modal />
+      <FormButtons />
     </ErrorBoundary>
   );
 }
