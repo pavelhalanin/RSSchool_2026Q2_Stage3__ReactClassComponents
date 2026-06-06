@@ -19,7 +19,11 @@ export default function UncontrolledFormRoot() {
   return (
     <div>
       <button onClick={openModal}>UncontrolledForm</button>
-      <ModalPortal isOpen={isOpen} closeModal={closeModal} title="Un">
+      <ModalPortal
+        isOpen={isOpen}
+        closeModal={closeModal}
+        title="Uncontrolled form"
+      >
         <UncontrolledForm closeModal={closeModal} />
       </ModalPortal>
     </div>

@@ -16,7 +16,11 @@ export default function ReactHookFormRoot() {
   return (
     <div>
       <button onClick={openModal}>ReactHookForm</button>
-      <ModalPortal isOpen={isOpen} closeModal={closeModal}>
+      <ModalPortal
+        isOpen={isOpen}
+        closeModal={closeModal}
+        title="React hook form"
+      >
         <ReactHookForm />
       </ModalPortal>
     </div>
