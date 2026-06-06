@@ -1,5 +1,5 @@
 import { useState } from "react";
-import ModalPortal from "../../ModalPortal/ModalPortal";
+import ModalPortal from "../ModalPortal/ModalPortal";
 import ReactHookForm from "./ReactHookForm/ReactHookForm";
 
 export default function ReactHookFormRoot() {

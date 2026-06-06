@@ -1,13 +1,13 @@
 import { ValidationError } from "yup";
-import { getFormSchema } from "../../../../form-schemas/useFormSchema";
+import { getFormSchema } from "../../../form-schemas/useFormSchema";
 import {
   useFormDataActions,
   useFormDataErrors,
-} from "../../../../store/form-data/hook";
-import Form from "../../../Form/Form";
-import styles from "./../../../Form/Form.module.css";
-import type { IFormDataState } from "../../../../store/form-data/types";
-import FormErrors from "../../../Form/FormErrors/FormErrors";
+} from "../../../store/form-data/hook";
+import Form from "../../Form/Form";
+import styles from "./../../Form/Form.module.css";
+import type { IFormDataState } from "../../../store/form-data/types";
+import FormErrors from "../../Form/FormErrors/FormErrors";
 
 interface IPropsUncontrolledForm {
   closeModal: () => void;

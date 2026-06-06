@@ -1,5 +1,5 @@
-import ReactHookFormRoot from "./ReactHookFormRoot/ReactHookFormRoot";
-import UncontrolledFormRoot from "./UncontrolledFormRoot/UncontrolledFormRoot";
+import ReactHookFormRoot from "../ReactHookFormRoot/ReactHookFormRoot";
+import UncontrolledFormRoot from "../UncontrolledFormRoot/UncontrolledFormRoot";
 
 export default function FormButtons() {
   return (
