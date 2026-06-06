@@ -9,7 +9,6 @@
 
 .modal__wrapper {
   background-color: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(100px);
 }
 
 .modal__overlay {
@@ -41,6 +40,8 @@
 
 .modal__body {
   padding: 16px;
+  overflow-y: scroll;
+  max-height: calc(100vh - 200px);
 }
 
 .modal__close_button {

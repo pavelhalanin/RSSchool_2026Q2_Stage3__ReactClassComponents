@@ -1,7 +1,8 @@
 import { useState } from "react";
 import ModalPortal from "../../ModalPortal/ModalPortal";
+import ReactHookForm from "./ReactHookForm/ReactHookForm";
 
-export default function UncontrolledForm() {
+export default function ReactHookFormRoot() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   function openModal() {
@@ -14,9 +15,9 @@ export default function UncontrolledForm() {
 
   return (
     <div>
-      <button onClick={openModal}>UncontrolledForm</button>
+      <button onClick={openModal}>ReactHookForm</button>
       <ModalPortal isOpen={isOpen} closeModal={closeModal}>
-        <div>UncontrolledForm content</div>
+        <ReactHookForm />
       </ModalPortal>
     </div>
   );
