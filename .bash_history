@@ -11,3 +11,5 @@ npx prettier --write .
 npm install --save-dev husky
 
 npm i zustand
+
+npm i yup
