@@ -8,6 +8,8 @@ import Form from "../../Form/Form";
 import styles from "./../../Form/Form.module.css";
 import type { IFormDataState } from "../../../store/form-data/types";
 import FormErrors from "../../Form/FormErrors/FormErrors";
+import { useArrayFormDataActions } from "../../../store/array-form-data/hook";
+import type { IArrayFormDataState } from "../../../store/array-form-data/types";
 
 interface IPropsUncontrolledForm {
   closeModal: () => void;
@@ -17,6 +19,8 @@ export default function UncontrolledForm(props: IPropsUncontrolledForm) {
   const formDataErrors = useFormDataErrors();
   const { setFormDataErrors, clearErrors, getEmptyErrors } =
     useFormDataActions();
+
+  const { pushToArrayFormData } = useArrayFormDataActions();
 
   async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     try {
@@ -39,6 +43,20 @@ export default function UncontrolledForm(props: IPropsUncontrolledForm) {
 
       console.log(RAW);
       console.log("uncontrolledFromSubmit", RAW);
+
+      const DATA: IArrayFormDataState["arrayFormData"][number] = {
+        name: RAW.name || "",
+        age: RAW.age || 0,
+        email: RAW.email || "",
+        gender:
+          RAW.gender == "male"
+            ? "male"
+            : RAW.gender == "female"
+              ? "female"
+              : "other",
+        isAgree: RAW.isAgree || false,
+      };
+      pushToArrayFormData(DATA);
 
       FORM_TARGET.reset();
       props.closeModal();

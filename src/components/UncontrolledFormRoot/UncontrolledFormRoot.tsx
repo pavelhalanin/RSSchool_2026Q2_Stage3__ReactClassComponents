@@ -4,6 +4,7 @@ import UncontrolledForm from "./UncontrolledForm/UncontrolledForm";
 import { useFormDataActions } from "../../store/form-data/hook";
 
 export default function UncontrolledFormRoot() {
+  const TITLE = "Uncontrolled form";
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const { clearErrors } = useFormDataActions();
 
@@ -18,12 +19,8 @@ export default function UncontrolledFormRoot() {
 
   return (
     <div>
-      <button onClick={openModal}>UncontrolledForm</button>
-      <ModalPortal
-        isOpen={isOpen}
-        closeModal={closeModal}
-        title="Uncontrolled form"
-      >
+      <button onClick={openModal}>{TITLE}</button>
+      <ModalPortal isOpen={isOpen} closeModal={closeModal} title={TITLE}>
         <UncontrolledForm closeModal={closeModal} />
       </ModalPortal>
     </div>

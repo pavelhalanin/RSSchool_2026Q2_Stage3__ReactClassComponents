@@ -9,6 +9,8 @@ import {
 import { getFormSchema } from "../../../form-schemas/useFormSchema";
 import { ValidationError } from "yup";
 import type { IFormDataState } from "../../../store/form-data/types";
+import type { IArrayFormDataState } from "../../../store/array-form-data/types";
+import { useArrayFormDataActions } from "../../../store/array-form-data/hook";
 
 interface IPropsReactHookForm {
   closeModal: () => void;
@@ -26,6 +28,8 @@ export default function ReactHookForm(props: IPropsReactHookForm) {
   const formDataErrors = useFormDataErrors();
   const { setFormDataErrors, clearErrors, getEmptyErrors } =
     useFormDataActions();
+
+  const { pushToArrayFormData } = useArrayFormDataActions();
 
   const { control, handleSubmit, register } = useForm<IReactHookFormData>({
     defaultValues: {
@@ -52,6 +56,20 @@ export default function ReactHookForm(props: IPropsReactHookForm) {
         },
         { abortEarly: false },
       );
+
+      const DATA: IArrayFormDataState["arrayFormData"][number] = {
+        name: RAW.name || "",
+        age: RAW.age || 0,
+        email: RAW.email || "",
+        gender:
+          RAW.gender == "male"
+            ? "male"
+            : RAW.gender == "female"
+              ? "female"
+              : "other",
+        isAgree: RAW.isAgree || false,
+      };
+      pushToArrayFormData(DATA);
 
       console.log(RAW);
       console.log("reactHookFormSubmit", RAW);

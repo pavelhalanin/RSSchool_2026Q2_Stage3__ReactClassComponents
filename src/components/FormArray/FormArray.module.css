@@ -1,0 +1,31 @@
+.array {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+
+  margin: 0;
+  padding: 0;
+}
+
+.element {
+  list-style-type: none;
+  border: 1px solid #06c;
+  border-radius: 8px;
+  padding: 8px;
+  width: 300px;
+}
+
+.key_value_block {
+  display: flex;
+}
+
+.key_value_block > div:first-child {
+  width: 80px;
+  text-transform: capitalize;
+  font-weight: bold;
+}
+
+.key_value_block > div:last-child {
+  width: 100%;
+}
