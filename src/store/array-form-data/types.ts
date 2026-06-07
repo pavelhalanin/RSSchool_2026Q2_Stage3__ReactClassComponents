@@ -1,5 +1,6 @@
 export interface IArrayFormDataState {
   arrayFormData: Array<{
+    id: string;
     name: string;
     age: number;
     email: string;

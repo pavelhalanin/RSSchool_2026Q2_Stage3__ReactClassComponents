@@ -45,6 +45,7 @@ export default function UncontrolledForm(props: IPropsUncontrolledForm) {
       console.log("uncontrolledFromSubmit", RAW);
 
       const DATA: IArrayFormDataState["arrayFormData"][number] = {
+        id: new Date().toJSON(),
         name: RAW.name || "",
         age: RAW.age || 0,
         email: RAW.email || "",

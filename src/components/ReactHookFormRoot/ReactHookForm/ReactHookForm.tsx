@@ -58,6 +58,7 @@ export default function ReactHookForm(props: IPropsReactHookForm) {
       );
 
       const DATA: IArrayFormDataState["arrayFormData"][number] = {
+        id: new Date().toJSON(),
         name: RAW.name || "",
         age: RAW.age || 0,
         email: RAW.email || "",
