@@ -1,4 +1,5 @@
 import * as yup from "yup";
+import country from "./../const/country.json";
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024;
 
@@ -81,6 +82,15 @@ export function getFormSchema() {
         test: (value) => {
           if (!value) return true;
           return value.size <= MAX_FILE_SIZE;
+        },
+      }),
+    country: yup
+      .string()
+      .required()
+      .test({
+        message: "Value need include country name",
+        test: (value) => {
+          return country.map((e) => e.name).includes(value);
         },
       }),
   });

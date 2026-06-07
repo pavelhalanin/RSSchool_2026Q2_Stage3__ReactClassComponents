@@ -11,6 +11,7 @@ export const defaultFormData: IFormDataState = {
       gender: "other",
       isAgree: false,
       photo: "",
+      country: "",
     },
     errors: {
       name: [],
@@ -19,6 +20,7 @@ export const defaultFormData: IFormDataState = {
       gender: [],
       isAgree: [],
       photo: [],
+      country: [],
     },
   },
 };
@@ -83,6 +85,7 @@ export const createFormDataSlice: StateCreator<
                   gender: [],
                   isAgree: [],
                   photo: [],
+                  country: [],
                 },
               },
             };
@@ -100,6 +103,7 @@ export const createFormDataSlice: StateCreator<
           gender: [],
           isAgree: [],
           photo: [],
+          country: [],
         };
       },
     },

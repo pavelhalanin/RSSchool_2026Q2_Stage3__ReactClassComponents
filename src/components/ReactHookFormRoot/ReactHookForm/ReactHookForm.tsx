@@ -7,6 +7,7 @@ import { useArrayFormDataActions } from "../../../store/array-form-data/hook";
 import { yupResolver } from "@hookform/resolvers/yup";
 import ReactHookFormError from "../../Form/ReactHookFormError/ReactHookFormError";
 import getBase64_byFile from "../../../utils/getBase64_byFile/getBase64_byFile";
+import { useCountryArray } from "../../../store/countries/hook";
 
 interface IPropsReactHookForm {
   closeModal: () => void;
@@ -19,10 +20,12 @@ interface IReactHookFormData {
   gender: "male" | "female" | "other";
   isAgree: boolean;
   photo: File | null;
+  country: string;
 }
 
 export default function ReactHookForm(props: IPropsReactHookForm) {
   const { pushToArrayFormData } = useArrayFormDataActions();
+  const countryArray = useCountryArray();
 
   const {
     control,
@@ -38,6 +41,7 @@ export default function ReactHookForm(props: IPropsReactHookForm) {
       gender: "other",
       isAgree: false,
       photo: null,
+      country: "",
     },
     resolver: yupResolver(getFormSchema()) as Resolver<IReactHookFormData>,
     mode: "onChange",
@@ -54,6 +58,7 @@ export default function ReactHookForm(props: IPropsReactHookForm) {
       gender: data.gender,
       isAgree: data.isAgree,
       photo: await getBase64_byFile(data.photo),
+      country: data.country,
     };
 
     pushToArrayFormData(DATA);
@@ -159,6 +164,30 @@ export default function ReactHookForm(props: IPropsReactHookForm) {
               <ReactHookFormError error={errors.photo} />
             </div>
           )}
+        />
+
+        <Controller
+          name="country"
+          control={control}
+          render={({ field, fieldState: { error } }) => {
+            return (
+              <div className={styles.input_block}>
+                <label htmlFor="form__country">Country</label>
+                <input
+                  id="form__country"
+                  type="text"
+                  list="form__country_datalist"
+                  {...field}
+                />
+                <datalist id="form__country_datalist">
+                  {countryArray.map((e) => {
+                    return <option key={e.code} value={e.name} />;
+                  })}
+                </datalist>
+                <ReactHookFormError error={error} />
+              </div>
+            );
+          }}
         />
 
         <div className={styles.buttons_block}>

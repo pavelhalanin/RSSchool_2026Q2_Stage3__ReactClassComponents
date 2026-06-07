@@ -11,12 +11,14 @@ import FormErrors from "../../Form/FormErrors/FormErrors";
 import { useArrayFormDataActions } from "../../../store/array-form-data/hook";
 import type { IArrayFormDataState } from "../../../store/array-form-data/types";
 import getBase64_byFile from "../../../utils/getBase64_byFile/getBase64_byFile";
+import { useCountryArray } from "../../../store/countries/hook";
 
 interface IPropsUncontrolledForm {
   closeModal: () => void;
 }
 
 export default function UncontrolledForm(props: IPropsUncontrolledForm) {
+  const countryArray = useCountryArray();
   const formDataErrors = useFormDataErrors();
   const { setFormDataErrors, clearErrors, getEmptyErrors } =
     useFormDataActions();
@@ -39,6 +41,7 @@ export default function UncontrolledForm(props: IPropsUncontrolledForm) {
           gender: FORM_DATA.get("gender"),
           isAgree: FORM_DATA.get("isAgree") == "on",
           photo: FORM_DATA.get("photo"),
+          country: FORM_DATA.get("country"),
         },
         { abortEarly: false },
       );
@@ -59,6 +62,7 @@ export default function UncontrolledForm(props: IPropsUncontrolledForm) {
               : "other",
         isAgree: RAW.isAgree || false,
         photo: await getBase64_byFile(RAW.photo),
+        country: RAW.country,
       };
       pushToArrayFormData(DATA);
 
@@ -135,6 +139,21 @@ export default function UncontrolledForm(props: IPropsUncontrolledForm) {
           <label htmlFor="form__photo">Photo</label>
           <input id="form__photo" type="file" name="photo" />
           <FormErrors errors={formDataErrors.photo} />
+        </div>
+        <div>
+          <label htmlFor="form__country">Country</label>
+          <input
+            id="form__country"
+            type="text"
+            name="country"
+            list="form__country_datalist"
+          />
+          <datalist id="form__country_datalist">
+            {countryArray.map((e) => {
+              return <option key={e.code} value={e.name} />;
+            })}
+          </datalist>
+          <FormErrors errors={formDataErrors.country} />
         </div>
         <div className={styles.buttons_block}>
           <button className="btn btn-success" type="submit">
