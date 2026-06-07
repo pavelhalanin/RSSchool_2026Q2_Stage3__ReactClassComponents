@@ -1,5 +1,6 @@
 .form input[type="text"],
 .form input[type="email"],
+.form input[type="file"],
 .form input[type="number"] {
   display: block;
   width: calc(100% - 0.75rem * 2);
