@@ -10,6 +10,7 @@ import type { IFormDataState } from "../../../store/form-data/types";
 import FormErrors from "../../Form/FormErrors/FormErrors";
 import { useArrayFormDataActions } from "../../../store/array-form-data/hook";
 import type { IArrayFormDataState } from "../../../store/array-form-data/types";
+import getBase64_byFile from "../../../utils/getBase64_byFile/getBase64_byFile";
 
 interface IPropsUncontrolledForm {
   closeModal: () => void;
@@ -37,6 +38,7 @@ export default function UncontrolledForm(props: IPropsUncontrolledForm) {
           email: FORM_DATA.get("email"),
           gender: FORM_DATA.get("gender"),
           isAgree: FORM_DATA.get("isAgree") == "on",
+          photo: FORM_DATA.get("photo"),
         },
         { abortEarly: false },
       );
@@ -56,6 +58,7 @@ export default function UncontrolledForm(props: IPropsUncontrolledForm) {
               ? "female"
               : "other",
         isAgree: RAW.isAgree || false,
+        photo: await getBase64_byFile(RAW.photo),
       };
       pushToArrayFormData(DATA);
 
@@ -127,6 +130,11 @@ export default function UncontrolledForm(props: IPropsUncontrolledForm) {
           <input id="form__agree" type="checkbox" name="isAgree" />
           <label htmlFor="form__agree">Agree</label>
           <FormErrors errors={formDataErrors.isAgree} />
+        </div>
+        <div className={styles.input_block}>
+          <label htmlFor="form__photo">Photo</label>
+          <input id="form__photo" type="file" name="photo" />
+          <FormErrors errors={formDataErrors.photo} />
         </div>
         <div className={styles.buttons_block}>
           <button className="btn btn-success" type="submit">

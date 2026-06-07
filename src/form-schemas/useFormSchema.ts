@@ -1,8 +1,11 @@
-import { boolean, number, object, string } from "yup";
+import * as yup from "yup";
+
+const MAX_FILE_SIZE = 5 * 1024 * 1024;
 
 export function getFormSchema() {
-  return object({
-    name: string()
+  return yup.object({
+    name: yup
+      .string()
       .required()
       .test({
         message: "The name must begin with an uppercase letter",
@@ -15,7 +18,8 @@ export function getFormSchema() {
           return FIRST_CHAR === FIRST_CHAR.toLocaleUpperCase();
         },
       }),
-    email: string()
+    email: yup
+      .string()
       .required()
       .test({
         message: "Email must include one @ symbol",
@@ -51,12 +55,33 @@ export function getFormSchema() {
           return DOMAINS.length >= 2;
         },
       }),
-    age: number()
+    age: yup
+      .number()
       .typeError("Age must be specified")
       .required()
       .positive()
       .integer(),
-    gender: string().required().oneOf(["male", "female", "other"]),
-    isAgree: boolean().defined().oneOf([true], "You need agree"),
+    gender: yup.string().required().oneOf(["male", "female", "other"]),
+    isAgree: yup.boolean().defined().oneOf([true], "You need agree"),
+    photo: yup
+      .mixed<File>()
+      .nullable()
+      .test({
+        message: "File extensions available are .png and .jpeg.",
+        test: (value) => {
+          if (!value) return true;
+
+          console.log(value);
+          console.log(value.type);
+          return ["image/png", "image/jpeg"].includes(value.type);
+        },
+      })
+      .test({
+        message: `Maximum file size is ${MAX_FILE_SIZE} bytes`,
+        test: (value) => {
+          if (!value) return true;
+          return value.size <= MAX_FILE_SIZE;
+        },
+      }),
   });
 }

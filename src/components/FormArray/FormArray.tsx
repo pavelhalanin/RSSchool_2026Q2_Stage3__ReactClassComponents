@@ -11,6 +11,21 @@ export default function FormArray() {
           <li key={`${i}-${e.name}`} className={styles.element}>
             {Object.keys(e).map((key) => {
               const VALUE = e[key as keyof typeof e];
+
+              if (
+                typeof VALUE === "string" &&
+                `${VALUE}`.startsWith("data:image")
+              ) {
+                return (
+                  <div key={key} className={styles.key_value_block_for_image}>
+                    <div>{key}:</div>
+                    <div>
+                      <img src={VALUE} alt="no image" />
+                    </div>
+                  </div>
+                );
+              }
+
               const RENDER_VALUE =
                 typeof VALUE == "boolean" ? (VALUE ? "yes" : "no") : VALUE;
 

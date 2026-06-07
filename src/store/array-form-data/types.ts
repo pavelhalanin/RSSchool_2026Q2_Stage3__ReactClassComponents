@@ -6,6 +6,7 @@ export interface IArrayFormDataState {
     email: string;
     gender: "male" | "female" | "other";
     isAgree: boolean;
+    photo: string;
   }>;
 }
 

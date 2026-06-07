@@ -6,6 +6,7 @@ import type { IArrayFormDataState } from "../../../store/array-form-data/types";
 import { useArrayFormDataActions } from "../../../store/array-form-data/hook";
 import { yupResolver } from "@hookform/resolvers/yup";
 import ReactHookFormError from "../../Form/ReactHookFormError/ReactHookFormError";
+import getBase64_byFile from "../../../utils/getBase64_byFile/getBase64_byFile";
 
 interface IPropsReactHookForm {
   closeModal: () => void;
@@ -17,6 +18,7 @@ interface IReactHookFormData {
   email: string;
   gender: "male" | "female" | "other";
   isAgree: boolean;
+  photo: File | null;
 }
 
 export default function ReactHookForm(props: IPropsReactHookForm) {
@@ -35,6 +37,7 @@ export default function ReactHookForm(props: IPropsReactHookForm) {
       email: "",
       gender: "other",
       isAgree: false,
+      photo: null,
     },
     resolver: yupResolver(getFormSchema()) as Resolver<IReactHookFormData>,
     mode: "onChange",
@@ -50,6 +53,7 @@ export default function ReactHookForm(props: IPropsReactHookForm) {
       email: data.email,
       gender: data.gender,
       isAgree: data.isAgree,
+      photo: await getBase64_byFile(data.photo),
     };
 
     pushToArrayFormData(DATA);
@@ -139,6 +143,24 @@ export default function ReactHookForm(props: IPropsReactHookForm) {
           <label htmlFor="form__agree">Agree</label>
           <ReactHookFormError error={errors.isAgree} />
         </div>
+
+        <Controller
+          name="photo"
+          control={control}
+          render={({ field }) => (
+            <div className={styles.input_block}>
+              <label htmlFor="form__photo">Photo</label>
+              <input
+                id="form__photo"
+                type="file"
+                name="photo"
+                onChange={(e) => field.onChange(e.target.files?.[0] ?? null)}
+              />
+              <ReactHookFormError error={errors.photo} />
+            </div>
+          )}
+        />
+
         <div className={styles.buttons_block}>
           <button className="btn btn-success" type="submit" disabled={!isValid}>
             Send

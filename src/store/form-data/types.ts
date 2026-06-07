@@ -6,6 +6,7 @@ export interface IFormDataState {
       email: string;
       gender: "male" | "female" | "other";
       isAgree: boolean;
+      photo: string;
     };
     errors: {
       name: Array<string>;
@@ -13,6 +14,7 @@ export interface IFormDataState {
       email: Array<string>;
       gender: Array<string>;
       isAgree: Array<string>;
+      photo: Array<string>;
     };
   };
 }

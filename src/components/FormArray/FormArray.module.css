@@ -29,3 +29,29 @@
 .key_value_block > div:last-child {
   width: 100%;
 }
+
+.key_value_block_for_image {
+  display: flex;
+  flex-direction: column;
+}
+
+.key_value_block_for_image > div:first-child {
+  width: 100%;
+  text-transform: capitalize;
+  font-weight: bold;
+}
+
+.key_value_block_for_image > div:last-child {
+  width: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.key_value_block_for_image > div:last-child > img {
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100px;
+}
