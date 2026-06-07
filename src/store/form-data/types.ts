@@ -28,7 +28,6 @@ export interface IFormDataState {
 export interface IFormDataActions {
   setFormDataValues: (data: IFormDataState["formData"]["values"]) => void;
   setFormDataErrors: (data: IFormDataState["formData"]["errors"]) => void;
-  clearErrors: () => void;
   getEmptyErrors: () => IFormDataState["formData"]["errors"];
   setPassword: (
     password: IFormDataState["formData"]["values"]["password"],
@@ -36,6 +35,7 @@ export interface IFormDataActions {
   setConfirmPassword: (
     password: IFormDataState["formData"]["values"]["confirmPassword"],
   ) => void;
+  reset: () => void;
 }
 
 export interface IFormDataSlice extends IFormDataState {

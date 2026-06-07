@@ -25,7 +25,7 @@ export default function UncontrolledForm(props: IPropsUncontrolledForm) {
   const formDataErrors = useFormDataErrors();
   const {
     setFormDataErrors,
-    clearErrors,
+    reset,
     getEmptyErrors,
     setPassword,
     setConfirmPassword,
@@ -54,6 +54,7 @@ export default function UncontrolledForm(props: IPropsUncontrolledForm) {
           photo: FORM_DATA.get("photo"),
           country: FORM_DATA.get("country"),
           password: FORM_DATA.get("password"),
+          confirmPassword: FORM_DATA.get("confirmPassword"),
         },
         { abortEarly: false },
       );
@@ -186,33 +187,23 @@ export default function UncontrolledForm(props: IPropsUncontrolledForm) {
             </li>
           </ul>
         </div>
-        <div
-          className={styles.input_block}
-          data-is-valid={
-            hasNumber &&
-            hasUppercase &&
-            hasLowercase &&
-            hasSpecialCharacter &&
-            formData.password === formData.confirmPassword
-              ? "1"
-              : "0"
-          }
-        >
+        <div className={styles.input_block}>
           <label htmlFor="form__confirm_password">Confirm Password</label>
           <input
             id="from__confirm_password"
             type="password"
-            name="confirm_password"
+            name="confirmPassword"
             value={formData.confirmPassword}
             onChange={(event) => setConfirmPassword(event.target.value)}
           />
+          <FormErrors errors={formDataErrors.confirmPassword} />
           <ul className={styles.password_levels}>
             <li
               data-is-valid={
                 formData.password === formData.confirmPassword ? "1" : "0"
               }
             >
-              is equals
+              Password is need equals with confirm password
             </li>
           </ul>
         </div>
@@ -220,11 +211,7 @@ export default function UncontrolledForm(props: IPropsUncontrolledForm) {
           <button className="btn btn-success" type="submit">
             Send
           </button>
-          <button
-            className="btn btn-warning"
-            type="reset"
-            onClick={clearErrors}
-          >
+          <button className="btn btn-warning" type="reset" onClick={reset}>
             Reset
           </button>
         </div>

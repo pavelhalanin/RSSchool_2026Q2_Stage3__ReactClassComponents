@@ -75,32 +75,6 @@ export const createFormDataSlice: StateCreator<
         );
       },
 
-      clearErrors: () => {
-        set(
-          (state) => {
-            return {
-              ...state,
-              formData: {
-                ...state.formData,
-                errors: {
-                  name: [],
-                  age: [],
-                  email: [],
-                  gender: [],
-                  isAgree: [],
-                  photo: [],
-                  country: [],
-                  password: [],
-                  confirmPassword: [],
-                },
-              },
-            };
-          },
-          false,
-          "formData/clearErrors",
-        );
-      },
-
       getEmptyErrors: () => {
         return {
           name: [],
@@ -150,6 +124,45 @@ export const createFormDataSlice: StateCreator<
           },
           true,
           "formData/setConfirmPassword",
+        );
+      },
+
+      reset: () => {
+        set(
+          (state) => {
+            return {
+              ...state,
+              formData: {
+                ...state.formData,
+                values: {
+                  ...state.formData.values,
+                  name: "",
+                  age: 0,
+                  email: "",
+                  gender: "other",
+                  isAgree: false,
+                  country: "",
+                  password: "",
+                  confirmPassword: "",
+                  photo: "",
+                },
+                errors: {
+                  ...state.formData.errors,
+                  name: [],
+                  age: [],
+                  email: [],
+                  gender: [],
+                  isAgree: [],
+                  country: [],
+                  password: [],
+                  confirmPassword: [],
+                  photo: [],
+                },
+              },
+            };
+          },
+          false,
+          "formData/reset",
         );
       },
     },

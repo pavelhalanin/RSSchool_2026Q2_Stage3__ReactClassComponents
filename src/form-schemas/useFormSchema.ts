@@ -112,6 +112,9 @@ export function getFormSchema() {
         message: "1 special character",
         test: (value) => /[^A-Za-z0-9А-Яа-я]/.test(value),
       }),
-    confirmPassword: yup.string().required(),
+    confirmPassword: yup
+      .string()
+      .required()
+      .oneOf([yup.ref("password")], "The password is not equals"),
   });
 }

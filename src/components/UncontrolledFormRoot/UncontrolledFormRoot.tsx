@@ -6,7 +6,7 @@ import { useFormDataActions } from "../../store/form-data/hook";
 export default function UncontrolledFormRoot() {
   const TITLE = "Uncontrolled form";
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const { clearErrors } = useFormDataActions();
+  const { reset } = useFormDataActions();
 
   function openModal() {
     setIsOpen(true);
@@ -14,7 +14,7 @@ export default function UncontrolledFormRoot() {
 
   function closeModal() {
     setIsOpen(false);
-    clearErrors();
+    reset();
   }
 
   return (
