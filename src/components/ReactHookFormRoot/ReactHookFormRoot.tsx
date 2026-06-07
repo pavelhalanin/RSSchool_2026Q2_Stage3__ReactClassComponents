@@ -21,7 +21,7 @@ export default function ReactHookFormRoot() {
         closeModal={closeModal}
         title="React hook form"
       >
-        <ReactHookForm />
+        <ReactHookForm closeModal={closeModal} />
       </ModalPortal>
     </div>
   );
