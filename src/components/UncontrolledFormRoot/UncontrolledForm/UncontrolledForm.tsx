@@ -3,6 +3,7 @@ import { getFormSchema } from "../../../form-schemas/useFormSchema";
 import {
   useFormDataActions,
   useFormDataErrors,
+  useFormDataValue,
 } from "../../../store/form-data/hook";
 import Form from "../../Form/Form";
 import styles from "./../../Form/Form.module.css";
@@ -12,6 +13,7 @@ import { useArrayFormDataActions } from "../../../store/array-form-data/hook";
 import type { IArrayFormDataState } from "../../../store/array-form-data/types";
 import getBase64_byFile from "../../../utils/getBase64_byFile/getBase64_byFile";
 import { useCountryArray } from "../../../store/countries/hook";
+import usePasswordLevel from "../../../hook/usePasswordLevel/usePasswordLevel";
 
 interface IPropsUncontrolledForm {
   closeModal: () => void;
@@ -19,11 +21,20 @@ interface IPropsUncontrolledForm {
 
 export default function UncontrolledForm(props: IPropsUncontrolledForm) {
   const countryArray = useCountryArray();
+  const formData = useFormDataValue();
   const formDataErrors = useFormDataErrors();
-  const { setFormDataErrors, clearErrors, getEmptyErrors } =
-    useFormDataActions();
+  const {
+    setFormDataErrors,
+    clearErrors,
+    getEmptyErrors,
+    setPassword,
+    setConfirmPassword,
+  } = useFormDataActions();
 
   const { pushToArrayFormData } = useArrayFormDataActions();
+
+  const { hasNumber, hasUppercase, hasLowercase, hasSpecialCharacter } =
+    usePasswordLevel(formData.password);
 
   async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     try {
@@ -42,6 +53,7 @@ export default function UncontrolledForm(props: IPropsUncontrolledForm) {
           isAgree: FORM_DATA.get("isAgree") == "on",
           photo: FORM_DATA.get("photo"),
           country: FORM_DATA.get("country"),
+          password: FORM_DATA.get("password"),
         },
         { abortEarly: false },
       );
@@ -154,6 +166,55 @@ export default function UncontrolledForm(props: IPropsUncontrolledForm) {
             })}
           </datalist>
           <FormErrors errors={formDataErrors.country} />
+        </div>
+        <div className={styles.input_block}>
+          <label htmlFor="form__password">Password</label>
+          <input
+            id="from__password"
+            type="password"
+            name="password"
+            value={formData.password}
+            onChange={(event) => setPassword(event.target.value)}
+          />
+          <FormErrors errors={formDataErrors.password} />
+          <ul className={styles.password_levels}>
+            <li data-is-valid={hasNumber ? "1" : "0"}>1 number</li>
+            <li data-is-valid={hasUppercase ? "1" : "0"}>1 uppercase</li>
+            <li data-is-valid={hasLowercase ? "1" : "0"}>1 lowercase</li>
+            <li data-is-valid={hasSpecialCharacter ? "1" : "0"}>
+              1 special character
+            </li>
+          </ul>
+        </div>
+        <div
+          className={styles.input_block}
+          data-is-valid={
+            hasNumber &&
+            hasUppercase &&
+            hasLowercase &&
+            hasSpecialCharacter &&
+            formData.password === formData.confirmPassword
+              ? "1"
+              : "0"
+          }
+        >
+          <label htmlFor="form__confirm_password">Confirm Password</label>
+          <input
+            id="from__confirm_password"
+            type="password"
+            name="confirm_password"
+            value={formData.confirmPassword}
+            onChange={(event) => setConfirmPassword(event.target.value)}
+          />
+          <ul className={styles.password_levels}>
+            <li
+              data-is-valid={
+                formData.password === formData.confirmPassword ? "1" : "0"
+              }
+            >
+              is equals
+            </li>
+          </ul>
         </div>
         <div className={styles.buttons_block}>
           <button className="btn btn-success" type="submit">

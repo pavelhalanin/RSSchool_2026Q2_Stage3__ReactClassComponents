@@ -1,6 +1,7 @@
 .form input[type="text"],
 .form input[type="email"],
 .form input[type="file"],
+.form input[type="password"],
 .form input[type="number"] {
   display: block;
   width: calc(100% - 0.75rem * 2);
@@ -65,6 +66,14 @@
   margin-bottom: 1em;
 }
 
+.input_block[data-is-valid="1"] > input {
+  border-color: green !important;
+}
+
+.input_block[data-is-valid="0"] > input {
+  border-color: red !important;
+}
+
 .input_block > label,
 .input_block > .label {
   width: 100%;
@@ -106,4 +115,24 @@
   background-color: #0d6efd;
   border-color: #0d6efd;
   box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+.password_levels {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.password_levels > li {
+  list-style-type: none;
+  width: 100%;
+}
+
+.password_levels > li[data-is-valid="1"] {
+  color: green;
+}
+
+.password_levels > li[data-is-valid="0"] {
+  color: red;
 }

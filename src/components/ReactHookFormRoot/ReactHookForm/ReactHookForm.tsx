@@ -21,6 +21,8 @@ interface IReactHookFormData {
   isAgree: boolean;
   photo: File | null;
   country: string;
+  password: string;
+  confirmPassword: string;
 }
 
 export default function ReactHookForm(props: IPropsReactHookForm) {
@@ -42,6 +44,8 @@ export default function ReactHookForm(props: IPropsReactHookForm) {
       isAgree: false,
       photo: null,
       country: "",
+      password: "",
+      confirmPassword: "",
     },
     resolver: yupResolver(getFormSchema()) as Resolver<IReactHookFormData>,
     mode: "onChange",

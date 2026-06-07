@@ -12,6 +12,8 @@ export const defaultFormData: IFormDataState = {
       isAgree: false,
       photo: "",
       country: "",
+      password: "",
+      confirmPassword: "",
     },
     errors: {
       name: [],
@@ -21,6 +23,8 @@ export const defaultFormData: IFormDataState = {
       isAgree: [],
       photo: [],
       country: [],
+      password: [],
+      confirmPassword: [],
     },
   },
 };
@@ -86,6 +90,8 @@ export const createFormDataSlice: StateCreator<
                   isAgree: [],
                   photo: [],
                   country: [],
+                  password: [],
+                  confirmPassword: [],
                 },
               },
             };
@@ -104,7 +110,47 @@ export const createFormDataSlice: StateCreator<
           isAgree: [],
           photo: [],
           country: [],
+          password: [],
+          confirmPassword: [],
         };
+      },
+
+      setPassword: (password) => {
+        set(
+          (state) => {
+            return {
+              ...state,
+              formData: {
+                ...state.formData,
+                values: {
+                  ...state.formData.values,
+                  password,
+                },
+              },
+            };
+          },
+          true,
+          "formData/setPassword",
+        );
+      },
+
+      setConfirmPassword: (confirmPassword) => {
+        set(
+          (state) => {
+            return {
+              ...state,
+              formData: {
+                ...state.formData,
+                values: {
+                  ...state.formData.values,
+                  confirmPassword,
+                },
+              },
+            };
+          },
+          true,
+          "formData/setConfirmPassword",
+        );
       },
     },
   }),

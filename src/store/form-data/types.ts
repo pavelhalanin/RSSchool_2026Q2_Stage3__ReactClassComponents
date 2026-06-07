@@ -8,6 +8,8 @@ export interface IFormDataState {
       isAgree: boolean;
       photo: string;
       country: string;
+      password: string;
+      confirmPassword: string;
     };
     errors: {
       name: Array<string>;
@@ -17,6 +19,8 @@ export interface IFormDataState {
       isAgree: Array<string>;
       photo: Array<string>;
       country: Array<string>;
+      password: Array<string>;
+      confirmPassword: Array<string>;
     };
   };
 }
@@ -26,6 +30,12 @@ export interface IFormDataActions {
   setFormDataErrors: (data: IFormDataState["formData"]["errors"]) => void;
   clearErrors: () => void;
   getEmptyErrors: () => IFormDataState["formData"]["errors"];
+  setPassword: (
+    password: IFormDataState["formData"]["values"]["password"],
+  ) => void;
+  setConfirmPassword: (
+    password: IFormDataState["formData"]["values"]["confirmPassword"],
+  ) => void;
 }
 
 export interface IFormDataSlice extends IFormDataState {
