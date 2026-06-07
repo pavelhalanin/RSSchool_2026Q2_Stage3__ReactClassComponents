@@ -15,3 +15,5 @@ npm i zustand
 npm i yup
 
 npm i react-hook-form
+
+npm i @hookform/resolvers
