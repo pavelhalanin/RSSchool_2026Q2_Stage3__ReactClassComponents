@@ -22,7 +22,7 @@ export const createArrayFormDataSlice: StateCreator<
           (state) => {
             return {
               ...state,
-              arrayFormData: [...state.arrayFormData, data],
+              arrayFormData: [data, ...state.arrayFormData],
             };
           },
           false,
