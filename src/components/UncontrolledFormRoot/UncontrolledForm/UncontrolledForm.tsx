@@ -20,7 +20,9 @@ export default function UncontrolledForm(props: IPropsUncontrolledForm) {
 
   async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     try {
-      const FORM_TARGET = event.currentTarget; // сохраняем ссылку
+      const FORM_TARGET = event.currentTarget;
+      console.log("uncontrolledFromSubmit", FORM_TARGET);
+
       event.preventDefault();
       const FORM_DATA = new FormData(event.currentTarget);
       const SCHEMA = getFormSchema();
@@ -36,6 +38,7 @@ export default function UncontrolledForm(props: IPropsUncontrolledForm) {
       );
 
       console.log(RAW);
+      console.log("uncontrolledFromSubmit", RAW);
 
       FORM_TARGET.reset();
       props.closeModal();
