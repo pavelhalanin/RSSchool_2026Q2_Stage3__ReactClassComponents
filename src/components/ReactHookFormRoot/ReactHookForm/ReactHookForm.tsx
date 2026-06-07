@@ -1,16 +1,11 @@
-import { Controller, useForm } from "react-hook-form";
+import { Controller, useForm, type Resolver } from "react-hook-form";
 import Form from "../../Form/Form";
-import FormErrors from "../../Form/FormErrors/FormErrors";
 import styles from "./../../Form/Form.module.css";
-import {
-  useFormDataActions,
-  useFormDataErrors,
-} from "../../../store/form-data/hook";
 import { getFormSchema } from "../../../form-schemas/useFormSchema";
-import { ValidationError } from "yup";
-import type { IFormDataState } from "../../../store/form-data/types";
 import type { IArrayFormDataState } from "../../../store/array-form-data/types";
 import { useArrayFormDataActions } from "../../../store/array-form-data/hook";
+import { yupResolver } from "@hookform/resolvers/yup";
+import ReactHookFormError from "../../Form/ReactHookFormError/ReactHookFormError";
 
 interface IPropsReactHookForm {
   closeModal: () => void;
@@ -25,13 +20,15 @@ interface IReactHookFormData {
 }
 
 export default function ReactHookForm(props: IPropsReactHookForm) {
-  const formDataErrors = useFormDataErrors();
-  const { setFormDataErrors, clearErrors, getEmptyErrors } =
-    useFormDataActions();
-
   const { pushToArrayFormData } = useArrayFormDataActions();
 
-  const { control, handleSubmit, register } = useForm<IReactHookFormData>({
+  const {
+    control,
+    handleSubmit,
+    register,
+    formState: { errors, isValid },
+    reset,
+  } = useForm<IReactHookFormData>({
     defaultValues: {
       name: "",
       age: 0,
@@ -39,64 +36,27 @@ export default function ReactHookForm(props: IPropsReactHookForm) {
       gender: "other",
       isAgree: false,
     },
+    resolver: yupResolver(getFormSchema()) as Resolver<IReactHookFormData>,
+    mode: "onChange",
   });
 
   async function onSubmit(data: IReactHookFormData) {
-    try {
-      console.log("reactHookFormSubmit", data);
+    console.log("reactHookFormSubmit", data);
 
-      const SCHEMA = getFormSchema();
-      const RAW = await SCHEMA.validate(
-        {
-          name: data.name,
-          age: data.age,
-          email: data.email,
-          gender: data.gender,
-          isAgree: data.isAgree,
-        },
-        { abortEarly: false },
-      );
+    const DATA: IArrayFormDataState["arrayFormData"][number] = {
+      id: new Date().toJSON(),
+      name: data.name,
+      age: data.age,
+      email: data.email,
+      gender: data.gender,
+      isAgree: data.isAgree,
+    };
 
-      const DATA: IArrayFormDataState["arrayFormData"][number] = {
-        id: new Date().toJSON(),
-        name: RAW.name || "",
-        age: RAW.age || 0,
-        email: RAW.email || "",
-        gender:
-          RAW.gender == "male"
-            ? "male"
-            : RAW.gender == "female"
-              ? "female"
-              : "other",
-        isAgree: RAW.isAgree || false,
-      };
-      pushToArrayFormData(DATA);
+    pushToArrayFormData(DATA);
 
-      console.log(RAW);
-      console.log("reactHookFormSubmit", RAW);
+    console.log("reactHookFormSubmit pushToArrayFormData", DATA);
 
-      props.closeModal();
-    } catch (exception) {
-      if (exception instanceof ValidationError) {
-        const DICT: IFormDataState["formData"]["errors"] = getEmptyErrors();
-
-        const ARRAY = exception.inner;
-        for (let i = 0; i < ARRAY.length; i++) {
-          const ERROR_NAME = ARRAY[i]
-            .path as keyof IFormDataState["formData"]["errors"];
-          if (!ERROR_NAME) {
-            continue;
-          }
-          const ERROR_MESSAGE = ARRAY[i].message;
-          DICT[ERROR_NAME].push(ERROR_MESSAGE);
-        }
-
-        setFormDataErrors(DICT);
-
-        return;
-      }
-      throw exception;
-    }
+    props.closeModal();
   }
 
   return (
@@ -105,12 +65,12 @@ export default function ReactHookForm(props: IPropsReactHookForm) {
         <Controller
           name="name"
           control={control}
-          render={({ field }) => {
+          render={({ field, fieldState: { error } }) => {
             return (
               <div className={styles.input_block}>
                 <label htmlFor="form__name">Name</label>
                 <input id="form__name" type="text" {...field} />
-                <FormErrors errors={formDataErrors.name} />
+                <ReactHookFormError error={error} />
               </div>
             );
           }}
@@ -118,12 +78,12 @@ export default function ReactHookForm(props: IPropsReactHookForm) {
         <Controller
           name="age"
           control={control}
-          render={({ field }) => {
+          render={({ field, fieldState: { error } }) => {
             return (
               <div className={styles.input_block}>
                 <label htmlFor="form__age">Age</label>
                 <input id="form__age" type="number" {...field} />
-                <FormErrors errors={formDataErrors.age} />
+                <ReactHookFormError error={error} />
               </div>
             );
           }}
@@ -131,12 +91,12 @@ export default function ReactHookForm(props: IPropsReactHookForm) {
         <Controller
           name="email"
           control={control}
-          render={({ field }) => {
+          render={({ field, fieldState: { error } }) => {
             return (
               <div className={styles.input_block}>
                 <label htmlFor="form__email">Email</label>
                 <input id="form__email" type="text" {...field} />
-                <FormErrors errors={formDataErrors.email} />
+                <ReactHookFormError error={error} />
               </div>
             );
           }}
@@ -171,22 +131,22 @@ export default function ReactHookForm(props: IPropsReactHookForm) {
             />
             <label htmlFor="gender_other">Other</label>
           </div>
-          <FormErrors errors={formDataErrors.gender} />
+          <ReactHookFormError error={errors.gender} />
         </div>
 
         <div className={styles.form_check}>
           <input id="form__agree" type="checkbox" {...register("isAgree")} />
           <label htmlFor="form__agree">Agree</label>
-          <FormErrors errors={formDataErrors.isAgree} />
+          <ReactHookFormError error={errors.isAgree} />
         </div>
         <div className={styles.buttons_block}>
-          <button className="btn btn-success" type="submit">
+          <button className="btn btn-success" type="submit" disabled={!isValid}>
             Send
           </button>
           <button
             className="btn btn-warning"
             type="reset"
-            onClick={clearErrors}
+            onClick={() => reset()}
           >
             Reset
           </button>

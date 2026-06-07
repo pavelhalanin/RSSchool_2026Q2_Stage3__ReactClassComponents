@@ -26,7 +26,12 @@
   border-style: solid;
 }
 
-.form button[type="submit"] {
+.form button:disabled {
+  opacity: 0.65;
+}
+
+.form button[type="submit"],
+.form button[type="submit"]:disabled:hover {
   background-color: #198754;
   border-color: #198754;
   color: white;
@@ -37,7 +42,8 @@
   border-color: #146c43;
 }
 
-.form button[type="reset"] {
+.form button[type="reset"],
+.form button[type="reset"]:disabled:hover {
   background-color: #ffc107;
   border-color: #ffc107;
   color: black;
