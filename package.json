@@ -8,6 +8,7 @@
     "prepare": "husky",
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "deploy": "npx gh-pages -d dist -b gh-pages",
     "lint": "eslint .",
     "test:coverage": "vitest run --coverage",
     "preview": "vite preview"
