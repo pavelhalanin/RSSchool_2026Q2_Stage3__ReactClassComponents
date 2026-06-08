@@ -16,6 +16,10 @@
   width: 300px;
 }
 
+.element[data-is-new="1"] {
+  background-color: rgb(0, 128, 0, 0.4);
+}
+
 .key_value_block {
   display: flex;
 }
