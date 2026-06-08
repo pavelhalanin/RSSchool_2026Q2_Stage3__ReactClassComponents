@@ -1,0 +1,34 @@
+.error__wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.error__line {
+  position: absolute;
+  top: 4px;
+  left: 0;
+  width: 100%;
+  border: 1px dashed #842029;
+  opacity: 0.4;
+  z-index: 5;
+}
+
+.error__content {
+  z-index: 6;
+  position: absolute;
+  top: 4px;
+  left: 50%;
+  width: 50%;
+  opacity: 0.4;
+
+  border-radius: 0.25rem;
+}
+
+.error__content:hover {
+  opacity: 1;
+  z-index: 7;
+}
+
+.error__content > div {
+  box-shadow: 0 0 32px rgba(132, 32, 41, 0.8);
+}

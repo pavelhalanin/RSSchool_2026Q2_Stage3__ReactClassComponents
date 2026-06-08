@@ -1,0 +1,20 @@
+.buttons_block {
+  display: flex;
+  justify-content: center;
+  padding: 8px;
+  gap: 8px;
+}
+
+.buttons_block button {
+  border: 1px solid #06c;
+  background-color: #06c;
+  color: white;
+  padding: 16px 32px;
+  border-radius: 8px;
+  transition: all 0.25s ease-in-out;
+}
+
+.buttons_block button:hover {
+  background-color: transparent;
+  color: #06c;
+}

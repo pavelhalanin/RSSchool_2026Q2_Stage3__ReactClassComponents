@@ -1,0 +1,9 @@
+.alert_danger {
+  padding: 1rem;
+  border-radius: 0.25rem;
+  border: 1px solid transparent;
+
+  background-color: #f8d7da;
+  border-color: #f5c2c7;
+  color: #842029;
+}
