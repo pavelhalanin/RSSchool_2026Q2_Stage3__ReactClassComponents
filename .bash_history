@@ -17,3 +17,5 @@ npm i yup
 npm i react-hook-form
 
 npm i @hookform/resolvers
+
+npm i -D @vitest/coverage-v8
