@@ -14,10 +14,13 @@ describe("getBase64_byBlob", () => {
     const mockError = new Error("File read error");
 
     vi.spyOn(FileReader.prototype, "readAsDataURL").mockImplementation(
-      function () {
-        if (this.onerror) this.onerror(new ProgressEvent("error"));
-        if (this.error === undefined)
+      function (this: FileReader) {
+        if (this.onerror) {
+          this.onerror(new ProgressEvent("error") as ProgressEvent<FileReader>);
+        }
+        if (this.error === undefined) {
           Object.defineProperty(this, "error", { value: mockError });
+        }
       },
     );
 
@@ -28,13 +31,15 @@ describe("getBase64_byBlob", () => {
     const blob = new Blob(["test"]);
 
     vi.spyOn(FileReader.prototype, "readAsDataURL").mockImplementation(
-      function () {
+      function (this: FileReader) {
         Object.defineProperty(this, "result", {
           value: new ArrayBuffer(8),
           configurable: true,
         });
 
-        this.onloadend?.(new ProgressEvent("loadend"));
+        this.onloadend?.(
+          new ProgressEvent("loadend") as ProgressEvent<FileReader>,
+        );
       },
     );
 
