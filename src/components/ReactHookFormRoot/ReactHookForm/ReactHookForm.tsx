@@ -1,4 +1,4 @@
-import { Controller, useForm, type Resolver } from "react-hook-form";
+import { Controller, useForm, useWatch, type Resolver } from "react-hook-form";
 import Form from "../../Form/Form";
 import styles from "./../../Form/Form.module.css";
 import { getFormSchema } from "../../../form-schemas/useFormSchema";
@@ -8,6 +8,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import ReactHookFormError from "../../Form/ReactHookFormError/ReactHookFormError";
 import getBase64_byFile from "../../../utils/getBase64_byFile/getBase64_byFile";
 import { useCountryArray } from "../../../store/countries/hook";
+import usePasswordLevel from "../../../hook/usePasswordLevel/usePasswordLevel";
 
 interface IPropsReactHookForm {
   closeModal: () => void;
@@ -50,6 +51,13 @@ export default function ReactHookForm(props: IPropsReactHookForm) {
     resolver: yupResolver(getFormSchema()) as Resolver<IReactHookFormData>,
     mode: "onChange",
   });
+
+  const passwordValue = useWatch({ control, name: "password" }) || "";
+  const confirmPasswordValue =
+    useWatch({ control, name: "confirmPassword" }) || "";
+
+  const { hasNumber, hasUppercase, hasLowercase, hasSpecialCharacter } =
+    usePasswordLevel(passwordValue);
 
   async function onSubmit(data: IReactHookFormData) {
     console.log("reactHookFormSubmit", data);
@@ -189,6 +197,51 @@ export default function ReactHookForm(props: IPropsReactHookForm) {
                   })}
                 </datalist>
                 <ReactHookFormError error={error} />
+              </div>
+            );
+          }}
+        />
+
+        <Controller
+          name="password"
+          control={control}
+          render={({ field, fieldState: { error } }) => {
+            return (
+              <div className={styles.input_block}>
+                <label htmlFor="form__password">Password</label>
+                <input id="form__password" type="password" {...field} />
+                <ReactHookFormError error={error} />
+                <ul className={styles.password_levels}>
+                  <li data-is-valid={hasNumber ? "1" : "0"}>1 number</li>
+                  <li data-is-valid={hasUppercase ? "1" : "0"}>1 uppercase</li>
+                  <li data-is-valid={hasLowercase ? "1" : "0"}>1 lowercase</li>
+                  <li data-is-valid={hasSpecialCharacter ? "1" : "0"}>
+                    1 special character
+                  </li>
+                </ul>
+              </div>
+            );
+          }}
+        />
+
+        <Controller
+          name="confirmPassword"
+          control={control}
+          render={({ field, fieldState: { error } }) => {
+            return (
+              <div className={styles.input_block}>
+                <label htmlFor="form__confirm_password">Confirm password</label>
+                <input id="form__confirm_password" type="password" {...field} />
+                <ReactHookFormError error={error} />
+                <ul className={styles.password_levels}>
+                  <li
+                    data-is-valid={
+                      passwordValue === confirmPasswordValue ? "1" : "0"
+                    }
+                  >
+                    Password is need equals with confirm password
+                  </li>
+                </ul>
               </div>
             );
           }}
