@@ -21,3 +21,4 @@ npm i @hookform/resolvers
 npm i -D @vitest/coverage-v8
 
 npm i -D jsdom
+npm i -D @testing-library/react
