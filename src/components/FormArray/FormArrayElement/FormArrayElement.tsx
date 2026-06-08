@@ -1,4 +1,3 @@
-import { useMemo } from "react";
 import type { IArrayFormDataSlice } from "../../../store/array-form-data/types";
 import styles from "./../FormArray.module.css";
 import useTemporaryFlag from "../../../hook/useTemporyFlag/useTemporyFlag";
@@ -11,9 +10,7 @@ interface IPropsFormArrayElement {
 export default function FormArrayElement(props: IPropsFormArrayElement) {
   const element = props.element;
 
-  const isNew = useTemporaryFlag(
-    useMemo(() => new Date(element.id).getTime(), [element.id]),
-  );
+  const isNew = useTemporaryFlag(new Date(element.id).getTime());
 
   return (
     <li className={styles.element} data-is-new={isNew ? "1" : "0"}>

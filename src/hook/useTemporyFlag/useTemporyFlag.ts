@@ -8,10 +8,8 @@ export default function useTemporaryFlag(
 
   useEffect(() => {
     const age = Date.now() - createdAt;
-    if (age < duration) {
-      const timer = setTimeout(() => setFlag(false), duration - age);
-      return () => clearTimeout(timer);
-    }
+    const timer = setTimeout(() => setFlag(false), duration - age);
+    return () => clearTimeout(timer);
   }, [createdAt, duration]);
 
   return flag;
