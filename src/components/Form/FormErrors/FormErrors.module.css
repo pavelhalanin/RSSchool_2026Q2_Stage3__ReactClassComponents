@@ -20,8 +20,15 @@
   left: 50%;
   width: 50%;
   opacity: 0.4;
+
+  border-radius: 0.25rem;
 }
 
 .error__content:hover {
   opacity: 1;
+  z-index: 7;
+}
+
+.error__content > div {
+  box-shadow: 0 0 32px rgba(132, 32, 41, 0.8);
 }
