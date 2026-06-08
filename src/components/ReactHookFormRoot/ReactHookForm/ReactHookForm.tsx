@@ -157,7 +157,7 @@ export default function ReactHookForm(props: IPropsReactHookForm) {
 
         <div className={styles.form_check}>
           <input id="form__agree" type="checkbox" {...register("isAgree")} />
-          <label htmlFor="form__agree">Agree</label>
+          <label htmlFor="form__agree">Terms & Conditions</label>
           <ReactHookFormError error={errors.isAgree} />
         </div>
 

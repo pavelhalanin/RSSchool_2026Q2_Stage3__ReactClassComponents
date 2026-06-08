@@ -145,7 +145,7 @@ export default function UncontrolledForm(props: IPropsUncontrolledForm) {
         </div>
         <div className={styles.form_check}>
           <input id="form__agree" type="checkbox" name="isAgree" />
-          <label htmlFor="form__agree">Agree</label>
+          <label htmlFor="form__agree">Terms & Conditions</label>
           <FormErrors errors={formDataErrors.isAgree} />
         </div>
         <div className={styles.input_block}>
