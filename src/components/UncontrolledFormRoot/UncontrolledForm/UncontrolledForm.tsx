@@ -171,7 +171,7 @@ export default function UncontrolledForm(props: IPropsUncontrolledForm) {
         <div className={styles.input_block}>
           <label htmlFor="form__password">Password</label>
           <input
-            id="from__password"
+            id="form__password"
             type="password"
             name="password"
             value={formData.password}
