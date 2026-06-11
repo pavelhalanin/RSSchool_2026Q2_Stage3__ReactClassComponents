@@ -1,10 +1,10 @@
 import { describe, it, expect, vi } from "vitest";
-import getBase64_byBlob from "./getBase64_byBlob";
+import getBase64ByBlob from "./getBase64ByBlob";
 
-describe("getBase64_byBlob", () => {
+describe("getBase64ByBlob", () => {
   it("converts blob to base64 string", async () => {
     const blob = new Blob(["hello"], { type: "text/plain" });
-    const result = await getBase64_byBlob(blob);
+    const result = await getBase64ByBlob(blob);
     expect(result).toMatch(/^data:text\/plain;base64,/);
     expect(result).toContain(btoa("hello"));
   });
@@ -24,7 +24,7 @@ describe("getBase64_byBlob", () => {
       },
     );
 
-    await expect(getBase64_byBlob(blob)).rejects.toThrow("File read error");
+    await expect(getBase64ByBlob(blob)).rejects.toThrow("File read error");
   });
 
   it("rejects when FileReader result is not a string", async () => {
@@ -43,7 +43,7 @@ describe("getBase64_byBlob", () => {
       },
     );
 
-    await expect(getBase64_byBlob(blob)).rejects.toThrow(
+    await expect(getBase64ByBlob(blob)).rejects.toThrow(
       "Failed to convert blob to base64: result is not a string",
     );
   });

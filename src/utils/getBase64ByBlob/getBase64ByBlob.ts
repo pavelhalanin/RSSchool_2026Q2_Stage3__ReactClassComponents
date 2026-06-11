@@ -1,4 +1,4 @@
-export default function getBase64_byBlob(blob: Blob): Promise<string> {
+export default function getBase64ByBlob(blob: Blob): Promise<string> {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.onloadend = () => {
