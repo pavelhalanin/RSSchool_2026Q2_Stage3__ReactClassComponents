@@ -8,17 +8,15 @@ const PHOTO_TEST = yup
   .test({
     message: "File extensions available are .png and .jpeg.",
     test: (value) => {
-      if (!value) return true;
+      if (!value) return;
 
-      console.log(value);
-      console.log(value.type);
       return ["image/png", "image/jpeg"].includes(value.type);
     },
   })
   .test({
     message: `Maximum file size is ${MAX_FILE_SIZE} bytes`,
     test: (value) => {
-      if (!value) return true;
+      if (!value) return;
       return value.size <= MAX_FILE_SIZE;
     },
   });
