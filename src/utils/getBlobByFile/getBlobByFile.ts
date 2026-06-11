@@ -1,4 +1,4 @@
-export default function getBlob_byFile(file: File | null | undefined): Blob {
+export default function getBlobByFile(file: File | null | undefined): Blob {
   if (!file) {
     return new Blob();
   }
