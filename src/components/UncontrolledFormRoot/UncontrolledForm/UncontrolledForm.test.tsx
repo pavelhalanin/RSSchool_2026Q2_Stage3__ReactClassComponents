@@ -10,7 +10,7 @@ import {
 import { useArrayFormDataActions } from "../../../store/array-form-data/hook";
 import { useCountryArray } from "../../../store/countries/hook";
 import usePasswordLevel from "../../../hook/usePasswordLevel/usePasswordLevel";
-import getBase64_byFile from "../../../utils/getBase64_byFile/getBase64_byFile";
+import getBase64ByFile from "../../../utils/getBase64ByFile/getBase64ByFile";
 import type { IFormDataState } from "../../../store/form-data/types";
 
 vi.mock("../../../form-schemas/useFormSchema");
@@ -18,7 +18,7 @@ vi.mock("../../../store/form-data/hook");
 vi.mock("../../../store/array-form-data/hook");
 vi.mock("../../../store/countries/hook");
 vi.mock("../../../hook/usePasswordLevel/usePasswordLevel");
-vi.mock("../../../utils/getBase64_byFile/getBase64_byFile");
+vi.mock("../../../utils/getBase64ByFile/getBase64ByFile");
 vi.mock("../../Form/Form", () => ({
   default: ({ children }: { children: React.ReactNode }) => <>{children}</>,
 }));
@@ -78,7 +78,7 @@ describe("UncontrolledForm", () => {
       hasLowercase: false,
       hasSpecialCharacter: false,
     });
-    vi.mocked(getBase64_byFile).mockResolvedValue("base64mock");
+    vi.mocked(getBase64ByFile).mockResolvedValue("base64mock");
     getEmptyErrorsMock.mockReturnValue(emptyErrors);
   });
 

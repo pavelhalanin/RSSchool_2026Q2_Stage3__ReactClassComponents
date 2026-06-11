@@ -11,7 +11,7 @@ import type { IFormDataState } from "../../../store/form-data/types";
 import FormErrors from "../../Form/FormErrors/FormErrors";
 import { useArrayFormDataActions } from "../../../store/array-form-data/hook";
 import type { IArrayFormDataState } from "../../../store/array-form-data/types";
-import getBase64_byFile from "../../../utils/getBase64_byFile/getBase64_byFile";
+import getBase64ByFile from "../../../utils/getBase64ByFile/getBase64ByFile";
 import { useCountryArray } from "../../../store/countries/hook";
 import usePasswordLevel from "../../../hook/usePasswordLevel/usePasswordLevel";
 
@@ -74,7 +74,7 @@ export default function UncontrolledForm(props: IPropsUncontrolledForm) {
               ? "female"
               : "other",
         isAgree: RAW.isAgree || false,
-        photo: await getBase64_byFile(RAW.photo),
+        photo: await getBase64ByFile(RAW.photo),
         country: RAW.country,
       };
       pushToArrayFormData(DATA);

@@ -1,12 +1,12 @@
 import { describe, it, expect, vi } from "vitest";
-import getBase64_byFile from "./getBase64_byFile";
+import getBase64ByFile from "./getBase64ByFile";
 import getBase64ByBlob from "../getBase64ByBlob/getBase64ByBlob";
 import getBlobByFile from "../getBlobByFile/getBlobByFile";
 
 vi.mock("../getBase64ByBlob/getBase64ByBlob");
 vi.mock("../getBlobByFile/getBlobByFile");
 
-describe("getBase64_byFile", () => {
+describe("getBase64ByFile", () => {
   it("calls getBlobByFile and getBase64ByBlob and returns base64 string", async () => {
     const mockFile = new File(["test"], "test.txt");
     const mockBlob = new Blob(["test"]);
@@ -18,7 +18,7 @@ describe("getBase64_byFile", () => {
     mockedGetBlobByFile.mockReturnValue(mockBlob);
     mockedGetBase64ByBlob.mockResolvedValue(mockBase64);
 
-    const result = await getBase64_byFile(mockFile);
+    const result = await getBase64ByFile(mockFile);
 
     expect(mockedGetBlobByFile).toHaveBeenCalledWith(mockFile);
     expect(mockedGetBase64ByBlob).toHaveBeenCalledWith(mockBlob);

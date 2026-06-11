@@ -6,7 +6,7 @@ import type { IArrayFormDataState } from "../../../store/array-form-data/types";
 import { useArrayFormDataActions } from "../../../store/array-form-data/hook";
 import { yupResolver } from "@hookform/resolvers/yup";
 import ReactHookFormError from "../../Form/ReactHookFormError/ReactHookFormError";
-import getBase64_byFile from "../../../utils/getBase64_byFile/getBase64_byFile";
+import getBase64ByFile from "../../../utils/getBase64ByFile/getBase64ByFile";
 import { useCountryArray } from "../../../store/countries/hook";
 import usePasswordLevel from "../../../hook/usePasswordLevel/usePasswordLevel";
 
@@ -69,7 +69,7 @@ export default function ReactHookForm(props: IPropsReactHookForm) {
       email: data.email,
       gender: data.gender,
       isAgree: data.isAgree,
-      photo: await getBase64_byFile(data.photo),
+      photo: await getBase64ByFile(data.photo),
       country: data.country,
     };
 
