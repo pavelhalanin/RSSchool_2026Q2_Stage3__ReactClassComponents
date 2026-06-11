@@ -2,13 +2,15 @@ import { describe, it, expect } from "vitest";
 import { getFormSchema } from "./useFormSchema";
 
 describe("getFormSchema", () => {
+  const validPhoto = new File(["dummy"], "photo.png", { type: "image/png" });
+
   const validData = {
     name: "John",
     email: "john@example.com",
     age: 25,
     gender: "male",
     isAgree: true,
-    photo: null,
+    photo: validPhoto,
     country: "Belarus",
     password: "Abc123!",
     confirmPassword: "Abc123!",

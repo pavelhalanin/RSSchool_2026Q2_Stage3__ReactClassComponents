@@ -4,9 +4,9 @@ import PHOTO_TEST from "./PHOTO_TEST";
 describe("PHOTO_TEST", () => {
   const MAX_FILE_SIZE = 5 * 1024 * 1024;
 
-  it("allows null or undefined", async () => {
-    await expect(PHOTO_TEST.validate(null)).resolves.toBe(null);
-    await expect(PHOTO_TEST.validate(undefined)).resolves.toBe(undefined);
+  it("rejects null or undefined", async () => {
+    await expect(PHOTO_TEST.validate(null)).rejects.toThrow();
+    await expect(PHOTO_TEST.validate(undefined)).rejects.toThrow();
   });
 
   it("rejects non-File values", async () => {

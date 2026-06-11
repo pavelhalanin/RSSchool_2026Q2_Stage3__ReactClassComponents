@@ -4,7 +4,7 @@ const MAX_FILE_SIZE = 5 * 1024 * 1024;
 
 const PHOTO_TEST = yup
   .mixed<File>()
-  .nullable()
+  .required()
   .test({
     message: "File extensions available are .png and .jpeg.",
     test: (value) => {
