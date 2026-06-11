@@ -7,7 +7,7 @@ interface IPropsFormErrors {
 
 export default function FormErrors(props: IPropsFormErrors) {
   if (props.errors.length == 0) {
-    return <></>;
+    return null;
   }
 
   return (

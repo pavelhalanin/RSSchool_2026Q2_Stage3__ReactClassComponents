@@ -11,7 +11,7 @@ interface IPropsModal {
 
 export default function ModalPortal(props: IPropsModal) {
   if (!props.isOpen) {
-    return <></>;
+    return null;
   }
 
   return createPortal(

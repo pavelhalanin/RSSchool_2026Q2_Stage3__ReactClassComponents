@@ -8,7 +8,7 @@ interface IPropsReactHookFormError {
 
 export default function ReactHookFormError(props: IPropsReactHookFormError) {
   if (!props.error) {
-    return <></>;
+    return null;
   }
 
   return (
