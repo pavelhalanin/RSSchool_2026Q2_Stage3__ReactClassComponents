@@ -1,5 +1,5 @@
 import { scan } from 'react-scan';
-import { StrictMode } from 'react';
+import { Profiler, StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import './index.css';
 import { App } from './components/app/app';
@@ -10,6 +10,8 @@ scan({
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <App />
+    <Profiler onRender={console.log} id="">
+      <App />
+    </Profiler>
   </StrictMode>
 );
