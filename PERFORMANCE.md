@@ -12,7 +12,7 @@
 - **Screenshot**: ![screenshot](./docs/Performance-Optimization-Report/Baseline-Measurements/Interaction-A-Sort-countries/image.png)
 
 <details open>
-  <summary>What I do:</summary>
+  <summary>More</summary>
 
   1. `npm run dev`
   1. Open http://localhost:5173/
@@ -41,7 +41,7 @@
 - **Screenshot**: ![screenshot](./docs/Performance-Optimization-Report/Baseline-Measurements/Interaction-B-Search-countries/image.png)
 
 <details open>
-  <summary>What I do:</summary>
+  <summary>More</summary>
 
   1. Reload page
   1. I click to blue circle with title `Start profiling` on F12 DevTools on tab `Profiler`
@@ -67,7 +67,7 @@
 - **Screenshot**: ![screenshot](./docs/Performance-Optimization-Report/Baseline-Measurements/Interaction-C-Change-year/image.png)
 
 <details open>
-  <summary>What I do:</summary>
+  <summary>More</summary>
 
   1. Reload page
   1. I click to blue circle with title `Start profiling` on F12 DevTools on tab `Profiler`
@@ -94,7 +94,7 @@
 - **Screenshot**: ![screenshot](./docs/Performance-Optimization-Report/Baseline-Measurements/Interaction-D-Toggle-column/image.png)
 
 <details open>
-  <summary>What I do:</summary>
+  <summary>More</summary>
 
   1. Reload page
   1. I click to `Select columns (4 selected)` button
@@ -117,28 +117,27 @@
 ## Optimized Measurements
 
 ### Interaction A: Sort countries
-
 - **Commit duration**: [Not Available](https://discord.com/channels/794806036506607647/1333748258098380820/1515111545905090610)
     > [13.06.2026, 00:52] SpaNb4 (@spanb4) (moderator/trainer/mentor/rs-activist)
     >
     > In short, let's just focus on the Render Duration report for now. For the next iteration, I'll adjust it to something like: Number of commits + duration per commit
-- **Render duration**: 34.9 ms
-- **Screenshot**: ![screenshot](./docs/optimization/A/image.png)
+- **Render duration**: 16.5 ms
+- **Screenshot**: ![screenshot](./docs/Performance-Optimization-Report/Optimized-Measurements/Interaction-A-Sort-countries/image.png)
 
 <details open>
-  <summary>What I do:</summary>
+  <summary>More</summary>
 
   1. Reload page
   1. Click to blue circle with title `Start profiling`
   1. I changed `Population` to `Name` on select `Sort by`
   1. I wait all renders
   1. Click to red circle with title `Stop profiling`
-    
+
       - Flamegraph chart:
-          ![screenshot](./docs/optimization/A/image-1.png)
+          ![screenshot](./docs/Performance-Optimization-Report/Optimized-Measurements/Interaction-A-Sort-countries/image-1.png)
       - Ranked chart:
-          ![screenshot](./docs/optimization/A/image-2.png)
-      - JSON profile: [open](./docs/optimization/A/profiling-data.15.06.2026.03-47-05.json)
+          ![screenshot](./docs/Performance-Optimization-Report/Optimized-Measurements/Interaction-A-Sort-countries/image-2.png)
+      - JSON profile: [open](./docs/Performance-Optimization-Report/Optimized-Measurements/Interaction-A-Sort-countries/profiling-data.15.06.2026.22-59-46.json)
 </details>
 
 ### Interaction B: Search countries
@@ -147,11 +146,11 @@
     > [13.06.2026, 00:52] SpaNb4 (@spanb4) (moderator/trainer/mentor/rs-activist)
     >
     > In short, let's just focus on the Render Duration report for now. For the next iteration, I'll adjust it to something like: Number of commits + duration per commit
-- **Render duration**: 32.5 ms
-- **Screenshot**: ![screenshot](./docs/optimization/B/image.png)
+- **Render duration**: 20.9 ms
+- **Screenshot**: ![screenshot](./docs/Performance-Optimization-Report/Optimized-Measurements/Interaction-B-Search-countries/image.png)
 
 <details open>
-  <summary>What I do:</summary>
+  <summary>More</summary>
 
   1. Reload page
   1. I click to blue circle with title `Start profiling` on F12 DevTools on tab `Profiler`
@@ -160,10 +159,10 @@
   1. I click to red circle with title `Stop profiling` on F12 DevTools on tab `Profiler`
 
       - Flamegraph chart:
-          ![screenshot](./docs/optimization/B/image-1.png)
+          ![screenshot](./docs/Performance-Optimization-Report/Optimized-Measurements/Interaction-B-Search-countries/image-1.png)
       - Ranked chart:
-          ![screenshot](./docs/optimization/B/image-2.png)
-      - JSON profile: [open](./docs/optimization/B/profiling-data.15.06.2026.03-51-50.json)
+          ![screenshot](./docs/Performance-Optimization-Report/Optimized-Measurements/Interaction-B-Search-countries/image-2.png)
+      - JSON profile: [open](./docs/Performance-Optimization-Report/Optimized-Measurements/Interaction-B-Search-countries/profiling-data.15.06.2026.23-02-11.json)
 </details>
 
 ### Interaction C: Change year
@@ -172,11 +171,11 @@
     > [13.06.2026, 00:52] SpaNb4 (@spanb4) (moderator/trainer/mentor/rs-activist)
     >
     > In short, let's just focus on the Render Duration report for now. For the next iteration, I'll adjust it to something like: Number of commits + duration per commit
-- **Render duration**: 441.8 ms
-- **Screenshot**: ![screenshot](./docs/optimization/C/image.png)
+- **Render duration**: 89.7 ms
+- **Screenshot**: ![screenshot](./docs/Performance-Optimization-Report/Optimized-Measurements/Interaction-C-Change-year/image.png)
 
 <details open>
-  <summary>What I do:</summary>
+  <summary>More</summary>
 
   1. Reload page
   1. I click to blue circle with title `Start profiling` on F12 DevTools on tab `Profiler`
@@ -185,10 +184,10 @@
   1. I click to red circle with title `Stop profiling` on F12 DevTools on tab `Profiler`
 
       - Flamegraph chart:
-          ![screenshot](./docs/optimization/C/image-1.png)
+          ![screenshot](./docs/Performance-Optimization-Report/Optimized-Measurements/Interaction-C-Change-year/image-1.png)
       - Ranked chart:
-          ![screenshot](./docs/optimization/C/image-2.png)
-      - JSON profile: [open](./docs/optimization/C/profiling-data.15.06.2026.04-02-55.json)
+          ![screenshot](./docs/Performance-Optimization-Report/Optimized-Measurements/Interaction-C-Change-year/image-2.png)
+      - JSON profile: [open](./docs/Performance-Optimization-Report/Optimized-Measurements/Interaction-C-Change-year/profiling-data.15.06.2026.23-04-40.json)
 </details>
 
 ### Interaction D: Toggle column
@@ -197,11 +196,11 @@
     > [13.06.2026, 00:52] SpaNb4 (@spanb4) (moderator/trainer/mentor/rs-activist)
     >
     > In short, let's just focus on the Render Duration report for now. For the next iteration, I'll adjust it to something like: Number of commits + duration per commit
-- **Render duration**: 369 ms
-- **Screenshot**: ![screenshot](./docs/optimization/D/image.png)
+- **Render duration**: 16.1 ms
+- **Screenshot**: ![screenshot](./docs/Performance-Optimization-Report/Optimized-Measurements/Interaction-D-Toggle-column/image.png)
 
 <details open>
-  <summary>What I do:</summary>
+  <summary>More</summary>
 
   1. Reload page
   1. I click to `Select columns (4 selected)` button
@@ -211,18 +210,18 @@
   1. I wait all renders
   1. I click to red circle with title `Stop profiling` on F12 DevTools on tab `Profiler`
       - Flamegraph chart:
-          ![screenshot](./docs/optimization/D/image-1.png)
+          ![screenshot](./docs/Performance-Optimization-Report/Optimized-Measurements/Interaction-D-Toggle-column/image-1.png)
       - Ranked chart:
-          ![screenshot](./docs/optimization/D/image-2.png)
-      - JSON profile: [open](./docs/optimization/D/profiling-data.15.06.2026.04-06-34.json)
+          ![screenshot](./docs/Performance-Optimization-Report/Optimized-Measurements/Interaction-D-Toggle-column/image-2.png)
+      - JSON profile: [open](./docs/Performance-Optimization-Report/Optimized-Measurements/Interaction-D-Toggle-column/profiling-data.15.06.2026.23-07-11.json)
 </details>
 
 ## Summary of Improvements
 
 | Interaction      | Baseline (ms) | Optimized (ms) | Improvement |
 | ---------------- | ------------- | -------------- | ----------- |
-| Sort countries   |         408.2 |           34.9 |      91.45% |
-| Search countries |         118.9 |           32.5 |      72.67% |
-| Change year      |         404.2 |          441.8 |      -9.30% |
-| Toggle column    |         471.0 |          369.0 |      21.66% |
-| **Average**      |         350.6 |          219.6 |      44.12% |
+| Sort countries   |         408.2 |           16.5 |      95.96% |
+| Search countries |         118.9 |           20.9 |      82.42% |
+| Change year      |         404.2 |           89.7 |      77.81% |
+| Toggle column    |         471.0 |           16.1 |      96.58% |
+| **Average**      |         350.7 |           35.8 |      89.79% |
