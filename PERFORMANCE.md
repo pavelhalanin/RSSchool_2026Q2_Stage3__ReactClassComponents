@@ -111,6 +111,118 @@
           ![screenshot](./docs/Performance-Optimization-Report/Baseline-Measurements/Interaction-D-Toggle-column/image-3.png)
       - Ranked chart:
           ![screenshot](./docs/Performance-Optimization-Report/Baseline-Measurements/Interaction-D-Toggle-column/image-4.png)
-          ![c:\Users\Pavel\Downloads\profiling-data.15.06.2026.01-48-34.json](image-5.png)
       - JSON profile: [open](./docs/Performance-Optimization-Report/Baseline-Measurements/Interaction-D-Toggle-column/profiling-data.15.06.2026.01-48-34.json)
 </details>
+
+## Optimized Measurements
+
+### Interaction A: Sort countries
+
+- **Commit duration**: [Not Available](https://discord.com/channels/794806036506607647/1333748258098380820/1515111545905090610)
+    > [13.06.2026, 00:52] SpaNb4 (@spanb4) (moderator/trainer/mentor/rs-activist)
+    >
+    > In short, let's just focus on the Render Duration report for now. For the next iteration, I'll adjust it to something like: Number of commits + duration per commit
+- **Render duration**: 34.9 ms
+- **Screenshot**: ![screenshot](./docs/optimization/A/image.png)
+
+<details open>
+  <summary>What I do:</summary>
+
+  1. Reload page
+  1. Click to blue circle with title `Start profiling`
+  1. I changed `Population` to `Name` on select `Sort by`
+  1. I wait all renders
+  1. Click to red circle with title `Stop profiling`
+    
+      - Flamegraph chart:
+          ![screenshot](./docs/optimization/A/image-1.png)
+      - Ranked chart:
+          ![screenshot](./docs/optimization/A/image-2.png)
+      - JSON profile: [open](./docs/optimization/A/profiling-data.15.06.2026.03-47-05.json)
+</details>
+
+### Interaction B: Search countries
+
+- **Commit duration**: [Not Available](https://discord.com/channels/794806036506607647/1333748258098380820/1515111545905090610)
+    > [13.06.2026, 00:52] SpaNb4 (@spanb4) (moderator/trainer/mentor/rs-activist)
+    >
+    > In short, let's just focus on the Render Duration report for now. For the next iteration, I'll adjust it to something like: Number of commits + duration per commit
+- **Render duration**: 32.5 ms
+- **Screenshot**: ![screenshot](./docs/optimization/B/image.png)
+
+<details open>
+  <summary>What I do:</summary>
+
+  1. Reload page
+  1. I click to blue circle with title `Start profiling` on F12 DevTools on tab `Profiler`
+  1. I changed `Search countries` input from `<empty>` to `Belarus`
+  1. I wait all renders
+  1. I click to red circle with title `Stop profiling` on F12 DevTools on tab `Profiler`
+
+      - Flamegraph chart:
+          ![screenshot](./docs/optimization/B/image-1.png)
+      - Ranked chart:
+          ![screenshot](./docs/optimization/B/image-2.png)
+      - JSON profile: [open](./docs/optimization/B/profiling-data.15.06.2026.03-51-50.json)
+</details>
+
+### Interaction C: Change year
+
+- **Commit duration**: [Not Available](https://discord.com/channels/794806036506607647/1333748258098380820/1515111545905090610)
+    > [13.06.2026, 00:52] SpaNb4 (@spanb4) (moderator/trainer/mentor/rs-activist)
+    >
+    > In short, let's just focus on the Render Duration report for now. For the next iteration, I'll adjust it to something like: Number of commits + duration per commit
+- **Render duration**: 441.8 ms
+- **Screenshot**: ![screenshot](./docs/optimization/C/image.png)
+
+<details open>
+  <summary>What I do:</summary>
+
+  1. Reload page
+  1. I click to blue circle with title `Start profiling` on F12 DevTools on tab `Profiler`
+  1. I changed `Select year` input from `2020` to `2024`
+  1. I wait all renders
+  1. I click to red circle with title `Stop profiling` on F12 DevTools on tab `Profiler`
+
+      - Flamegraph chart:
+          ![screenshot](./docs/optimization/C/image-1.png)
+      - Ranked chart:
+          ![screenshot](./docs/optimization/C/image-2.png)
+      - JSON profile: [open](./docs/optimization/C/profiling-data.15.06.2026.04-02-55.json)
+</details>
+
+### Interaction D: Toggle column
+
+- **Commit duration**: [Not Available](https://discord.com/channels/794806036506607647/1333748258098380820/1515111545905090610)
+    > [13.06.2026, 00:52] SpaNb4 (@spanb4) (moderator/trainer/mentor/rs-activist)
+    >
+    > In short, let's just focus on the Render Duration report for now. For the next iteration, I'll adjust it to something like: Number of commits + duration per commit
+- **Render duration**: 369 ms
+- **Screenshot**: ![screenshot](./docs/optimization/D/image.png)
+
+<details open>
+  <summary>What I do:</summary>
+
+  1. Reload page
+  1. I click to `Select columns (4 selected)` button
+  1. I wait all renderes
+  1. I click to blue circle with title `Start profiling` on F12 DevTools on tab `Profiler`
+  1. I unselect `co2_per_capita
+  1. I wait all renders
+  1. I click to red circle with title `Stop profiling` on F12 DevTools on tab `Profiler`
+      - Flamegraph chart:
+          ![screenshot](./docs/optimization/D/image-1.png)
+      - Ranked chart:
+          ![screenshot](./docs/optimization/D/image-2.png)
+      - JSON profile: [open](./docs/optimization/D/profiling-data.15.06.2026.04-06-34.json)
+</details>
+
+## Summary of Improvements
+
+| Interaction      | Baseline (ms) | Optimized (ms) | Improvement |
+| ---------------- | ------------- | -------------- | ----------- |
+| Sort countries   |         408.2 |           34.9 |      91.45% |
+| Search countries |         118.9 |           32.5 |      72.67% |
+| Change year      |         404.2 |          441.8 |      -9.30% |
+| Toggle column    |         471.0 |          369.0 |      21.66% |
+| **Average**      |         350.6 |          219.6 |      44.12% |
