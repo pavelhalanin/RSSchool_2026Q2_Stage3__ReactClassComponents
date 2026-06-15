@@ -1,0 +1,794 @@
+{
+  "version": 5,
+  "dataForRoots": [
+    {
+      "commitData": [
+        {
+          "changeDescriptions": null,
+          "duration": 16.1,
+          "effectDuration": 1,
+          "fiberActualDurations": [
+            [
+              11,
+              1.1
+            ],
+            [
+              10,
+              1.9
+            ],
+            [
+              9,
+              1.9
+            ],
+            [
+              14,
+              1.1
+            ],
+            [
+              13,
+              1.8
+            ],
+            [
+              12,
+              1.9
+            ],
+            [
+              17,
+              1.2
+            ],
+            [
+              16,
+              2
+            ],
+            [
+              15,
+              2
+            ],
+            [
+              20,
+              1.1
+            ],
+            [
+              19,
+              1.9
+            ],
+            [
+              18,
+              1.9
+            ],
+            [
+              24,
+              1.1
+            ],
+            [
+              23,
+              1.9
+            ],
+            [
+              22,
+              1.9
+            ],
+            [
+              8,
+              10.3
+            ],
+            [
+              7,
+              10.6
+            ],
+            [
+              21,
+              4.1
+            ],
+            [
+              3,
+              16.1
+            ]
+          ],
+          "fiberSelfDurations": [
+            [
+              11,
+              1.1
+            ],
+            [
+              10,
+              0.8
+            ],
+            [
+              9,
+              0
+            ],
+            [
+              14,
+              1
+            ],
+            [
+              13,
+              0.7
+            ],
+            [
+              12,
+              0.1
+            ],
+            [
+              17,
+              1.1
+            ],
+            [
+              16,
+              0.8
+            ],
+            [
+              15,
+              0
+            ],
+            [
+              20,
+              1
+            ],
+            [
+              19,
+              0.8
+            ],
+            [
+              18,
+              0
+            ],
+            [
+              24,
+              1
+            ],
+            [
+              23,
+              0.8
+            ],
+            [
+              22,
+              0
+            ],
+            [
+              8,
+              0.7
+            ],
+            [
+              7,
+              0.3
+            ],
+            [
+              21,
+              3.9
+            ],
+            [
+              3,
+              1.3
+            ]
+          ],
+          "passiveEffectDuration": 0,
+          "priorityLevel": "Immediate",
+          "timestamp": 1552,
+          "updaters": [
+            {
+              "displayName": "App",
+              "id": 3,
+              "key": null,
+              "env": null,
+              "stack": null,
+              "type": 5,
+              "hocDisplayNames": null,
+              "compiledWithForget": false
+            }
+          ]
+        },
+        {
+          "changeDescriptions": null,
+          "duration": 2,
+          "effectDuration": 0,
+          "fiberActualDurations": [
+            [
+              9,
+              1.9
+            ],
+            [
+              12,
+              1.9
+            ],
+            [
+              15,
+              2
+            ],
+            [
+              18,
+              1.9
+            ],
+            [
+              22,
+              1.9
+            ],
+            [
+              8,
+              0.4
+            ]
+          ],
+          "fiberSelfDurations": [
+            [
+              9,
+              0
+            ],
+            [
+              12,
+              0.1
+            ],
+            [
+              15,
+              0
+            ],
+            [
+              18,
+              0
+            ],
+            [
+              22,
+              0
+            ],
+            [
+              8,
+              0.4
+            ]
+          ],
+          "passiveEffectDuration": 0,
+          "priorityLevel": "Immediate",
+          "timestamp": 1554.2999999998137,
+          "updaters": [
+            {
+              "displayName": "Ae",
+              "id": 8,
+              "key": null,
+              "env": null,
+              "stack": [
+                [
+                  "CountryList2",
+                  "http://localhost:5173/src/components/country-list/country-list.tsx",
+                  38,
+                  127,
+                  8,
+                  50,
+                  false
+                ]
+              ],
+              "type": 5,
+              "hocDisplayNames": null,
+              "compiledWithForget": false
+            }
+          ]
+        }
+      ],
+      "displayName": "App",
+      "initialTreeBaseDurations": [
+        [
+          1,
+          144.80000000074506
+        ],
+        [
+          2,
+          142.2000000011176
+        ],
+        [
+          3,
+          142.2000000011176
+        ],
+        [
+          5,
+          0.5
+        ],
+        [
+          6,
+          19.5
+        ],
+        [
+          7,
+          117.1000000005588
+        ],
+        [
+          8,
+          10.700000000186265
+        ],
+        [
+          9,
+          3
+        ],
+        [
+          10,
+          3
+        ],
+        [
+          11,
+          1.7000000001862645
+        ],
+        [
+          12,
+          2.5
+        ],
+        [
+          13,
+          2.400000000372529
+        ],
+        [
+          14,
+          1.599999999627471
+        ],
+        [
+          15,
+          1.6000000005587935
+        ],
+        [
+          16,
+          1.6000000005587935
+        ],
+        [
+          17,
+          1.1000000005587935
+        ],
+        [
+          18,
+          1.5
+        ],
+        [
+          19,
+          1.5
+        ],
+        [
+          20,
+          0.900000000372529
+        ],
+        [
+          22,
+          1.699999999254942
+        ],
+        [
+          23,
+          1.599999999627471
+        ],
+        [
+          24,
+          1.099999999627471
+        ],
+        [
+          21,
+          4
+        ]
+      ],
+      "operations": [
+        [
+          1,
+          1,
+          0,
+          4,
+          11,
+          1099,
+          4,
+          10,
+          1899,
+          4,
+          9,
+          1899,
+          4,
+          14,
+          1000,
+          4,
+          13,
+          1699,
+          4,
+          12,
+          1799,
+          4,
+          17,
+          1200,
+          4,
+          16,
+          2000,
+          4,
+          15,
+          2000,
+          4,
+          20,
+          1099,
+          4,
+          19,
+          1899,
+          4,
+          18,
+          1899,
+          4,
+          23,
+          1900,
+          4,
+          22,
+          1900,
+          4,
+          8,
+          10199,
+          4,
+          7,
+          10499,
+          4,
+          21,
+          4099,
+          4,
+          3,
+          35999,
+          4,
+          2,
+          35999,
+          4,
+          1,
+          38599
+        ],
+        [
+          1,
+          1,
+          0,
+          4,
+          8,
+          9899,
+          4,
+          7,
+          10199,
+          4,
+          3,
+          35699,
+          4,
+          2,
+          35699,
+          4,
+          1,
+          38299
+        ]
+      ],
+      "rootID": 1,
+      "snapshots": [
+        [
+          1,
+          {
+            "id": 1,
+            "children": [
+              2
+            ],
+            "displayName": null,
+            "hocDisplayNames": null,
+            "key": null,
+            "type": 11,
+            "compiledWithForget": false
+          }
+        ],
+        [
+          2,
+          {
+            "id": 2,
+            "children": [
+              3
+            ],
+            "displayName": "Profiler",
+            "hocDisplayNames": null,
+            "key": null,
+            "type": 9,
+            "compiledWithForget": false
+          }
+        ],
+        [
+          3,
+          {
+            "id": 3,
+            "children": [
+              5,
+              6,
+              7,
+              21
+            ],
+            "displayName": "App",
+            "hocDisplayNames": null,
+            "key": null,
+            "type": 5,
+            "compiledWithForget": false
+          }
+        ],
+        [
+          5,
+          {
+            "id": 5,
+            "children": [],
+            "displayName": "_c",
+            "hocDisplayNames": [
+              "Memo"
+            ],
+            "key": null,
+            "type": 8,
+            "compiledWithForget": false
+          }
+        ],
+        [
+          6,
+          {
+            "id": 6,
+            "children": [],
+            "displayName": "_c",
+            "hocDisplayNames": [
+              "Memo"
+            ],
+            "key": null,
+            "type": 8,
+            "compiledWithForget": false
+          }
+        ],
+        [
+          7,
+          {
+            "id": 7,
+            "children": [
+              8
+            ],
+            "displayName": "CountryList2",
+            "hocDisplayNames": [
+              "Memo"
+            ],
+            "key": null,
+            "type": 8,
+            "compiledWithForget": false
+          }
+        ],
+        [
+          8,
+          {
+            "id": 8,
+            "children": [
+              9,
+              12,
+              15,
+              18,
+              22
+            ],
+            "displayName": "Ae",
+            "hocDisplayNames": null,
+            "key": null,
+            "type": 5,
+            "compiledWithForget": false
+          }
+        ],
+        [
+          9,
+          {
+            "id": 9,
+            "children": [
+              10
+            ],
+            "displayName": "CountryCard",
+            "hocDisplayNames": [
+              "Memo"
+            ],
+            "key": "0",
+            "type": 8,
+            "compiledWithForget": false
+          }
+        ],
+        [
+          10,
+          {
+            "id": 10,
+            "children": [
+              11
+            ],
+            "displayName": "CountryCard",
+            "hocDisplayNames": null,
+            "key": null,
+            "type": 5,
+            "compiledWithForget": false
+          }
+        ],
+        [
+          11,
+          {
+            "id": 11,
+            "children": [],
+            "displayName": "Anonymous",
+            "hocDisplayNames": [
+              "Memo"
+            ],
+            "key": null,
+            "type": 8,
+            "compiledWithForget": false
+          }
+        ],
+        [
+          12,
+          {
+            "id": 12,
+            "children": [
+              13
+            ],
+            "displayName": "CountryCard",
+            "hocDisplayNames": [
+              "Memo"
+            ],
+            "key": "1",
+            "type": 8,
+            "compiledWithForget": false
+          }
+        ],
+        [
+          13,
+          {
+            "id": 13,
+            "children": [
+              14
+            ],
+            "displayName": "CountryCard",
+            "hocDisplayNames": null,
+            "key": null,
+            "type": 5,
+            "compiledWithForget": false
+          }
+        ],
+        [
+          14,
+          {
+            "id": 14,
+            "children": [],
+            "displayName": "Anonymous",
+            "hocDisplayNames": [
+              "Memo"
+            ],
+            "key": null,
+            "type": 8,
+            "compiledWithForget": false
+          }
+        ],
+        [
+          15,
+          {
+            "id": 15,
+            "children": [
+              16
+            ],
+            "displayName": "CountryCard",
+            "hocDisplayNames": [
+              "Memo"
+            ],
+            "key": "2",
+            "type": 8,
+            "compiledWithForget": false
+          }
+        ],
+        [
+          16,
+          {
+            "id": 16,
+            "children": [
+              17
+            ],
+            "displayName": "CountryCard",
+            "hocDisplayNames": null,
+            "key": null,
+            "type": 5,
+            "compiledWithForget": false
+          }
+        ],
+        [
+          17,
+          {
+            "id": 17,
+            "children": [],
+            "displayName": "Anonymous",
+            "hocDisplayNames": [
+              "Memo"
+            ],
+            "key": null,
+            "type": 8,
+            "compiledWithForget": false
+          }
+        ],
+        [
+          18,
+          {
+            "id": 18,
+            "children": [
+              19
+            ],
+            "displayName": "CountryCard",
+            "hocDisplayNames": [
+              "Memo"
+            ],
+            "key": "3",
+            "type": 8,
+            "compiledWithForget": false
+          }
+        ],
+        [
+          19,
+          {
+            "id": 19,
+            "children": [
+              20
+            ],
+            "displayName": "CountryCard",
+            "hocDisplayNames": null,
+            "key": null,
+            "type": 5,
+            "compiledWithForget": false
+          }
+        ],
+        [
+          20,
+          {
+            "id": 20,
+            "children": [],
+            "displayName": "Anonymous",
+            "hocDisplayNames": [
+              "Memo"
+            ],
+            "key": null,
+            "type": 8,
+            "compiledWithForget": false
+          }
+        ],
+        [
+          22,
+          {
+            "id": 22,
+            "children": [
+              23
+            ],
+            "displayName": "CountryCard",
+            "hocDisplayNames": [
+              "Memo"
+            ],
+            "key": "4",
+            "type": 8,
+            "compiledWithForget": false
+          }
+        ],
+        [
+          23,
+          {
+            "id": 23,
+            "children": [
+              24
+            ],
+            "displayName": "CountryCard",
+            "hocDisplayNames": null,
+            "key": null,
+            "type": 5,
+            "compiledWithForget": false
+          }
+        ],
+        [
+          24,
+          {
+            "id": 24,
+            "children": [],
+            "displayName": "Anonymous",
+            "hocDisplayNames": [
+              "Memo"
+            ],
+            "key": null,
+            "type": 8,
+            "compiledWithForget": false
+          }
+        ],
+        [
+          21,
+          {
+            "id": 21,
+            "children": [],
+            "displayName": "_c",
+            "hocDisplayNames": [
+              "Memo"
+            ],
+            "key": null,
+            "type": 8,
+            "compiledWithForget": false
+          }
+        ]
+      ]
+    }
+  ],
+  "timelineData": []
+}
