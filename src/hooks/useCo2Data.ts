@@ -10,7 +10,7 @@ export const useCo2Data = () => {
     const fetchData = async () => {
       setIsLoading(true);
       try {
-        const res = await fetch('/data/owid-co2-data.json');
+        const res = await fetch(`${import.meta.env.VITE_HTML_BASE}/data/owid-co2-data.json`);
 
         if (!res.ok) {
           throw new Error('Failed to fetch CO2 data');
