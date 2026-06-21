@@ -45,3 +45,4 @@ npm i @tanstack/react-query
 npm i @tanstack/react-query-devtools
 
 npm i next
+npm i eslint-config-next
