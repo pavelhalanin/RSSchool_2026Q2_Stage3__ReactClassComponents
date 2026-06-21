@@ -6,6 +6,7 @@ import styles from './About.module.css';
 import ImFine from './svg/RS_School_ImFine.svg';
 import Expert from './svg/RS_School_Expert.svg';
 import ContainerSection from '../../components/ContainerSection/ContainerSection';
+import Image from 'next/image';
 
 export default function About(): JSX.Element {
   return (
@@ -13,7 +14,7 @@ export default function About(): JSX.Element {
       <h1 className="h1">About</h1>
       <div className={styles.two_blocks}>
         <div>
-          <img src={ImFine} alt="" />
+          <Image src={ImFine} alt="" width={200} height={200} loading="eager" />
         </div>
         <div>
           <p>
@@ -60,7 +61,7 @@ export default function About(): JSX.Element {
           </p>
         </div>
         <div>
-          <img src={Expert} alt="" />
+          <Image src={Expert} alt="" width={200} height={200} loading="eager" />
         </div>
       </div>
       <h2 className="h1">

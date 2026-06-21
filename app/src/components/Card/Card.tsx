@@ -1,5 +1,5 @@
 import styles from './../CardList/CardList.module.css';
-import { useParams } from 'react-router-dom';
+import { useParams } from 'next/navigation';
 import { usePokemonNavigation } from '../../hook/usePokemonNavigation/usePokemonNavigation';
 import CardContent from './CardContent/CardContent';
 
@@ -8,7 +8,7 @@ export function Card() {
   const { page, details } = useParams();
 
   const closeRight = () => {
-    pokemonNavigation({ page });
+    pokemonNavigation({ page: `${page}` });
   };
 
   if (!details) {

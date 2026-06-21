@@ -1,12 +1,8 @@
 import { type StateCreator } from 'zustand';
 import { devtools } from 'zustand/middleware';
 import type { ISearchState, ISearchSlice } from './types';
-import {
-  storageGetItem,
-  storageSetItem,
-} from '../../../hook/useLocalStorage/Storage';
 
-const SEARCH_VALUE = (storageGetItem('search') || '').trim();
+const SEARCH_VALUE = '';
 
 const defaultCardListSearch: ISearchState = {
   searchState: {
@@ -52,7 +48,6 @@ export const createSearchSlice: StateCreator<
           false,
           'search/setSubmitedSearch'
         );
-        storageSetItem('search', SEARCH_VALUE);
       },
     },
   }),

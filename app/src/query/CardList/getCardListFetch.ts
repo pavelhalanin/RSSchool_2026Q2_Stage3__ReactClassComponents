@@ -1,5 +1,5 @@
-import type IPadinationCardList from './IPaginationCardList';
 import getCardListGraphql from './getCardListGraphql';
+import IPadinationCardList from './IPaginationCardList';
 
 interface IParamsGetCardListFetch {
   limit: number;

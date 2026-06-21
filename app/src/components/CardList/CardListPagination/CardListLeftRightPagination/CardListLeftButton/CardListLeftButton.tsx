@@ -1,5 +1,5 @@
 import type { JSX } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams } from 'next/navigation';
 import { usePokemonNavigation } from '../../../../../hook/usePokemonNavigation/usePokemonNavigation';
 
 interface IPropsCardListLeftButton {
@@ -19,7 +19,11 @@ export default function CardListLeftButton(
   }
 
   return (
-    <button onClick={() => pokemonNavigation({ page: PREV_PAGE, details })}>
+    <button
+      onClick={() =>
+        pokemonNavigation({ page: PREV_PAGE, details: `${details}` })
+      }
+    >
       ←
     </button>
   );

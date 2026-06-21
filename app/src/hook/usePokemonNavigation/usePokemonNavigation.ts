@@ -1,7 +1,9 @@
-import { useNavigate } from 'react-router-dom';
+'use client';
+
+import { useRouter } from 'next/navigation';
 
 export function usePokemonNavigation() {
-  const navigate = useNavigate();
+  const router = useRouter();
 
   const pokemonNavigation = (newParams: {
     page?: string | number;
@@ -16,7 +18,7 @@ export function usePokemonNavigation() {
       uri += `/${details}`;
     }
 
-    navigate(uri);
+    router.push(uri);
   };
 
   return { pokemonNavigation };

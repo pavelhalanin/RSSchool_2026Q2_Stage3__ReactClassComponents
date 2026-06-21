@@ -1,3 +1,10 @@
+'use client';
+
+import ThemeProvider from './src/context/theme/ThemeProvider';
+import QueryProvider from './src/query/QueryProvider';
+import RootOutlet from './src/outlet/RootOutlet/RootOutlet';
+import './src/index.css';
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -5,7 +12,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <QueryProvider>
+          <ThemeProvider>
+            <RootOutlet>{children}</RootOutlet>
+          </ThemeProvider>
+        </QueryProvider>
+      </body>
     </html>
   );
 }

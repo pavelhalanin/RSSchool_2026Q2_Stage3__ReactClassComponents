@@ -1,5 +1,5 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { useParams } from 'react-router-dom';
+import { useParams } from 'next/navigation';
 import getCardFetch from '../../../query/card/getCardFetch';
 import FetchSpinner from '../../FetchSpinner/FetchSpinner';
 import AlertDanger from '../../AlertDanger/AlertDanger';
@@ -15,9 +15,9 @@ export default function CardContent() {
 
   const { data, error, isError, isFetching, refetch } = useQuery({
     queryKey: ['card', details],
-    queryFn: () => getCardFetch(details),
-    staleTime: Number(import.meta.env.VITE_CARD_STALE_TIME) || 10000,
-    gcTime: Number(import.meta.env.VITE_CARD_GC_TIME) || 20000,
+    queryFn: () => getCardFetch(`${details}`),
+    staleTime: Number(process.env.NEXT_CARD_STALE_TIME) || 10000,
+    gcTime: Number(process.env.NEXT_CARD_GC_TIME) || 20000,
     retry: false,
   });
 

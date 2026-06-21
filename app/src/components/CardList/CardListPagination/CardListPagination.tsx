@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { useParams } from 'next/navigation';
 import CardListLeftRightPagination from './CardListLeftRightPagination/CardListLeftRightPagination';
 import CardListSelectPagination from './CardListSelectPagination/CardListSelectPagination';
 import type { JSX } from 'react';

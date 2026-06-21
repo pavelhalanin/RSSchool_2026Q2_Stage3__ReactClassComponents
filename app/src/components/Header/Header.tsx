@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import styles from './Header.module.css';
 import type { JSX } from 'react';
 import ContainerSection from '../ContainerSection/ContainerSection';
@@ -12,13 +12,13 @@ export default function Header(): JSX.Element {
       <nav className={styles.nav}>
         <ul>
           <li>
-            <Link to="/">Home</Link>
+            <Link href="/">Home</Link>
           </li>
           <li>
-            <Link to="/about">About</Link>
+            <Link href="/about">About</Link>
           </li>
           <li>
-            <Link to="/404">404</Link>
+            <Link href="/404">404</Link>
           </li>
           <li>
             <ThemeCheckbox />

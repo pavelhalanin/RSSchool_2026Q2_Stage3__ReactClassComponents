@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import extractImageUrls from '../../../../query/card/extractImageUrls';
 import type IPokemon from '../../../../query/card/IPokemon';
 import styles from './CardSprites.module.css';
@@ -17,7 +18,7 @@ export default function CardSprites(props: IPropsCardSprites) {
       {images.map((e) => {
         return (
           <li key={e}>
-            <img src={e} alt="" />
+            <Image src={e} alt="" width={100} height={100} />
           </li>
         );
       })}

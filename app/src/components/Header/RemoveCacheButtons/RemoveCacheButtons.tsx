@@ -1,7 +1,7 @@
 import { useState, type JSX } from 'react';
 import styles from './RemoveCacheButtons.module.css';
 import { useRemoveQueryCache } from '../../../hook/useRemoveQueryCache/useRemoveQueryCache';
-import { useParams } from 'react-router-dom';
+import { useParams } from 'next/navigation';
 
 export default function RemoveCacheButtons(): JSX.Element {
   const { page, details } = useParams();

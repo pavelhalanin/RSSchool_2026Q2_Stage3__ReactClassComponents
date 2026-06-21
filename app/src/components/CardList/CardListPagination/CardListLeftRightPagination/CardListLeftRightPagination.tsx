@@ -1,7 +1,7 @@
 import styles from './CardListLeftRightPagination.module.css';
 import { usePokemonNavigation } from '../../../../hook/usePokemonNavigation/usePokemonNavigation';
 import type { JSX } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams } from 'next/navigation';
 import CardListLeftButton from './CardListLeftButton/CardListLeftButton';
 import CardListRightButton from './CardListRightButton/CardListRightButton';
 
@@ -28,7 +28,9 @@ export default function CardListLeftRightPagination(
       </li>
       <li>
         <button
-          onClick={() => pokemonNavigation({ page: CURRENT_PAGE, details })}
+          onClick={() =>
+            pokemonNavigation({ page: CURRENT_PAGE, details: `${details}` })
+          }
         >
           {CURRENT_PAGE}
         </button>

@@ -1,5 +1,5 @@
 import type { JSX } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams } from 'next/navigation';
 import FetchSpinner from '../../FetchSpinner/FetchSpinner';
 import AlertDanger from '../../AlertDanger/AlertDanger';
 import { useQuery } from '@tanstack/react-query';
@@ -8,7 +8,7 @@ import { usePokemonNavigation } from '../../../hook/usePokemonNavigation/usePoke
 import CardListItem from './CardListItem/CardListItem';
 import styles from './CardListItems.module.css';
 import { useSubmitedSearchValue } from '../../../store/slices/useSearch/hook';
-import getCardListFetch from '../../../query/cardList/getCardListFetch';
+import getCardListFetch from '@/app/src/query/CardList/getCardListFetch';
 
 export default function CardListItems(): JSX.Element {
   const { page } = useParams();
@@ -21,11 +21,11 @@ export default function CardListItems(): JSX.Element {
     queryFn: () =>
       getCardListFetch({
         limit: LIMIT,
-        page: page,
+        page: `${page}`,
         search: submitedSearchValue,
       }),
-    staleTime: Number(import.meta.env.VITE_CARD_LIST_STALE_TIME) || 10000,
-    gcTime: Number(import.meta.env.VITE_CARD_LIST_GC_TIME) || 20000,
+    staleTime: Number(process.env.NEXT_CARD_LIST_STALE_TIME) || 10000,
+    gcTime: Number(process.env.NEXT_CARD_LIST_GC_TIME) || 20000,
     retry: false,
   });
 

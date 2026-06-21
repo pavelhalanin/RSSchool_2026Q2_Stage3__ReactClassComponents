@@ -1,7 +1,7 @@
 import styles from './CardListSelectPagination.module.css';
 import { usePokemonNavigation } from '../../../../hook/usePokemonNavigation/usePokemonNavigation';
 import type { JSX } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams } from 'next/navigation';
 
 interface IPropsCardListSelectPagination {
   lastPage: number;
@@ -28,7 +28,7 @@ export default function CardListSelectPagination(
         id={ID_SELECT}
         className={styles.select}
         onChange={(event) =>
-          pokemonNavigation({ page: event.target.value, details })
+          pokemonNavigation({ page: event.target.value, details: `${details}` })
         }
       >
         <option value="1">-</option>

@@ -2,6 +2,7 @@ import type { JSX } from 'react';
 import image404 from './404.jpg';
 import styles from './Error404.module.css';
 import ContainerSection from '../../components/ContainerSection/ContainerSection';
+import Image from 'next/image';
 
 export default function Error404(): JSX.Element {
   return (
@@ -10,7 +11,14 @@ export default function Error404(): JSX.Element {
 
       <div className={styles.two_block}>
         <div className={styles.image_block}>
-          <img className={styles.image} src={image404} alt="" />
+          <Image
+            className={styles.image}
+            src={image404}
+            alt=""
+            width={200}
+            height={200}
+            loading="eager"
+          />
         </div>
         <div className={styles.text_block}>
           <p>

@@ -2,7 +2,7 @@ import { type StateCreator } from 'zustand';
 import { devtools } from 'zustand/middleware';
 import type { ICsvCardListSlice, ICsvCardListState } from './types';
 import type { ICardListItemPokemon } from '../../../query/cardList/IPaginationCardList';
-import { downloadFile_byText } from '../../../utils/downloadFile_byText/downloadFile_byText';
+// import { downloadFile_byText } from '../../../utils/downloadFile_byText/downloadFile_byText';
 
 const defaultCsvCardList: ICsvCardListState = {
   csvCardListState: {
@@ -101,7 +101,8 @@ export const createCsvCardListSlice: StateCreator<
           .replace('T', '_');
         const COUNT_CARDS = SELECTED_CARDS.length;
         const FILENAME: string = `[${DATE_PREFIX}]__${COUNT_CARDS}_pokemon.csv`;
-        downloadFile_byText(FILENAME, CSV);
+        // downloadFile_byText(FILENAME, CSV);
+        console.log(FILENAME, CSV);
       },
     },
   }),
