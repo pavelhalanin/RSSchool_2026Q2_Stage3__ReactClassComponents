@@ -4,8 +4,9 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc -b && vite build",
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
     "deploy": "npx gh-pages -d dist -b gh-pages",
     "lint": "eslint .",
     "preview": "vite preview",
