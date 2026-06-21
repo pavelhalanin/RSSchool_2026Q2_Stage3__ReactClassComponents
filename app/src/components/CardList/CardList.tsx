@@ -25,7 +25,7 @@ export default function CardList(props: IPropsCardList): JSX.Element {
             <CardListItems />
           </div>
           <div
-            className={`${styles.card_list__right_block} ${details !== null && details !== undefined ? styles['card_list__right_block--open'] : ''}`}
+            className={`${styles.card_list__right_block} ${details !== null && details !== undefined && details !== 'undefined' ? styles['card_list__right_block--open'] : ''}`}
           >
             {props.children}
           </div>

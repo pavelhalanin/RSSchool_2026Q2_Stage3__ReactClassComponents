@@ -1,7 +1,14 @@
 'use client';
 
-import Main from '@/app/src/pages/Main/Main';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 
 export default function PokemonIdPage() {
-  return <Main></Main>;
+  const router = useRouter();
+
+  useEffect(() => {
+    router.replace('/pokemon/1');
+  }, [router]);
+
+  return null;
 }
