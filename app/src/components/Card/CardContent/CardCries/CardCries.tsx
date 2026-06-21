@@ -6,7 +6,7 @@ interface IPropsCardCries {
 }
 export default function CardCries(props: IPropsCardCries) {
   if (!props.data) {
-    return <></>;
+    return null;
   }
 
   return (

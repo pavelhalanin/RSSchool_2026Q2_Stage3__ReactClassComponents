@@ -9,7 +9,7 @@ interface IPropsCardMainData {
 
 export default function CardMainData(props: IPropsCardMainData) {
   if (!props.data) {
-    return <></>;
+    return null;
   }
 
   const POKEMON = props.data;

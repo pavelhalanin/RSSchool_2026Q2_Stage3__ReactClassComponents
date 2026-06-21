@@ -12,7 +12,7 @@ export function Card() {
   };
 
   if (!details) {
-    return <></>;
+    return null;
   }
 
   return (

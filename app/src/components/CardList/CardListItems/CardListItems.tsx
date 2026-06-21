@@ -10,7 +10,7 @@ import styles from './CardListItems.module.css';
 import { useSubmitedSearchValue } from '../../../store/slices/useSearch/hook';
 import getCardListFetch from '@/app/src/query/CardList/getCardListFetch';
 
-export default function CardListItems(): JSX.Element {
+export default function CardListItems(): JSX.Element | null {
   const { page } = useParams();
   const submitedSearchValue = useSubmitedSearchValue();
   const { pokemonNavigation } = usePokemonNavigation();
@@ -31,7 +31,7 @@ export default function CardListItems(): JSX.Element {
 
   if (Number(page) <= 0) {
     pokemonNavigation({ page: 1 });
-    return <></>;
+    return null;
   }
 
   if (isFetching) {
@@ -50,7 +50,7 @@ export default function CardListItems(): JSX.Element {
   }
 
   if (!data) {
-    return <></>;
+    return null;
   }
 
   const CARD_LIST = data.data.pokemon;
@@ -58,7 +58,7 @@ export default function CardListItems(): JSX.Element {
 
   if (CARD_LIST.length == 0 && page !== '1') {
     pokemonNavigation({ page: 1 });
-    return <></>;
+    return null;
   }
 
   if (CARD_LIST.length == 0) {

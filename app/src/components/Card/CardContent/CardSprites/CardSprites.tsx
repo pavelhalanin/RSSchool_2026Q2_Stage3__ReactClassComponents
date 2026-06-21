@@ -9,7 +9,7 @@ interface IPropsCardSprites {
 
 export default function CardSprites(props: IPropsCardSprites) {
   if (!props.data) {
-    return <></>;
+    return null;
   }
 
   const images = extractImageUrls(props.data);

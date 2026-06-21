@@ -10,7 +10,7 @@ export default function CsvPanel() {
   const { unselectAll, downloadCsvItems } = useCsvCardListActions();
 
   if (csvItems.length === 0) {
-    return <></>;
+    return null;
   }
 
   return (
