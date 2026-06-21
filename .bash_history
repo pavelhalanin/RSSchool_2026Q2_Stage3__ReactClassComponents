@@ -46,3 +46,13 @@ npm i @tanstack/react-query-devtools
 
 npm i next
 npm i eslint-config-next
+
+npm remove vite
+npm remove jsdom
+npm remove msw
+npm remove @testing-library/jest-dom
+npm remove @testing-library/react
+npm remove @testing-library/user-event
+npm remove @vitejs/plugin-react
+npm remove @vitest/coverage-v8
+npm remove @vitest/ui
