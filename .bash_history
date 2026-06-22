@@ -56,3 +56,5 @@ npm remove @testing-library/user-event
 npm remove @vitejs/plugin-react
 npm remove @vitest/coverage-v8
 npm remove @vitest/ui
+
+npm i next-intl
