@@ -1,0 +1,20 @@
+{
+  "Menu": {
+    "home": "Home11",
+    "about": "About",
+    "e404": "404",
+    "GenerateError": "Generate Error Button",
+    "Cache": "Cache"
+  },
+  "AboutPage": {
+    "title": "About",
+    "message1": "This is a Pokémon application built with React, TypeScript, and GraphQL API. The application allows users to browse Pokémon information.",
+    "message2": "This app is not just another pet project. It is the result of training at RS School, written using a modern stack: GraphQL, React, and TypeScript.",
+    "message3": "How was it created? Honestly: I come home from work, and instead of relaxing, I sit at the computer - and stay there until late at night. All this code was written in my free time after hard workdays. I invested not only knowledge into it, but also patience and the desire to create something truly high-quality.",
+    "message4": "This project is living proof that it is possible to combine work, life, and serious development. And that RS School teaches real skills, not just a checkbox.",
+    "message5": "What about you?",
+    "message6": "If you also want to master React, improve your TypeScript, and understand how modern frontend tools work, come to RS School.",
+    "message7": "Enroll in the course:",
+    "message8": "Real projects, mentorship, a community, and a path that will make even a complex stack feel like home await you. Do not be afraid to start—I did it. And you can definitely do it too."
+  }
+}

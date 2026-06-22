@@ -1,9 +1,9 @@
 'use client';
 
-import ThemeProvider from '../context/theme/ThemeProvider';
-import RootOutlet from '../outlet/RootOutlet/RootOutlet';
-import QueryProvider from '../query/QueryProvider';
-import './../index.css';
+import ThemeProvider from '../../context/theme/ThemeProvider';
+import RootOutlet from '../../outlet/RootOutlet/RootOutlet';
+import QueryProvider from '../../query/QueryProvider';
+import './../../index.css';
 
 export default function RootLayout({
   children,
