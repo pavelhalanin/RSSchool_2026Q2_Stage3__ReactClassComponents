@@ -1,3 +1,5 @@
+'use client';
+
 import { useState, type JSX } from 'react';
 
 export default function ErrorButton(): JSX.Element {

@@ -1,3 +1,5 @@
+'use client';
+
 import { useParams } from 'next/navigation';
 import CardListLeftRightPagination from './CardListLeftRightPagination/CardListLeftRightPagination';
 import CardListSelectPagination from './CardListSelectPagination/CardListSelectPagination';

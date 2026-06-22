@@ -1,3 +1,5 @@
+'use client';
+
 import type { JSX } from 'react';
 import { useParams } from 'next/navigation';
 import FetchSpinner from '../../FetchSpinner/FetchSpinner';

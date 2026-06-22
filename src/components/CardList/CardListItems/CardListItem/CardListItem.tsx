@@ -1,3 +1,5 @@
+'use client';
+
 import type { JSX } from 'react';
 import { getPokemonSrcImage_byId } from '../../../../utils/getPokemonSrcImage_byId';
 import styles from './CardListItem.module.css';

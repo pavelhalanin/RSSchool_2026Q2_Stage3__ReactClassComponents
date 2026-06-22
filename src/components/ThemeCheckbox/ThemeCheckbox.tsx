@@ -1,3 +1,5 @@
+'use client';
+
 import styles from './ThemeCheckbox.module.css';
 import MoonIcon from './MoonIcon/MoonIcon';
 import SunIcon from './SunIcon/SunIcon';

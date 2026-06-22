@@ -1,3 +1,5 @@
+'use client';
+
 import styles from './CardListSelectPagination.module.css';
 import { usePokemonNavigation } from '../../../../hook/usePokemonNavigation/usePokemonNavigation';
 import type { JSX } from 'react';

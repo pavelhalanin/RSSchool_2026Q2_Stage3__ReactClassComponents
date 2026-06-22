@@ -1,12 +1,12 @@
 import Header from '../../components/Header/Header';
-import type { JSX, ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary';
 
 interface IPropsRootOutlet {
   children: ReactNode;
 }
 
-export default function RootOutlet(props: IPropsRootOutlet): JSX.Element {
+export default async function RootOutlet(props: IPropsRootOutlet) {
   return (
     <ErrorBoundary>
       <Header />

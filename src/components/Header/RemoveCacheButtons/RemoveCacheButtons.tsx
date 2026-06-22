@@ -1,3 +1,5 @@
+'use client';
+
 import { useState, type JSX } from 'react';
 import styles from './RemoveCacheButtons.module.css';
 import { useRemoveQueryCache } from '../../../hook/useRemoveQueryCache/useRemoveQueryCache';

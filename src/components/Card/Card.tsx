@@ -1,3 +1,5 @@
+'use client';
+
 import styles from './../CardList/CardList.module.css';
 import { useParams } from 'next/navigation';
 import { usePokemonNavigation } from '../../hook/usePokemonNavigation/usePokemonNavigation';
