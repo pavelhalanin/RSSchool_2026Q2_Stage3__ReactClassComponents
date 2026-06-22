@@ -5,6 +5,7 @@ import ThemeCheckbox from '../ThemeCheckbox/ThemeCheckbox';
 import ErrorButton from '../ErrorButton/ErrorButton';
 import RemoveCacheButtons from './RemoveCacheButtons/RemoveCacheButtons';
 import { NextIntlClientProvider } from 'next-intl';
+import LanguageSwitcher from '../LanguageSwitcher/LanguageSwitcher';
 
 export default async function Header() {
   return (
@@ -29,6 +30,9 @@ export default async function Header() {
             </li>
             <li>
               <RemoveCacheButtons />
+            </li>
+            <li>
+              <LanguageSwitcher />
             </li>
           </ul>
         </nav>
