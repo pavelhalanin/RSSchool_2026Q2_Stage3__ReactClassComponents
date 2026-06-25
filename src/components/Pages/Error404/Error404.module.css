@@ -1,0 +1,23 @@
+.image {
+  border-radius: 8px;
+  max-width: 100%;
+  transition: all 1s ease;
+}
+
+.two_block {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+@media (min-width: 768px) {
+  .image {
+    border-radius: 8px;
+    max-width: 225px;
+    max-height: 225px;
+  }
+  .two_block {
+    flex-wrap: unset;
+    gap: 32px;
+  }
+}

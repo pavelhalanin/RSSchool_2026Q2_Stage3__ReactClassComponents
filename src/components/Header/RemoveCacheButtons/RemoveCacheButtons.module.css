@@ -1,0 +1,35 @@
+.menu {
+  position: relative;
+}
+
+.close {
+  display: none !important;
+}
+
+.menu > ul {
+  margin: 0;
+  padding: 0;
+
+  position: absolute;
+  width: 300px;
+
+  background-color: #fff;
+  border: 1px solid #06c;
+  border-radius: 8px;
+
+  padding: 8px;
+  margin-top: 8px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.menu > ul > li {
+  list-style-type: none;
+}
+
+.menu > ul > li > button {
+  width: 100%;
+  text-align: left;
+}

@@ -1,0 +1,22 @@
+.search__wrapper {
+  display: flex;
+  padding: 16px;
+  margin: 0 auto;
+  max-width: 768px;
+}
+
+.search__wrapper > input {
+  width: 100%;
+  border: 2px solid #06c;
+  border-radius: 8px;
+  padding: 8px;
+}
+
+.search__wrapper > input:focus-visible {
+  outline: none;
+}
+
+body[data-theme='dark'] .search__wrapper > input {
+  background-color: #212529;
+  color: white;
+}

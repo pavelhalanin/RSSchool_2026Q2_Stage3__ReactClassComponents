@@ -1,0 +1,27 @@
+.nav > ul {
+  margin: 0;
+  padding: 0;
+
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.nav > ul > li {
+  list-style-type: none;
+}
+
+.nav > ul > li > a {
+  padding: 8px;
+  text-decoration: none;
+  border-radius: 8px;
+
+  display: block;
+  color: #06c;
+  transition: all ease 0.3s;
+}
+
+.nav > ul > li > a:hover {
+  background-color: #06c;
+  color: white;
+}
